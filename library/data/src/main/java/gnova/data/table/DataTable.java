@@ -1,6 +1,6 @@
 package gnova.data.table;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import gnova.data.Columns;
 import gnova.data.Rows;
 

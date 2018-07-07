@@ -1,7 +1,7 @@
 package gnova.geometry.model;
 
 import gnova.geometry.model.pattern.Polygonal;
-import gnova.util.*;
+import gnova.core.*;
 
 /**
  * 多边形

@@ -1,7 +1,7 @@
 package gnova.core.util;
 
-import gnova.multimap.MultiMap;
-import gnova.multimap.proxy.*;
+import gnova.core.multimap.MultiMap;
+import gnova.core.multimap.proxy.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,6 +1,6 @@
 package gnova.query.linq;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import gnova.query.cursor.Cursor;
 import gnova.query.cursor.Cursorable;
 

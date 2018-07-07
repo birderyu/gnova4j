@@ -1,8 +1,8 @@
 package gnova.data;
 
-import gnova.annotation.NotNull;
-import gnova.util.Dictionary;
-import gnova.function.Getter;
+import gnova.core.annotation.NotNull;
+import gnova.core.Dictionary;
+import gnova.core.function.Getter;
 
 import java.io.Serializable;
 

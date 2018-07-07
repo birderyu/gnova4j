@@ -1,6 +1,6 @@
 package gnova.query.cursor;
 
-import gnova.util.SuperIterator;
+import gnova.core.SuperIterator;
 
 public class SuperCursor<E>
         extends SuperIterator<E> implements Cursor<E> {

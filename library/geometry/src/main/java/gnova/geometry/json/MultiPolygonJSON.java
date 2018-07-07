@@ -4,9 +4,9 @@ import gnova.geometry.factory.GeometryFactory;
 import gnova.geometry.model.LinearRing;
 import gnova.geometry.model.MultiPolygon;
 import gnova.geometry.model.Polygon;
-import gnova.json.JsonArrayBuilder;
-import gnova.json.JsonObjectBuilder;
-import gnova.json.JsonObject;
+import gnova.core.json.JsonArrayBuilder;
+import gnova.core.json.JsonObjectBuilder;
+import gnova.core.json.JsonObject;
 
 import java.util.Objects;
 

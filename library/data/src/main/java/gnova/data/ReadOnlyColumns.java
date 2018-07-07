@@ -1,6 +1,6 @@
 package gnova.data;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 
 import java.util.Iterator;
 import java.util.function.Predicate;

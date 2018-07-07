@@ -1,6 +1,6 @@
 package gnova.data.index.key;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 
 /**
  * 单值键

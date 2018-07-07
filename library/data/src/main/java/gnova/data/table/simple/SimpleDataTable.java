@@ -1,7 +1,7 @@
 package gnova.data.table.simple;
 
-import gnova.util.EmptyIterator;
-import gnova.util.SuperIterator;
+import gnova.core.EmptyIterator;
+import gnova.core.SuperIterator;
 import gnova.data.table.*;
 
 import java.util.*;

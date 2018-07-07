@@ -1,8 +1,8 @@
 package gnova.data.wrapper;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import gnova.data.ReadOnlyRecord;
-import gnova.function.MapBuilder;
+import gnova.core.function.MapBuilder;
 
 import java.util.HashMap;
 import java.util.Map;

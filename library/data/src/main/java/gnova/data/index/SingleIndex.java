@@ -1,6 +1,6 @@
 package gnova.data.index;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import gnova.data.Index;
 
 /**

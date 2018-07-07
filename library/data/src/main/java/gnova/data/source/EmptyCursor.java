@@ -1,6 +1,6 @@
 package gnova.data.source;
 
-import gnova.util.EmptyIterator;
+import gnova.core.EmptyIterator;
 import gnova.query.cursor.Cursor;
 
 public class EmptyCursor<E>

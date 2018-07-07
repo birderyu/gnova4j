@@ -1,10 +1,10 @@
 package gnova.data.index;
 
-import gnova.annotation.Checked;
-import gnova.annotation.NotNull;
+import gnova.core.annotation.Checked;
+import gnova.core.annotation.NotNull;
 import gnova.data.index.key.Key;
-import gnova.function.Getter;
-import gnova.function.MultiMapBuilder;
+import gnova.core.function.Getter;
+import gnova.core.function.MultiMapBuilder;
 
 public abstract class AbstractUniqueIndex<E extends Getter>
         extends AbstractGeneralIndex<E> implements UniqueIndex<E> {

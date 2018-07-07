@@ -1,6 +1,6 @@
 package gnova.data;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 
 /**
  * 可编辑的

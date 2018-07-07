@@ -1,7 +1,7 @@
 package gnova.data;
 
-import gnova.annotation.Checked;
-import gnova.annotation.NotNull;
+import gnova.core.annotation.Checked;
+import gnova.core.annotation.NotNull;
 import gnova.data.index.MultiIndex;
 import gnova.data.index.SingleIndex;
 import gnova.query.LogicalExpression;

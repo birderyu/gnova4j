@@ -1,8 +1,8 @@
 package gnova.query.linq;
 
 import gnova.query.cursor.*;
-import gnova.function.Action;
-import gnova.function.ListBuilder;
+import gnova.core.function.Action;
+import gnova.core.function.ListBuilder;
 
 import java.util.*;
 import java.util.function.*;

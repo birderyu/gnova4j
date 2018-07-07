@@ -1,11 +1,11 @@
 package gnova.query.value;
 
-import gnova.annotation.Checked;
-import gnova.annotation.NotNull;
+import gnova.core.annotation.Checked;
+import gnova.core.annotation.NotNull;
 import gnova.query.CompareOperator;
 import gnova.query.ValueExpression;
 import gnova.query.ValueType;
-import gnova.util.ArrayIterator;
+import gnova.core.ArrayIterator;
 
 import java.util.ArrayList;
 import java.util.Collection;

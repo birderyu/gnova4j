@@ -1,6 +1,6 @@
 package gnova.data.source;
 
-import gnova.util.MultiIterator;
+import gnova.core.MultiIterator;
 import gnova.query.cursor.Cursor;
 
 import java.util.Iterator;

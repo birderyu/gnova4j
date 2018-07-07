@@ -1,11 +1,11 @@
 package gnova.data.index;
 
-import gnova.function.Getter;
+import gnova.core.function.Getter;
 import gnova.data.Indices;
 import gnova.geometry.factory.FactoryFinder;
 import gnova.geometry.index.GeometryIndexType;
-import gnova.multimap.proxy.HashArrayMultiMap;
-import gnova.multimap.proxy.TreeArrayMultiMap;
+import gnova.core.multimap.proxy.HashArrayMultiMap;
+import gnova.core.multimap.proxy.TreeArrayMultiMap;
 
 import java.util.HashMap;
 

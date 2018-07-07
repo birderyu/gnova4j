@@ -1,6 +1,6 @@
 package gnova.geometry.index.impl.jts;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import gnova.geometry.factory.jts.GeometryFactoryAdaptor;
 import gnova.geometry.index.GeometryIndexType;
 import gnova.geometry.index.GeometryIndex;

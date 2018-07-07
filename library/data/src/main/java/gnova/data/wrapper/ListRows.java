@@ -3,9 +3,9 @@ package gnova.data.wrapper;
 import gnova.query.Expressions;
 import gnova.query.LogicalExpression;
 import gnova.data.Rows;
-import gnova.function.Getter;
-import gnova.function.ObjectBuilder;
-import gnova.util.PredicateIterator;
+import gnova.core.function.Getter;
+import gnova.core.function.ObjectBuilder;
+import gnova.core.PredicateIterator;
 
 import java.util.ArrayList;
 import java.util.Iterator;

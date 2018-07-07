@@ -1,6 +1,6 @@
 package gnova.data.index.key;
 
-import gnova.annotation.Checked;
+import gnova.core.annotation.Checked;
 
 public class MultiOrderKey
         extends MultiKey implements OrderKey {

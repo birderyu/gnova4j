@@ -1,7 +1,7 @@
 package gnova.data.table;
 
-import gnova.annotation.NotNull;
-import gnova.function.Getter;
+import gnova.core.annotation.NotNull;
+import gnova.core.function.Getter;
 
 import java.util.Iterator;
 import java.util.function.Predicate;

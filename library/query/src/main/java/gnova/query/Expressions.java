@@ -1,6 +1,6 @@
 package gnova.query;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import gnova.query.parse.ParseException;
 import gnova.query.parse.Parser;
 

@@ -1,6 +1,6 @@
 package gnova.query;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import gnova.geometry.model.Geometry;
 import gnova.query.value.*;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * 值表达式
  */
 public abstract class ValueExpression
-        extends Expression {
+        implements Expression {
 
     public static ValueExpression tryBuildValue(Object val) {
         if (val == null) {
@@ -77,16 +77,16 @@ public abstract class ValueExpression
      *          若left为主键，或包含了占位符，则抛出此异常
      */
     public boolean comparedBy(Object left, CompareOperator co)
-            throws UnsupportedOperationException {
+            throws IllegalArgumentException {
         if (isKey()) {
             // right is key
-            throw new UnsupportedOperationException(left + " compare to a key");
+            throw new IllegalArgumentException(left + " compare to a key");
         } else if (isPlaceholder()) {
             // right is placeholder
-            throw new UnsupportedOperationException(left + " compare to a placeholder");
+            throw new IllegalArgumentException(left + " compare to a placeholder");
         } else if (sizeOfPlaceholder() != 0) {
             // right has placeholder
-            throw new UnsupportedOperationException(left + " compare to a placeholder");
+            throw new IllegalArgumentException(left + " compare to a placeholder");
         } else if (left == null || left instanceof NullExpression) {
             // left is null
             // null = null is always true

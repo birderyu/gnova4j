@@ -1,6 +1,6 @@
 package gnova.query.parse;
 
-import gnova.util.EmptyIterator;
+import gnova.core.EmptyIterator;
 
 import java.util.ArrayList;
 import java.util.Collection;

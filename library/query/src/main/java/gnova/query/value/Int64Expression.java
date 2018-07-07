@@ -1,6 +1,6 @@
 package gnova.query.value;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import gnova.query.ValueType;
 
 public final class Int64Expression

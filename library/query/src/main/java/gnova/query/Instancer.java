@@ -1,7 +1,7 @@
 package gnova.query;
 
-import gnova.annotation.Checked;
-import gnova.annotation.NotNull;
+import gnova.core.annotation.Checked;
+import gnova.core.annotation.NotNull;
 import gnova.query.value.ListExpression;
 
 import java.util.ArrayList;

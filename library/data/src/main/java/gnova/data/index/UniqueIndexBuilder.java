@@ -1,9 +1,9 @@
 package gnova.data.index;
 
-import gnova.annotation.Checked;
-import gnova.annotation.NotNull;
-import gnova.annotation.Unsupported;
-import gnova.function.ObjectBuilder;
+import gnova.core.annotation.Checked;
+import gnova.core.annotation.NotNull;
+import gnova.core.annotation.Unsupported;
+import gnova.core.function.ObjectBuilder;
 
 public interface UniqueIndexBuilder<E>
         extends ObjectBuilder<GeneralIndex<E>> {

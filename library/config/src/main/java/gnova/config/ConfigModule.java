@@ -1,5 +1,5 @@
 package gnova.config;
-import gnova.function.Getter;
+import gnova.core.function.Getter;
 
 import java.io.InputStream;
 

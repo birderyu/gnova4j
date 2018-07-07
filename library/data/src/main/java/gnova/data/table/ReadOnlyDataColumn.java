@@ -1,6 +1,6 @@
 package gnova.data.table;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 
 import java.util.Iterator;
 

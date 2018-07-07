@@ -1,6 +1,6 @@
 package gnova.query.parse;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import gnova.query.*;
 
 public class ParserStack {

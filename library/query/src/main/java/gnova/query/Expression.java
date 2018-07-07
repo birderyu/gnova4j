@@ -1,34 +1,34 @@
 package gnova.query;
 
-import gnova.annotation.Immutable;
-import gnova.annotation.NotNull;
+import gnova.core.annotation.Immutable;
+import gnova.core.annotation.NotNull;
 
 /**
  * 表达式
  */
 @Immutable
-public abstract class Expression {
+public interface Expression {
 
     /**
      * 获取表达式中占位符的数量
      *
      * @return
      */
-    public abstract int sizeOfPlaceholder();
+    int sizeOfPlaceholder();
 
     /**
      * 是否是值表达式
      *
      * @return
      */
-    public abstract boolean isValue();
+    boolean isValue();
 
     /**
      * 转换为值表达式
      *
      * @return
      */
-    public ValueExpression asValue() {
+    default ValueExpression asValue() {
         return isValue() ? (ValueExpression) this : null;
     }
 
@@ -37,12 +37,12 @@ public abstract class Expression {
      *
      * @return
      */
-    public LogicalExpression asLogical() {
+    default LogicalExpression asLogical() {
         return isValue() ? null : (LogicalExpression) this;
     }
 
     @Override
     @NotNull
-    public abstract String toString();
+    String toString();
 
 }

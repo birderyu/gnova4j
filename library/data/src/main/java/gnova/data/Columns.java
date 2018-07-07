@@ -1,6 +1,6 @@
 package gnova.data;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 
 public interface Columns<C>
         extends ReadOnlyColumns<C> {

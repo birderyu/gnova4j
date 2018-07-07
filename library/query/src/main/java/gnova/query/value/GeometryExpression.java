@@ -1,7 +1,7 @@
 package gnova.query.value;
 
-import gnova.annotation.Checked;
-import gnova.annotation.NotNull;
+import gnova.core.annotation.Checked;
+import gnova.core.annotation.NotNull;
 import gnova.geometry.model.*;
 import gnova.query.CompareOperator;
 import gnova.query.ValueExpression;

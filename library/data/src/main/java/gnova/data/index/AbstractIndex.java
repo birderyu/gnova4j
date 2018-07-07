@@ -1,9 +1,9 @@
 package gnova.data.index;
 
-import gnova.annotation.Checked;
+import gnova.core.annotation.Checked;
 import gnova.data.Index;
 import gnova.query.LogicalExpression;
-import gnova.function.Getter;
+import gnova.core.function.Getter;
 
 import java.util.Iterator;
 import java.util.Objects;

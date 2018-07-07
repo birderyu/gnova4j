@@ -1,6 +1,6 @@
 package gnova.query;
 
-import gnova.util.ArrayIterator;
+import gnova.core.ArrayIterator;
 
 import java.util.Iterator;
 

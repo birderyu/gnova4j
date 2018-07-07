@@ -1,6 +1,6 @@
 package gnova.config.reader.xml;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;

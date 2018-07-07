@@ -1,8 +1,8 @@
 package gnova.data;
 
-import gnova.annotation.NotNull;
-import gnova.util.KeyValue;
-import gnova.function.Setter;
+import gnova.core.annotation.NotNull;
+import gnova.core.KeyValue;
+import gnova.core.function.Setter;
 
 /**
  * 记录

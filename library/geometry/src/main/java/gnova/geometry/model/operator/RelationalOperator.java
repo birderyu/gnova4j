@@ -1,6 +1,6 @@
 package gnova.geometry.model.operator;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import gnova.geometry.model.Geometry;
 
 /**

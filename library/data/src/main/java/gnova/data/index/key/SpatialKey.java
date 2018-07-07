@@ -1,6 +1,6 @@
 package gnova.data.index.key;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import gnova.geometry.model.BoundingBox;
 import gnova.geometry.model.Geometry;
 

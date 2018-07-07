@@ -1,14 +1,14 @@
 package gnova.data.index;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import gnova.query.LogicalExpression;
 import gnova.query.LogicalOperator;
 import gnova.query.MultiExpression;
 import gnova.query.SimpleExpression;
-import gnova.function.MapBuilder;
-import gnova.function.MultiMapBuilder;
-import gnova.util.EmptyIterator;
-import gnova.multimap.MultiMap;
+import gnova.core.function.MapBuilder;
+import gnova.core.function.MultiMapBuilder;
+import gnova.core.EmptyIterator;
+import gnova.core.multimap.MultiMap;
 import gnova.data.Index;
 import gnova.data.Indices;
 

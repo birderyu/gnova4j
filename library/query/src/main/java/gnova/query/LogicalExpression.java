@@ -1,25 +1,25 @@
 package gnova.query;
 
-import gnova.annotation.Immutable;
-import gnova.annotation.NotNull;
-import gnova.function.Getter;
+import gnova.core.annotation.Immutable;
+import gnova.core.annotation.NotNull;
+import gnova.core.function.Getter;
 
 /**
  * 逻辑表达式
  */
 @Immutable
 public abstract class LogicalExpression
-        extends Expression {
+        implements Expression {
 
     /**
      * 与一个值进行匹配
      *
      * @param getter 值获取器
      * @return 若与该值匹配成功，则返回true，否则返回false
-     * @throws UnsupportedOperationException 当右值中包含了占位符时，抛出此异常
+     * @throws IllegalArgumentException 当右值中包含了占位符时，抛出此异常
      */
     public abstract boolean fit(@NotNull Getter getter)
-            throws UnsupportedOperationException;
+            throws IllegalArgumentException;
 
     /**
      * 是否恒为真

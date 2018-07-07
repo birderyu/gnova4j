@@ -1,7 +1,7 @@
 package gnova.data.table;
 
-import gnova.annotation.NotNull;
-import gnova.function.Setter;
+import gnova.core.annotation.NotNull;
+import gnova.core.function.Setter;
 
 public interface DataRow
         extends ReadOnlyDataRow, Setter {

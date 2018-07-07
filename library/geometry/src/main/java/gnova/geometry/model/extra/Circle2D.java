@@ -1,7 +1,7 @@
 package gnova.geometry.model.extra;
 
-import gnova.annotation.Immutable;
-import gnova.annotation.NotNull;
+import gnova.core.annotation.Immutable;
+import gnova.core.annotation.NotNull;
 import gnova.geometry.factory.GeometryFactory;
 import gnova.geometry.model.BoundingBox;
 import gnova.geometry.model.Coordinate;

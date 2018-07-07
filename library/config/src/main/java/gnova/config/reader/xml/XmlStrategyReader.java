@@ -1,6 +1,6 @@
 package gnova.config.reader.xml;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import gnova.config.ConfigException;
 import gnova.config.annotation.Configure;
 import gnova.config.ConfigModule;

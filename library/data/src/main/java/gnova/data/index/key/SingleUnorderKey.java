@@ -1,6 +1,6 @@
 package gnova.data.index.key;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 
 public class SingleUnorderKey
         extends SingleKey implements UnorderKey {

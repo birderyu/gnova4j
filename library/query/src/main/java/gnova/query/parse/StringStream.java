@@ -1,7 +1,7 @@
 package gnova.query.parse;
 
-import gnova.annotation.Checked;
-import gnova.annotation.NotNull;
+import gnova.core.annotation.Checked;
+import gnova.core.annotation.NotNull;
 
 import java.util.Deque;
 

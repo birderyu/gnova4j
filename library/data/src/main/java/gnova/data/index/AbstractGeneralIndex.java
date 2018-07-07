@@ -1,19 +1,19 @@
 package gnova.data.index;
 
-import gnova.annotation.Checked;
-import gnova.annotation.NotNull;
+import gnova.core.annotation.Checked;
+import gnova.core.annotation.NotNull;
 import gnova.data.index.key.*;
 import gnova.query.CompareOperator;
 import gnova.query.LogicalExpression;
 import gnova.query.MultiExpression;
 import gnova.query.SimpleExpression;
-import gnova.function.MultiMapBuilder;
-import gnova.util.EmptyIterator;
-import gnova.util.PredicateIterator;
-import gnova.util.MultiIterator;
-import gnova.multimap.MultiMap;
-import gnova.multimap.NavigableMultiMap;
-import gnova.function.Getter;
+import gnova.core.function.MultiMapBuilder;
+import gnova.core.EmptyIterator;
+import gnova.core.PredicateIterator;
+import gnova.core.MultiIterator;
+import gnova.core.multimap.MultiMap;
+import gnova.core.multimap.NavigableMultiMap;
+import gnova.core.function.Getter;
 
 import java.util.Collection;
 import java.util.Iterator;

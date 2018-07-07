@@ -1,7 +1,7 @@
 package gnova.query.cursor;
 
-import gnova.annotation.NotNull;
-import gnova.util.PredicateIterator;
+import gnova.core.annotation.NotNull;
+import gnova.core.PredicateIterator;
 
 import java.util.function.Predicate;
 

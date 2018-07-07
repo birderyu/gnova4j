@@ -1,6 +1,6 @@
 package gnova.query;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import gnova.geometry.model.Geometry;
 import gnova.query.value.*;
 

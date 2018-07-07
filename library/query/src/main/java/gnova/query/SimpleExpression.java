@@ -1,9 +1,9 @@
 package gnova.query;
 
-import gnova.annotation.Checked;
-import gnova.annotation.Immutable;
-import gnova.annotation.NotNull;
-import gnova.function.Getter;
+import gnova.core.annotation.Checked;
+import gnova.core.annotation.Immutable;
+import gnova.core.annotation.NotNull;
+import gnova.core.function.Getter;
 
 /**
  * 简单逻辑表达式
@@ -75,10 +75,10 @@ public final class SimpleExpression
      *
      * @param getter 值获取器
      * @return
-     * @throws UnsupportedOperationException 当右值中包含了占位符时，抛出此异常
+     * @throws IllegalArgumentException 当右值中包含了占位符时，抛出此异常
      */
     @Override
-    public boolean fit(Getter getter) throws UnsupportedOperationException {
+    public boolean fit(Getter getter) throws IllegalArgumentException {
         if (leftValue.isKey()) {
             Object left = getter.getValue(leftValue.asKey());
             return rightValue.comparedBy(left, compareOperator);

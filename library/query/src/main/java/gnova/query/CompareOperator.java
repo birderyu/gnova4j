@@ -1,7 +1,7 @@
 package gnova.query;
 
-import gnova.annotation.NotNull;
-import gnova.util.ArrayIterator;
+import gnova.core.annotation.NotNull;
+import gnova.core.ArrayIterator;
 
 import java.util.Iterator;
 

@@ -1,7 +1,7 @@
 package gnova.query.cursor;
 
-import gnova.annotation.NotNull;
-import gnova.util.ConvertIterator;
+import gnova.core.annotation.NotNull;
+import gnova.core.ConvertIterator;
 
 import java.util.function.Function;
 

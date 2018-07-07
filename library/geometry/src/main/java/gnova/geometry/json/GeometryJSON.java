@@ -1,13 +1,13 @@
 package gnova.geometry.json;
 
-import gnova.annotation.Checked;
-import gnova.annotation.Immutable;
-import gnova.annotation.NotNull;
+import gnova.core.annotation.Checked;
+import gnova.core.annotation.Immutable;
+import gnova.core.annotation.NotNull;
 import gnova.geometry.factory.GeometryFactory;
 import gnova.geometry.model.*;
-import gnova.json.JsonArrayBuilder;
-import gnova.json.JsonObjectBuilder;
-import gnova.json.JsonArray;
+import gnova.core.json.JsonArrayBuilder;
+import gnova.core.json.JsonObjectBuilder;
+import gnova.core.json.JsonArray;
 
 import java.util.Arrays;
 

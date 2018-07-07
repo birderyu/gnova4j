@@ -1,8 +1,8 @@
 package gnova.geometry.model;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import gnova.geometry.model.pattern.Lineal;
-import gnova.util.ReadOnlyIterator;
+import gnova.core.ReadOnlyIterator;
 
 import java.util.Iterator;
 

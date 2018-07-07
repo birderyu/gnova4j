@@ -1,8 +1,8 @@
 package gnova.geometry.model;
 
-import gnova.annotation.Immutable;
-import gnova.annotation.NotNull;
-import gnova.util.Equals;
+import gnova.core.annotation.Immutable;
+import gnova.core.annotation.NotNull;
+import gnova.core.Equals;
 
 import java.io.Serializable;
 import java.util.Objects;

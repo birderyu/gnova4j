@@ -1,7 +1,7 @@
 package gnova.query;
 
-import gnova.annotation.Checked;
-import gnova.annotation.NotNull;
+import gnova.core.annotation.Checked;
+import gnova.core.annotation.NotNull;
 import gnova.geometry.model.Geometry;
 import gnova.query.value.KeyExpression;
 

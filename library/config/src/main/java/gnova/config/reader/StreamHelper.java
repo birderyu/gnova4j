@@ -1,6 +1,6 @@
 package gnova.config.reader;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;

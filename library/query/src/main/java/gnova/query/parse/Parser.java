@@ -1,7 +1,7 @@
 package gnova.query.parse;
 
-import gnova.annotation.Checked;
-import gnova.annotation.NotNull;
+import gnova.core.annotation.Checked;
+import gnova.core.annotation.NotNull;
 import gnova.geometry.factory.FactoryFinder;
 import gnova.geometry.factory.GeometryFactory;
 import gnova.geometry.model.*;

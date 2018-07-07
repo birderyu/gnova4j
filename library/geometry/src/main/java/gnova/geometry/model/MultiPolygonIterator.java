@@ -1,6 +1,6 @@
 package gnova.geometry.model;
 
-import gnova.util.ReadOnlyIterator;
+import gnova.core.ReadOnlyIterator;
 
 import java.util.NoSuchElementException;
 

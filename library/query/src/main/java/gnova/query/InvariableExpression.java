@@ -1,6 +1,6 @@
 package gnova.query;
 
-import gnova.function.Getter;
+import gnova.core.function.Getter;
 
 public abstract class InvariableExpression
         extends LogicalExpression {
@@ -13,7 +13,7 @@ public abstract class InvariableExpression
 
     @Override
     public boolean fit(Getter getter)
-            throws UnsupportedOperationException {
+            throws IllegalArgumentException {
         return alwaysTrue ? true : false;
     }
 

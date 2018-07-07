@@ -1,7 +1,7 @@
 package gnova.query;
 
-import gnova.annotation.NotNull;
-import gnova.function.Getter;
+import gnova.core.annotation.NotNull;
+import gnova.core.function.Getter;
 
 /**
  * 复合逻辑表达式
@@ -40,7 +40,7 @@ public final class MultiExpression
 
     @Override
     public boolean fit(Getter getter)
-            throws UnsupportedOperationException {
+            throws IllegalArgumentException {
 
         if (isAlwaysTrue()) {
             return true;

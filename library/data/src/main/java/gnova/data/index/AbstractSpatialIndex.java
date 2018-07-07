@@ -1,15 +1,15 @@
 package gnova.data.index;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import gnova.geometry.index.GeometryIndex;
 import gnova.geometry.index.GeometryIndexBuilder;
 import gnova.geometry.model.BoundingBox;
 import gnova.geometry.model.Geometry;
 import gnova.query.LogicalExpression;
 import gnova.query.SimpleExpression;
-import gnova.util.EmptyIterator;
-import gnova.function.Getter;
-import gnova.util.PredicateIterator;
+import gnova.core.EmptyIterator;
+import gnova.core.function.Getter;
+import gnova.core.PredicateIterator;
 
 import java.util.Collection;
 import java.util.Iterator;

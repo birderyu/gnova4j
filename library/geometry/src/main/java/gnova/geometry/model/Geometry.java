@@ -1,15 +1,15 @@
 package gnova.geometry.model;
 
-import gnova.annotation.Immutable;
-import gnova.annotation.NotNull;
+import gnova.core.annotation.Immutable;
+import gnova.core.annotation.NotNull;
 import gnova.geometry.factory.FactoryFinder;
 import gnova.geometry.factory.GeometryFactory;
 import gnova.geometry.json.GeometryJSON;
 import gnova.geometry.model.operator.ProximityOperator;
 import gnova.geometry.model.operator.RelationalOperator;
 import gnova.geometry.model.operator.TopologicalOperator;
-import gnova.json.JsonArrayBuilder;
-import gnova.json.JsonObjectBuilder;
+import gnova.core.json.JsonArrayBuilder;
+import gnova.core.json.JsonObjectBuilder;
 
 import java.io.Serializable;
 

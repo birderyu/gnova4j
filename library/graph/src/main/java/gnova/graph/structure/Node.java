@@ -1,7 +1,6 @@
 package gnova.graph.structure;
 
-import gnova.annotation.NotNull;
-import gnova.util.SuperIterator;
+import gnova.core.annotation.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;

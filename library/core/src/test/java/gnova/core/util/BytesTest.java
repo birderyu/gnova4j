@@ -1,6 +1,6 @@
 package gnova.core.util;
 
-import gnova.util.Bytes;
+import gnova.core.Bytes;
 import org.junit.Assert;
 import org.junit.Test;
 

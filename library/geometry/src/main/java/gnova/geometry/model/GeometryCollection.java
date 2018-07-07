@@ -1,9 +1,9 @@
 package gnova.geometry.model;
 
-import gnova.annotation.Immutable;
+import gnova.core.annotation.Immutable;
 import gnova.geometry.model.operator.CollectionOperator;
-import gnova.util.ReadOnlyCollection;
-import gnova.util.ReadOnlyIterator;
+import gnova.core.ReadOnlyCollection;
+import gnova.core.ReadOnlyIterator;
 
 /**
  * 几何集合

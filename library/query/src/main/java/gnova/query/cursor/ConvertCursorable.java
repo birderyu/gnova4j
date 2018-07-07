@@ -1,6 +1,6 @@
 package gnova.query.cursor;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 
 import java.util.function.Function;
 

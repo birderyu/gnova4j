@@ -1,7 +1,7 @@
 package gnova.query.cursor;
 
-import gnova.annotation.NotNull;
-import gnova.function.Action;
+import gnova.core.annotation.NotNull;
+import gnova.core.function.Action;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

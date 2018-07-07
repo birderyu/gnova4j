@@ -3,8 +3,8 @@ package gnova.geometry.model.impl;
 import gnova.geometry.factory.GeometryFactory;
 import gnova.geometry.json.GeometryJSON;
 import gnova.geometry.model.Geometry;
-import gnova.json.JsonArrayBuilder;
-import gnova.json.JsonObjectBuilder;
+import gnova.core.json.JsonArrayBuilder;
+import gnova.core.json.JsonObjectBuilder;
 
 public abstract class AbstractGeometry
         implements Geometry {

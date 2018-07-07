@@ -1,13 +1,13 @@
 package gnova.data.wrapper;
 
-import gnova.annotation.NotNull;
+import gnova.core.annotation.NotNull;
 import gnova.data.AbstractReadOnlyRecord;
 import gnova.data.ReadOnlyRecord;
-import gnova.util.KeyValue;
-import gnova.util.ReadOnlyIterator;
-import gnova.util.SimpleKeyValue;
-import gnova.function.MapBuilder;
-import gnova.util.EmptyIterator;
+import gnova.core.KeyValue;
+import gnova.core.ReadOnlyIterator;
+import gnova.core.SimpleKeyValue;
+import gnova.core.function.MapBuilder;
+import gnova.core.EmptyIterator;
 
 import java.util.Iterator;
 import java.util.Map;

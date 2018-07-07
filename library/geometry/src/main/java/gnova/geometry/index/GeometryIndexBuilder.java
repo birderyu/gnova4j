@@ -1,7 +1,7 @@
 package gnova.geometry.index;
 
-import gnova.annotation.NotNull;
-import gnova.function.ObjectBuilder;
+import gnova.core.annotation.NotNull;
+import gnova.core.function.ObjectBuilder;
 
 /**
  * 几何索引构造器

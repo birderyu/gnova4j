@@ -3,10 +3,10 @@ package gnova.geometry.json;
 import gnova.geometry.factory.GeometryFactory;
 import gnova.geometry.model.Geometry;
 import gnova.geometry.model.GeometryCollection;
-import gnova.json.JsonArrayBuilder;
-import gnova.json.JsonObjectBuilder;
-import gnova.json.JsonArray;
-import gnova.json.JsonObject;
+import gnova.core.json.JsonArrayBuilder;
+import gnova.core.json.JsonObjectBuilder;
+import gnova.core.json.JsonArray;
+import gnova.core.json.JsonObject;
 
 import java.util.Arrays;
 
