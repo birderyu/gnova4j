@@ -1,0 +1,60 @@
+package gnova.geometry.model;
+
+import gnova.annotation.NotNull;
+import gnova.geometry.model.pattern.Lineal;
+import gnova.util.ReadOnlyIterator;
+
+import java.util.Iterator;
+
+/**
+ * 多线串
+ * 
+ * @author Birderyu
+ * @date 2017/6/21
+ */
+public interface MultiLineString
+    extends GeometryCollection<LineString>, Lineal {
+
+    default boolean isClosed() {
+        if (isEmpty()) {
+            return false;
+        }
+        Iterator<LineString> lineStrings = iterator();
+        while (lineStrings.hasNext()) {
+            if (!(lineStrings.next().isClosed())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    default LineString getLineStringAt(int n) {
+        return getGeometryAt(n);
+    }
+
+    @Override
+    @NotNull
+    default ReadOnlyIterator<LineString> iterator() {
+        return new MultiLineStringIterator(this, 0);
+    }
+
+    @Override
+    default GeometryType getType() {
+        return GeometryType.MultiLineString;
+    }
+
+    @Override
+    default int getDimension() {
+        return Lineal.DIMENSION;
+    }
+
+    @Override
+    MultiLineString reverse();
+
+    @Override
+    MultiLineString normalize();
+
+    @Override
+    MultiLineString clone();
+
+}
