@@ -638,15 +638,15 @@ public final class BoundingBox
         double newMaxX = bbox.maxX < maxX ? maxX : bbox.maxX;
         double newMinY = bbox.minY > minY ? minY : bbox.minY;
         double newMaxY = bbox.maxY < maxY ? maxY : bbox.maxY;
-        double newminZ = minZ;
+        double newMinZ = minZ;
         double newMaxZ = maxZ;
         if (hasZ()) {
-            newminZ = bbox.minZ > minZ ? minZ : bbox.minZ;
+            newMinZ = bbox.minZ > minZ ? minZ : bbox.minZ;
             newMaxZ = bbox.maxZ < maxZ ? maxZ : bbox.maxZ;
         }
         return new BoundingBox(newMinX, newMaxX,
                 newMinY, newMaxY,
-                newminZ, newMaxZ);
+                newMinZ, newMaxZ);
     }
 
     /**

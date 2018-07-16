@@ -48,6 +48,8 @@
         <module>data</module>
         <module>config</module>
         <module>graph</module>
+        <module>drawing</module>
+        <module>symbology</module>
     </modules>
     
     <dependencies>
