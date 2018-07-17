@@ -3,18 +3,25 @@ package gnova.drawing.d2;
 import gnova.core.annotation.Immutable;
 import gnova.core.annotation.NotNull;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  */
 @Immutable
-public class Point implements Comparable<Point> {
+public class Point implements Serializable, Cloneable, Comparable<Point> {
 
     /**
      *
      */
-    public static final Point NONE = new Point(Float.NaN, Float.NaN);
+    public static final Point NONE = new Point(Float.NaN, Float.NaN) {
+        @Override
+        @NotNull
+        public Point clone() {
+            return NONE;
+        }
+    };
 
     private final float x;
     private final float y;
@@ -68,5 +75,11 @@ public class Point implements Comparable<Point> {
             return py;
         }
         return 0;
+    }
+
+    @Override
+    @NotNull
+    public Point clone() {
+        return new Point(x, y);
     }
 }

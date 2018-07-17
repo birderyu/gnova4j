@@ -24,6 +24,12 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>gnova-geometry</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>gnova-drawing</artifactId>
             <version>${project.version}</version>
         </dependency>
