@@ -5,6 +5,11 @@ package gnova.symbology;
  */
 public interface Symbol {
 
+    /**
+     * 获取符号的ID
+     *
+     * @return 符号的ID
+     */
     String getId();
 
     /**
