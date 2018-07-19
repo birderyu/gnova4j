@@ -1,14 +1,13 @@
-package gnova.geometry.factory.jts;
+package gnova.geometry.model.impl.jts;
 
-import gnova.geometry.factory.CoordinateSequenceFactory;
+import gnova.geometry.model.CoordinateSequenceFactory;
 import gnova.geometry.model.Coordinate;
 import gnova.geometry.model.CoordinateSequence;
-import gnova.geometry.model.impl.jts.CoordinateSequenceAdaptor;
 
 /**
  * Created by Birderyu on 2017/6/23.
  */
-public final class CoordinateSequenceFactoryAdaptor
+final class CoordinateSequenceFactoryAdaptor
         implements CoordinateSequenceFactory {
 
     private com.vividsolutions.jts.geom.CoordinateSequenceFactory jtsCoordinateSequenceFactory;

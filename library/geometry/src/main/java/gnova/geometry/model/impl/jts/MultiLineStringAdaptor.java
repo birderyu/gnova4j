@@ -7,7 +7,7 @@ import gnova.geometry.model.MultiLineString;
 /**
  * Created by Birderyu on 2017/6/23.
  */
-public final class MultiLineStringAdaptor
+final class MultiLineStringAdaptor
         extends GeometryCollectionAdaptor<LineString> implements MultiLineString {
 
     public MultiLineStringAdaptor(com.vividsolutions.jts.geom.MultiLineString jtsMultiLineString) {
@@ -15,8 +15,8 @@ public final class MultiLineStringAdaptor
     }
 
     @Override
-    public GeometryType getType() {
-        return GeometryType.MultiLineString;
+    public double getLength() {
+        return getJts().getLength();
     }
 
     @Override

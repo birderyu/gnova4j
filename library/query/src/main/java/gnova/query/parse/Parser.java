@@ -2,8 +2,8 @@ package gnova.query.parse;
 
 import gnova.core.annotation.Checked;
 import gnova.core.annotation.NotNull;
-import gnova.geometry.factory.FactoryFinder;
-import gnova.geometry.factory.GeometryFactory;
+import gnova.geometry.model.FactoryFinder;
+import gnova.geometry.model.GeometryFactory;
 import gnova.geometry.model.*;
 import gnova.query.CompareOperator;
 import gnova.query.Expression;

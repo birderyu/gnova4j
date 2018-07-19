@@ -1,6 +1,5 @@
 package gnova.geometry.model.impl.jts;
 
-import gnova.geometry.factory.jts.CoordinateSequenceFactoryAdaptor;
 import gnova.geometry.model.BoundingBox;
 import gnova.geometry.model.Coordinate;
 import gnova.geometry.model.CoordinateSequence;
@@ -8,7 +7,7 @@ import gnova.geometry.model.CoordinateSequence;
 /**
  * Created by Birderyu on 2017/6/21.
  */
-public final class CoordinateSequenceAdaptor
+final class CoordinateSequenceAdaptor
         implements CoordinateSequence {
 
     private com.vividsolutions.jts.geom.CoordinateSequence jtsCoordinateSequence;

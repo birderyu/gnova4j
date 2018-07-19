@@ -5,7 +5,7 @@ import gnova.geometry.model.LinearRing;
 /**
  * Created by Birderyu on 2017/6/23.
  */
-public final class LinearRingAdaptor
+final class LinearRingAdaptor
         extends LineStringAdaptor implements LinearRing {
 
     public LinearRingAdaptor(com.vividsolutions.jts.geom.LinearRing jtsLinearRing) {

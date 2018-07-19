@@ -6,7 +6,7 @@ import gnova.geometry.model.Polygon;
 /**
  * Created by Birderyu on 2017/6/23.
  */
-public final class PolygonAdaptor
+final class PolygonAdaptor
         extends AbstractGeometryAdaptor implements Polygon {
 
     public PolygonAdaptor(com.vividsolutions.jts.geom.Polygon jtsPolygon) {

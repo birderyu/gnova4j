@@ -1,6 +1,6 @@
 package gnova.geometry.json;
 
-import gnova.geometry.factory.GeometryFactory;
+import gnova.geometry.model.GeometryFactory;
 import gnova.geometry.model.LinearRing;
 import gnova.geometry.model.MultiPolygon;
 import gnova.geometry.model.Polygon;

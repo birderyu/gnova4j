@@ -1,14 +1,12 @@
 package gnova.geometry.model.impl.jts;
 
 import com.vividsolutions.jts.linearref.LengthIndexedLine;
-import gnova.geometry.factory.jts.CoordinateSequenceFactoryAdaptor;
-import gnova.geometry.factory.jts.GeometryFactoryAdaptor;
 import gnova.geometry.model.*;
 
 /**
  * Created by Birderyu on 2017/6/23.
  */
-public class LineStringAdaptor
+class LineStringAdaptor
         extends AbstractGeometryAdaptor implements LineString {
 
     public LineStringAdaptor(com.vividsolutions.jts.geom.LineString jtsLineString) {

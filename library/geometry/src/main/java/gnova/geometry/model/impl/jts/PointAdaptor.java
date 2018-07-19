@@ -1,6 +1,5 @@
 package gnova.geometry.model.impl.jts;
 
-import gnova.geometry.factory.jts.CoordinateSequenceFactoryAdaptor;
 import gnova.geometry.model.Coordinate;
 import gnova.geometry.model.GeometryType;
 import gnova.geometry.model.Point;
@@ -8,7 +7,7 @@ import gnova.geometry.model.Point;
 /**
  * Created by Birderyu on 2017/6/22.
  */
-public final class PointAdaptor
+final class PointAdaptor
         extends AbstractGeometryAdaptor implements Point {
 
     public PointAdaptor(com.vividsolutions.jts.geom.Point jtsPoint) {

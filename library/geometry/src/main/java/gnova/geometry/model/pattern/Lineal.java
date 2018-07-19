@@ -16,4 +16,6 @@ public interface Lineal {
      */
     int DIMENSION = 1;
 
+    double getLength();
+
 }

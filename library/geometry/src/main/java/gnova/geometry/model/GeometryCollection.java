@@ -19,12 +19,6 @@ public interface GeometryCollection<G extends Geometry>
 
     G getGeometryAt(int n);
 
-    double getLength();
-
-    double getArea();
-
-    double getVolume();
-
     @Override
     default GeometryType getType() {
         return GeometryType.GeometryCollection;

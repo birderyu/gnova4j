@@ -6,7 +6,7 @@ import gnova.geometry.model.Point;
 /**
  * Created by Birderyu on 2017/6/23.
  */
-public final class MultiPointAdaptor
+final class MultiPointAdaptor
         extends GeometryCollectionAdaptor<Point> implements MultiPoint {
 
     public MultiPointAdaptor(com.vividsolutions.jts.geom.MultiPoint jtsMultiPoint) {

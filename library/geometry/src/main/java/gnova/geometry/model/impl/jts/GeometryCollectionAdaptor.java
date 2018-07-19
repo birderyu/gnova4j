@@ -1,6 +1,5 @@
 package gnova.geometry.model.impl.jts;
 
-import gnova.geometry.factory.jts.GeometryFactoryAdaptor;
 import gnova.geometry.model.*;
 
 import java.util.ArrayList;
@@ -10,7 +9,7 @@ import java.util.List;
 /**
  * Created by Birderyu on 2017/6/23.
  */
-public class GeometryCollectionAdaptor<G extends Geometry>
+class GeometryCollectionAdaptor<G extends Geometry>
     extends AbstractGeometryAdaptor implements GeometryCollection<G> {
 
     public GeometryCollectionAdaptor(com.vividsolutions.jts.geom.GeometryCollection jtsGeometryCollection) {
@@ -25,21 +24,6 @@ public class GeometryCollectionAdaptor<G extends Geometry>
     @Override
     public G getGeometryAt(int n) {
         return (G) GeometryFactoryAdaptor.fromJtsGeometry(getJts().getGeometryN(n));
-    }
-
-    @Override
-    public double getLength() {
-        return getJts().getLength();
-    }
-
-    @Override
-    public double getArea() {
-        return getJts().getLength();
-    }
-
-    @Override
-    public double getVolume() {
-        return 0;
     }
 
     @Override

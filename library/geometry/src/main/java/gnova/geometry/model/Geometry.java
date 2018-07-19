@@ -2,8 +2,8 @@ package gnova.geometry.model;
 
 import gnova.core.annotation.Immutable;
 import gnova.core.annotation.NotNull;
-import gnova.geometry.factory.FactoryFinder;
-import gnova.geometry.factory.GeometryFactory;
+import gnova.geometry.model.FactoryFinder;
+import gnova.geometry.model.GeometryFactory;
 import gnova.geometry.json.GeometryJSON;
 import gnova.geometry.model.operator.ProximityOperator;
 import gnova.geometry.model.operator.RelationalOperator;

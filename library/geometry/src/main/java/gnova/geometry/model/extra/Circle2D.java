@@ -2,7 +2,7 @@ package gnova.geometry.model.extra;
 
 import gnova.core.annotation.Immutable;
 import gnova.core.annotation.NotNull;
-import gnova.geometry.factory.GeometryFactory;
+import gnova.geometry.model.GeometryFactory;
 import gnova.geometry.model.BoundingBox;
 import gnova.geometry.model.Coordinate;
 import gnova.geometry.model.LinearRing;

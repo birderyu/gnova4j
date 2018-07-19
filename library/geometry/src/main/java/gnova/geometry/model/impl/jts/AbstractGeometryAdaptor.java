@@ -1,14 +1,12 @@
 package gnova.geometry.model.impl.jts;
 
-import gnova.geometry.factory.jts.CoordinateSequenceFactoryAdaptor;
-import gnova.geometry.factory.jts.GeometryFactoryAdaptor;
 import gnova.geometry.model.*;
-import gnova.geometry.model.impl.AbstractGeometry;
+import gnova.geometry.model.AbstractGeometry;
 
 /**
  * Created by Birderyu on 2017/6/22.
  */
-public abstract class AbstractGeometryAdaptor
+abstract class AbstractGeometryAdaptor
     extends AbstractGeometry {
 
     private final com.vividsolutions.jts.geom.Geometry jtsGeometry;

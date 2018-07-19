@@ -16,4 +16,6 @@ public interface Polygonal {
      */
     int DIMENSION = 2;
 
+    double getArea();
+
 }

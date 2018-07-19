@@ -1,8 +1,7 @@
-package gnova.geometry.factory.jts;
-import gnova.geometry.factory.CoordinateSequenceFactory;
+package gnova.geometry.model.impl.jts;
+import gnova.geometry.model.CoordinateSequenceFactory;
 import gnova.geometry.model.*;
-import gnova.geometry.factory.GeometryFactory;
-import gnova.geometry.model.impl.jts.*;
+import gnova.geometry.model.GeometryFactory;
 
 import java.util.Arrays;
 

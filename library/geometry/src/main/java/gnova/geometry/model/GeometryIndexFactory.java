@@ -1,4 +1,4 @@
-package gnova.geometry.factory;
+package gnova.geometry.model;
 
 import gnova.geometry.index.GeometryIndex;
 import gnova.geometry.index.GeometryIndexType;

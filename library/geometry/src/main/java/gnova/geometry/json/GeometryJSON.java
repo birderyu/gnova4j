@@ -3,7 +3,7 @@ package gnova.geometry.json;
 import gnova.core.annotation.Checked;
 import gnova.core.annotation.Immutable;
 import gnova.core.annotation.NotNull;
-import gnova.geometry.factory.GeometryFactory;
+import gnova.geometry.model.GeometryFactory;
 import gnova.geometry.model.*;
 import gnova.core.json.JsonArrayBuilder;
 import gnova.core.json.JsonObjectBuilder;

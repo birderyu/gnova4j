@@ -40,8 +40,6 @@ public interface Polygon
 
     LinearRing getInteriorRingAt(int n);
 
-    double getArea();
-
     @Override
     default GeometryType getType() {
         return GeometryType.Polygon;

@@ -1,6 +1,6 @@
-package gnova.geometry.factory.jts;
+package gnova.geometry.model.impl.jts;
 
-import gnova.geometry.factory.GeometryIndexFactory;
+import gnova.geometry.model.GeometryIndexFactory;
 import gnova.geometry.index.GeometryIndex;
 import gnova.geometry.index.GeometryIndexType;
 import gnova.geometry.index.impl.jts.GeometryIndexAdaptor;

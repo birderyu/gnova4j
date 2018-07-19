@@ -1,7 +1,4 @@
-package gnova.geometry.factory;
-
-import gnova.geometry.model.Coordinate;
-import gnova.geometry.model.CoordinateSequence;
+package gnova.geometry.model;
 
 /**
  * 坐标序列工厂

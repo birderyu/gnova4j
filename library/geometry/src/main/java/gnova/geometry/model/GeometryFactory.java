@@ -1,6 +1,5 @@
-package gnova.geometry.factory;
+package gnova.geometry.model;
 
-import gnova.geometry.model.*;
 import gnova.geometry.model.extra.Circle2D;
 
 import java.io.Serializable;

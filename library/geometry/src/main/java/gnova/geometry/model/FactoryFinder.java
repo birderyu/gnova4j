@@ -1,7 +1,7 @@
-package gnova.geometry.factory;
+package gnova.geometry.model;
 
-import gnova.geometry.factory.jts.GeometryFactoryAdaptor;
-import gnova.geometry.factory.jts.GeometryIndexFactoryAdaptor;
+import gnova.geometry.model.impl.jts.GeometryFactoryAdaptor;
+import gnova.geometry.model.impl.jts.GeometryIndexFactoryAdaptor;
 
 /**
  * 工厂查找器

@@ -16,4 +16,6 @@ public interface Polyhedral {
      */
     int DIMENSION = 3;
 
+    double getVolume();
+
 }

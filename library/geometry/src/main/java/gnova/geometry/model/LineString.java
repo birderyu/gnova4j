@@ -70,8 +70,6 @@ public interface LineString
         return isClosed() && isSimple();
     }
 
-    double getLength();
-
     Geometry extract(int start, int end);
 
     @Override

@@ -2,7 +2,7 @@ package gnova.data.index;
 
 import gnova.core.function.Getter;
 import gnova.data.Indices;
-import gnova.geometry.factory.FactoryFinder;
+import gnova.geometry.model.FactoryFinder;
 import gnova.geometry.index.GeometryIndexType;
 import gnova.core.multimap.proxy.HashArrayMultiMap;
 import gnova.core.multimap.proxy.TreeArrayMultiMap;
