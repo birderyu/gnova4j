@@ -50,7 +50,7 @@ final class PointAdaptor
     }
 
     @Override
-    public com.vividsolutions.jts.geom.Point getJts() {
+    protected com.vividsolutions.jts.geom.Point getJts() {
         return (com.vividsolutions.jts.geom.Point) super.getJts();
     }
 

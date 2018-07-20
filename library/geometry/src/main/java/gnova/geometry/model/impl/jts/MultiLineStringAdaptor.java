@@ -25,7 +25,7 @@ final class MultiLineStringAdaptor
     }
 
     @Override
-    public com.vividsolutions.jts.geom.MultiLineString getJts() {
+    protected com.vividsolutions.jts.geom.MultiLineString getJts() {
         return (com.vividsolutions.jts.geom.MultiLineString) super.getJts();
     }
 

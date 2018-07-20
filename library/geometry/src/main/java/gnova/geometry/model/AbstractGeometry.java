@@ -1,8 +1,6 @@
 package gnova.geometry.model;
 
-import gnova.geometry.model.GeometryFactory;
 import gnova.geometry.json.GeometryJSON;
-import gnova.geometry.model.Geometry;
 import gnova.core.json.JsonArrayBuilder;
 import gnova.core.json.JsonObjectBuilder;
 

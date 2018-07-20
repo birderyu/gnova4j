@@ -163,7 +163,7 @@ public interface Geometry
      *
      * @return 几何对象的SRID
      */
-    default int getSRID() {
+    default int getSrid() {
         return getFactory().getSRID();
     }
 
@@ -172,7 +172,7 @@ public interface Geometry
      *
      * @param srid SRID
      */
-    void setSRID(int srid);
+    void setSrid(int srid);
 
     /**
      * 翻转当前的几何对象成为一个新的几何对象
@@ -294,7 +294,7 @@ public interface Geometry
         }
 
         @Override
-        public void setSRID(int srid) {
+        public void setSrid(int srid) {
 
         }
 
@@ -389,11 +389,6 @@ public interface Geometry
         }
 
         @Override
-        public Geometry union() {
-            return null;
-        }
-
-        @Override
         public Geometry convexHull() {
             return null;
         }
@@ -449,12 +444,12 @@ public interface Geometry
         }
 
         @Override
-        public Point centroid() {
+        public Point getCentroid() {
             return null;
         }
 
         @Override
-        public Point interior() {
+        public Point getInterior() {
             return null;
         }
 

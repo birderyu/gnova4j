@@ -16,6 +16,11 @@ public interface Polygonal {
      */
     int DIMENSION = 2;
 
+    /**
+     * 获取面积
+     *
+     * @return 面积值
+     */
     double getArea();
 
 }

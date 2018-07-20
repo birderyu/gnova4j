@@ -25,7 +25,7 @@ public final class Coordinate
         implements Comparable<Coordinate>, Cloneable, Serializable {
 
     /**
-     * 一个空的包围盒坐标
+     * 一个空的坐标
      */
     public static Coordinate NONE = new Coordinate(
             Coordinate.NULL_ORDINATE_VALUE,
@@ -37,11 +37,6 @@ public final class Coordinate
      * 空坐标值，等于{@link Double#NaN}
      */
     public static final double NULL_ORDINATE_VALUE = Double.NaN;
-
-    /**
-     * 比较坐标值时的默认精度
-     */
-    public static final double DEFAULT_PRECISION = 0.000000001D;
 
     /**
      * X坐标的纵轴
@@ -252,7 +247,8 @@ public final class Coordinate
      * @return 若在二维平面上相等，则返回true，否则返回false
      */
     public boolean equals2D(@NotNull Coordinate c) {
-        return equals2D(c, DEFAULT_PRECISION);
+        return Double.compare(x, c.x) == 0 &&
+                Double.compare(y, c.y) == 0;
     }
 
     /**
@@ -278,7 +274,9 @@ public final class Coordinate
      * @return 若在三维空间上相等，则返回true，否则返回false
      */
     public boolean equals3D(@NotNull Coordinate c) {
-        return equals3D(c, DEFAULT_PRECISION);
+        return Double.compare(x, c.x) == 0 &&
+                Double.compare(y, c.y) == 0 &&
+                ((!hasZ() && !c.hasZ()) || Double.compare(z, c.z) == 0);
     }
 
     /**
@@ -293,8 +291,7 @@ public final class Coordinate
     public boolean equals3D(@NotNull Coordinate c, double tolerance) {
         return Equals.doubleEquals(x, c.x, tolerance) &&
                 Equals.doubleEquals(y, c.y, tolerance) &&
-                (Equals.doubleEquals(z, c.z, tolerance) ||
-                        (!hasZ() && !c.hasZ()));
+                ((!hasZ() && !c.hasZ()) || Equals.doubleEquals(z, c.z, tolerance));
     }
 
     /**
@@ -306,7 +303,10 @@ public final class Coordinate
      * @return 若相等，则返回true，否则返回false
      */
     public boolean equals(@NotNull Coordinate c) {
-        return equals(c, DEFAULT_PRECISION);
+        return Double.compare(x, c.x) == 0 &&
+                Double.compare(y, c.y) == 0 &&
+                ((!hasZ() && !c.hasZ()) || Double.compare(z, c.z) == 0) &&
+                ((!hasM() && !c.hasM()) || Double.compare(m, c.m) == 0);
     }
 
     /**
@@ -321,10 +321,8 @@ public final class Coordinate
     public boolean equals(@NotNull Coordinate c, double tolerance) {
         return Equals.doubleEquals(x, c.x, tolerance) &&
                 Equals.doubleEquals(y, c.y, tolerance) &&
-                (Equals.doubleEquals(z, c.z, tolerance) ||
-                        (!hasZ() && !c.hasZ())) &&
-                (Equals.doubleEquals(m, c.m, tolerance) ||
-                        (!hasM() && !c.hasM()));
+                ((!hasZ() && !c.hasZ()) || Equals.doubleEquals(z, c.z, tolerance)) &&
+                ((!hasM() && !c.hasM()) || Equals.doubleEquals(m, c.m, tolerance));
     }
 
     /**
@@ -340,6 +338,44 @@ public final class Coordinate
             return false;
         }
         return equals((Coordinate) obj);
+    }
+
+    /**
+     * 比较两个坐标值在二维平面上的大小
+     *
+     * <p>二维平面是指X与Y坐标构成的平面，即不考虑Z坐标
+     *
+     * @param c 坐标值，不允许为null
+     * @return 若当前坐标值在二维平面上小于另一个坐标值，则返回值小于0；
+     *          <br>若当前坐标值在二维平面上等于另一个坐标值，则返回值等于0；
+     *          <br>若当前坐标值在二维平面上大于另一个坐标值，则返回值大于0。
+     * @see Comparable#compareTo(Object)
+     */
+    public int compareTo2D(@NotNull Coordinate c) {
+        if (x < c.x) return -1;
+        if (x > c.x) return 1;
+        if (y < c.y) return -1;
+        if (y > c.y) return 1;
+        return 0;
+    }
+
+    /**
+     * 比较两个坐标值在三维空间上的大小
+     *
+     * <p>三维空间是指X、Y、Z坐标构成的立体空间
+     *
+     * @param c 坐标值，不允许为null
+     * @return 若当前坐标值在三维空间上小于另一个坐标值，则返回值小于0；
+     *          <br>若当前坐标值在三维空间上等于另一个坐标值，则返回值等于0；
+     *          <br>若当前坐标值在三维空间上大于另一个坐标值，则返回值大于0。
+     * @see Comparable#compareTo(Object)
+     */
+    public int compareTo3D(@NotNull Coordinate c) {
+        if (x < c.x) return -1;
+        if (x > c.x) return 1;
+        if (y < c.y) return -1;
+        if (y > c.y) return 1;
+        return compareToZM(z, c.z);
     }
 
     /**

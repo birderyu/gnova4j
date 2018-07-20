@@ -61,12 +61,12 @@ abstract class AbstractGeometryAdaptor
     }
 
     @Override
-    public int getSRID() {
+    public int getSrid() {
         return jtsGeometry.getSRID();
     }
 
     @Override
-    public void setSRID(int srid) {
+    public void setSrid(int srid) {
         jtsGeometry.setSRID(srid);
     }
 
@@ -186,11 +186,6 @@ abstract class AbstractGeometryAdaptor
     }
 
     @Override
-    public Geometry union() {
-        return getFactory().fromJtsGeometry(jtsGeometry.union());
-    }
-
-    @Override
     public Geometry union(Geometry other) {
         return getFactory().fromJtsGeometry(
                 jtsGeometry.union(getFactory().toJtsGeometry(other)));
@@ -209,12 +204,12 @@ abstract class AbstractGeometryAdaptor
     }
 
     @Override
-    public Point centroid() {
+    public Point getCentroid() {
         return getFactory().fromJtsPoint(jtsGeometry.getCentroid());
     }
 
     @Override
-    public Point interior() {
+    public Point getInterior() {
         return getFactory().fromJtsPoint(jtsGeometry.getInteriorPoint());
     }
 
@@ -270,7 +265,7 @@ abstract class AbstractGeometryAdaptor
         return jtsGeometry.compareTo(getFactory().toJtsGeometry(geometry));
     }
 
-    public com.vividsolutions.jts.geom.Geometry getJts() {
+    protected com.vividsolutions.jts.geom.Geometry getJts() {
         return jtsGeometry;
     }
 }

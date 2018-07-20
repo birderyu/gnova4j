@@ -14,7 +14,7 @@ final class MultiPointAdaptor
     }
 
     @Override
-    public com.vividsolutions.jts.geom.MultiPoint getJts() {
+    protected com.vividsolutions.jts.geom.MultiPoint getJts() {
         return (com.vividsolutions.jts.geom.MultiPoint) super.getJts();
     }
 

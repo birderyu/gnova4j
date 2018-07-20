@@ -19,13 +19,11 @@ public interface TopologicalOperator {
     @NotNull
     Geometry getBoundary();
 
-    /**
-     * 将集合类型的几何对象融合成一个几何对象
-     *
-     * @return
-     */
     @NotNull
-    Geometry union();
+    Point getCentroid();
+
+    @NotNull
+    Point getInterior();
 
     /**
      * 获取最小凸包
@@ -48,7 +46,7 @@ public interface TopologicalOperator {
     Geometry split(@NotNull Geometry bladeIn);
 
     @NotNull
-    Geometry cut(Geometry bladeIn);
+    Geometry cut(@NotNull Geometry bladeIn);
 
     @NotNull
     Polygon buffer(double distance);
@@ -94,12 +92,6 @@ public interface TopologicalOperator {
      */
     @NotNull
     Geometry symmetricDifference(@NotNull Geometry other);
-
-    @NotNull
-    Point centroid();
-
-    @NotNull
-    Point interior();
 
     @NotNull
     Geometry simplify(double distanceTolerance);

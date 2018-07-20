@@ -32,6 +32,11 @@ class GeometryCollectionAdaptor<G extends Geometry>
     }
 
     @Override
+    public Geometry union() {
+        return getFactory().fromJtsGeometry(getJts().union());
+    }
+
+    @Override
     public MultiLineString lineMerge() {
 
         if (getType() == GeometryType.MultiPoint
@@ -113,7 +118,7 @@ class GeometryCollectionAdaptor<G extends Geometry>
     }
 
     @Override
-    public com.vividsolutions.jts.geom.GeometryCollection getJts() {
+    protected com.vividsolutions.jts.geom.GeometryCollection getJts() {
         return (com.vividsolutions.jts.geom.GeometryCollection) super.getJts();
     }
 

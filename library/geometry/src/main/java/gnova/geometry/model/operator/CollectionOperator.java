@@ -1,5 +1,7 @@
 package gnova.geometry.model.operator;
 
+import gnova.core.annotation.NotNull;
+import gnova.geometry.model.Geometry;
 import gnova.geometry.model.MultiLineString;
 import gnova.geometry.model.MultiPolygon;
 
@@ -7,6 +9,14 @@ import gnova.geometry.model.MultiPolygon;
  * 空间集合操作
  */
 public interface CollectionOperator {
+
+    /**
+     * 将集合类型的几何对象融合成一个几何对象
+     *
+     * @return
+     */
+    @NotNull
+    Geometry union();
 
     /**
      * 合并线操作
