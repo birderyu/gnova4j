@@ -1,7 +1,9 @@
 package gnova.query;
 
-import gnova.query.parse.ParseException;
-import gnova.query.parse.Parser;
+import gnova.query.expression.Expression;
+import gnova.query.expression.Simplifier;
+import gnova.query.expression.parse.ParseException;
+import gnova.query.expression.parse.Parser;
 
 public class App {
 

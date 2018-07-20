@@ -1,7 +1,7 @@
 package gnova.data.wrapper;
 
-import gnova.query.Expressions;
-import gnova.query.LogicalExpression;
+import gnova.query.expression.Expressions;
+import gnova.query.expression.LogicalExpression;
 import gnova.data.Rows;
 import gnova.core.function.Getter;
 import gnova.core.function.ObjectBuilder;

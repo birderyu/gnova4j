@@ -4,8 +4,8 @@ import gnova.core.annotation.Checked;
 import gnova.core.annotation.NotNull;
 import gnova.data.index.SpatialIndex;
 import gnova.data.index.UniqueIndex;
-import gnova.query.LogicalExpression;
-import gnova.query.LogicalOperator;
+import gnova.query.expression.LogicalExpression;
+import gnova.query.expression.LogicalOperator;
 
 import java.util.Iterator;
 

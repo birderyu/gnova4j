@@ -2,7 +2,7 @@ package gnova.data.index;
 
 import gnova.core.annotation.Checked;
 import gnova.data.Index;
-import gnova.query.LogicalExpression;
+import gnova.query.expression.LogicalExpression;
 import gnova.core.function.Getter;
 
 import java.util.Iterator;

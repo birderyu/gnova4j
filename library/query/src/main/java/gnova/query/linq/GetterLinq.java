@@ -1,7 +1,7 @@
 package gnova.query.linq;
 
 import gnova.core.annotation.NotNull;
-import gnova.query.LogicalExpression;
+import gnova.query.expression.LogicalExpression;
 import gnova.core.function.Getter;
 
 public interface GetterLinq<E extends Getter, R>
