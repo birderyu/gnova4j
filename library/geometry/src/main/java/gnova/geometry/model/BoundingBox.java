@@ -798,7 +798,22 @@ public final class BoundingBox
      * @return 若相等，则返回true，否则返回false
      */
     public boolean equals(@NotNull BoundingBox bbox) {
-        return equals(bbox, Coordinate.DEFAULT_PRECISION);
+        if ((hasZ() && !bbox.hasZ()) || (!hasZ() && bbox.hasZ())) {
+            return false;
+        }
+        if (hasZ()) {
+            return Double.compare(minX, bbox.minX) == 0 &&
+                    Double.compare(maxX, bbox.maxX) == 0 &&
+                    Double.compare(minY, bbox.minY) == 0 &&
+                    Double.compare(maxY, bbox.maxY) == 0 &&
+                    Double.compare(minZ, bbox.minZ) == 0 &&
+                    Double.compare(maxZ, bbox.maxZ) == 0;
+        } else {
+            return Double.compare(minX, bbox.minX) == 0 &&
+                    Double.compare(maxX, bbox.maxX) == 0 &&
+                    Double.compare(minY, bbox.minY) == 0 &&
+                    Double.compare(maxY, bbox.maxY) == 0;
+        }
     }
 
     /**
