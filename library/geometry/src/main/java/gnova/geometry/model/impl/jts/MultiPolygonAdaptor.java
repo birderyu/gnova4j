@@ -14,7 +14,7 @@ final class MultiPolygonAdaptor
     }
 
     @Override
-    protected com.vividsolutions.jts.geom.MultiPolygon getJts() {
+    public com.vividsolutions.jts.geom.MultiPolygon getJts() {
         return (com.vividsolutions.jts.geom.MultiPolygon) super.getJts();
     }
 

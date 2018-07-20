@@ -13,7 +13,7 @@ final class LinearRingAdaptor
     }
 
     @Override
-    protected com.vividsolutions.jts.geom.LinearRing getJts() {
+    public com.vividsolutions.jts.geom.LinearRing getJts() {
         return (com.vividsolutions.jts.geom.LinearRing) super.getJts();
     }
 

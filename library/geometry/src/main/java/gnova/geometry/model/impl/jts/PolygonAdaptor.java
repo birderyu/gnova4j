@@ -34,7 +34,7 @@ final class PolygonAdaptor
     }
 
     @Override
-    protected com.vividsolutions.jts.geom.Polygon getJts() {
+    public com.vividsolutions.jts.geom.Polygon getJts() {
         return (com.vividsolutions.jts.geom.Polygon) super.getJts();
     }
 

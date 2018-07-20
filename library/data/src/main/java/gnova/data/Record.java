@@ -11,13 +11,6 @@ public interface Record
         extends ReadOnlyRecord, Setter, Iterable<KeyValue> {
 
     /**
-     * 是否是只读的
-     *
-     * @return 若是只读的，则返回true，否则返回false
-     */
-    boolean isReadOnly();
-
-    /**
      * 添加一个键值对
      *
      * @param key 键，不允许为null

@@ -26,7 +26,7 @@ public final class GeometryFactoryAdaptor
         private final int geometryType;
         private final String name;
 
-        private JtsGeometryType(Class<? extends com.vividsolutions.jts.geom.Geometry> type,
+        JtsGeometryType(Class<? extends com.vividsolutions.jts.geom.Geometry> type,
                                 int geometryType) {
             this.binding = type;
             this.geometryType = geometryType;

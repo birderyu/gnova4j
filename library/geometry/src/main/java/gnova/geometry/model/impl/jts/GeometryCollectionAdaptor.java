@@ -118,7 +118,7 @@ class GeometryCollectionAdaptor<G extends Geometry>
     }
 
     @Override
-    protected com.vividsolutions.jts.geom.GeometryCollection getJts() {
+    public com.vividsolutions.jts.geom.GeometryCollection getJts() {
         return (com.vividsolutions.jts.geom.GeometryCollection) super.getJts();
     }
 

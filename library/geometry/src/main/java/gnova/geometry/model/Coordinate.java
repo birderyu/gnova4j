@@ -352,11 +352,9 @@ public final class Coordinate
      * @see Comparable#compareTo(Object)
      */
     public int compareTo2D(@NotNull Coordinate c) {
-        if (x < c.x) return -1;
-        if (x > c.x) return 1;
-        if (y < c.y) return -1;
-        if (y > c.y) return 1;
-        return 0;
+        int c2x = Double.compare(x, c.x);
+        if (c2x != 0) return c2x;
+        return Double.compare(y, c.y);
     }
 
     /**
@@ -371,10 +369,10 @@ public final class Coordinate
      * @see Comparable#compareTo(Object)
      */
     public int compareTo3D(@NotNull Coordinate c) {
-        if (x < c.x) return -1;
-        if (x > c.x) return 1;
-        if (y < c.y) return -1;
-        if (y > c.y) return 1;
+        int c2x = Double.compare(x, c.x);
+        if (c2x != 0) return c2x;
+        int c2y = Double.compare(y, c.y);
+        if (c2y != 0) return c2y;
         return compareToZM(z, c.z);
     }
 
@@ -389,10 +387,10 @@ public final class Coordinate
      */
     @Override
     public int compareTo(@NotNull Coordinate c) {
-        if (x < c.x) return -1;
-        if (x > c.x) return 1;
-        if (y < c.y) return -1;
-        if (y > c.y) return 1;
+        int c2x = Double.compare(x, c.x);
+        if (c2x != 0) return c2x;
+        int c2y = Double.compare(y, c.y);
+        if (c2y != 0) return c2y;
         int c2z = compareToZM(z, c.z);
         if (c2z != 0) return c2z;
         return compareToZM(m, c.m);
@@ -436,6 +434,9 @@ public final class Coordinate
     @Override
     @NotNull
     public Coordinate clone() {
+        if (this == NONE) {
+            return NONE;
+        }
         return new Coordinate(this);
     }
 
@@ -452,9 +453,7 @@ public final class Coordinate
         if (Double.isNaN(d1) && Double.isNaN(d2)) return 0;
         if (Double.isNaN(d1)) return -1;
         if (Double.isNaN(d2)) return 1;
-        if (d1 < d2) return -1;
-        if (d1 > d2) return 1;
-        return 0;
+        return Double.compare(d1, d2);
     }
 
 }

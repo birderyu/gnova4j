@@ -66,7 +66,7 @@ class LineStringAdaptor
     }
 
     @Override
-    protected com.vividsolutions.jts.geom.LineString getJts() {
+    public com.vividsolutions.jts.geom.LineString getJts() {
         return (com.vividsolutions.jts.geom.LineString) super.getJts();
     }
 

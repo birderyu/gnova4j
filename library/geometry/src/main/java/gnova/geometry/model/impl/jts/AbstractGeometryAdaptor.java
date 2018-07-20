@@ -1,5 +1,6 @@
 package gnova.geometry.model.impl.jts;
 
+import gnova.core.annotation.NotNull;
 import gnova.geometry.model.*;
 import gnova.geometry.model.AbstractGeometry;
 
@@ -9,10 +10,10 @@ import gnova.geometry.model.AbstractGeometry;
 abstract class AbstractGeometryAdaptor
     extends AbstractGeometry {
 
+    @NotNull
     private final com.vividsolutions.jts.geom.Geometry jtsGeometry;
 
-    protected AbstractGeometryAdaptor(
-            com.vividsolutions.jts.geom.Geometry jtsGeometry) {
+    protected AbstractGeometryAdaptor(@NotNull com.vividsolutions.jts.geom.Geometry jtsGeometry) {
         super(new GeometryFactoryAdaptor(jtsGeometry.getFactory()));
         this.jtsGeometry = jtsGeometry;
     }
@@ -265,7 +266,7 @@ abstract class AbstractGeometryAdaptor
         return jtsGeometry.compareTo(getFactory().toJtsGeometry(geometry));
     }
 
-    protected com.vividsolutions.jts.geom.Geometry getJts() {
+    public com.vividsolutions.jts.geom.Geometry getJts() {
         return jtsGeometry;
     }
 }

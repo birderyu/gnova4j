@@ -27,11 +27,7 @@ public final class BoundingBox
     /**
      * 一个空的包围盒
      */
-    public static BoundingBox NONE = new BoundingBox(
-            Coordinate.NULL_ORDINATE_VALUE,
-            Coordinate.NULL_ORDINATE_VALUE,
-            Coordinate.NULL_ORDINATE_VALUE,
-            Coordinate.NULL_ORDINATE_VALUE);
+    public static BoundingBox NONE = new BoundingBox(Coordinate.NONE, Coordinate.NONE);
 
     /**
      * 最小X坐标值
@@ -169,10 +165,10 @@ public final class BoundingBox
      */
     public BoundingBox(double x1, double x2,
                        double y1, double y2) {
-        minX = x1 < x2 ? x1 : x2;
-        maxX = x1 > x2 ? x1 : x2;
-        minY = y1 < y2 ? y1 : y2;
-        maxY = y1 > y2 ? y1 : y2;
+        minX = Math.min(x1, x2);
+        maxX = Math.max(x1, x2);
+        minY = Math.min(y1, y2);
+        maxY = Math.max(y1, y2);
         minZ = Coordinate.NULL_ORDINATE_VALUE;
         maxZ = Coordinate.NULL_ORDINATE_VALUE;
     }
@@ -190,12 +186,12 @@ public final class BoundingBox
     public BoundingBox(double x1, double x2,
                        double y1, double y2,
                        double z1, double z2) {
-        minX = x1 < x2 ? x1 : x2;
-        maxX = x1 > x2 ? x1 : x2;
-        minY = y1 < y2 ? y1 : y2;
-        maxY = y1 > y2 ? y1 : y2;
-        minZ = z1 < z2 ? z1 : z2;
-        maxZ = z1 > z2 ? z1 : z2;
+        minX = Math.min(x1, x2);
+        maxX = Math.max(x1, x2);
+        minY = Math.min(y1, y2);
+        maxY = Math.max(y1, y2);
+        minZ = Math.min(z1, z2);
+        maxZ = Math.max(z1, z2);
     }
 
     /**
@@ -205,13 +201,13 @@ public final class BoundingBox
      * @param c2 坐标2，不允许为null
      */
     public BoundingBox(@NotNull Coordinate c1, @NotNull Coordinate c2) {
-        minX = c1.getX() < c2.getX() ? c1.getX() : c2.getX();
-        maxX = c1.getX() > c2.getX() ? c1.getX() : c2.getX();
-        minY = c1.getY() < c2.getY() ? c1.getY() : c2.getY();
-        maxY = c1.getY() > c2.getY() ? c1.getY() : c2.getY();
+        minX = Math.min(c1.getX(), c2.getX());
+        maxX = Math.max(c1.getX(), c2.getX());
+        minY = Math.min(c1.getY(), c2.getY());
+        maxY = Math.max(c1.getY(), c2.getY());
         if (c1.hasZ() && c2.hasZ()) {
-            minZ = c1.getZ() < c2.getZ() ? c1.getZ() : c2.getZ();
-            maxZ = c1.getZ() > c2.getZ() ? c1.getZ() : c2.getZ();
+            minZ = Math.max(c1.getZ(), c2.getZ());
+            maxZ = Math.min(c1.getZ(), c2.getZ());
         } else {
             minZ = Coordinate.NULL_ORDINATE_VALUE;
             maxZ = Coordinate.NULL_ORDINATE_VALUE;
@@ -355,7 +351,7 @@ public final class BoundingBox
      * @return 坐标值，不会返回null
      */
     @NotNull
-    public Coordinate centre() {
+    public Coordinate getCenter() {
         return new Coordinate(
                 (minX + maxX) / 2.0,
                 (minY + maxY) / 2.0,
@@ -394,13 +390,13 @@ public final class BoundingBox
     /**
      * 判断坐标是否完全位于包围盒内
      *
-     * @param coord 坐标值，不允许为null
+     * @param c 坐标值，不允许为null
      * @return 若坐标完全位于包围盒内，则返回true，否则返回false
      */
-    public boolean intersects(@NotNull Coordinate coord) {
-        return coord.hasZ() ?
-                intersects(coord.getX(), coord.getY(), coord.getZ()) :
-                intersects(coord.getX(), coord.getY());
+    public boolean intersects(@NotNull Coordinate c) {
+        return c.hasZ() ?
+                intersects(c.getX(), c.getY(), c.getZ()) :
+                intersects(c.getX(), c.getY());
     }
 
     /**
@@ -451,11 +447,11 @@ public final class BoundingBox
     /**
      * 判断包围盒是否包含坐标
      *
-     * @param coord 坐标值，不允许为null
+     * @param c 坐标值，不允许为null
      * @return 若包围盒包含了坐标，则返回true，否则返回false
      */
-    public boolean contains(@NotNull Coordinate coord) {
-        return covers(coord);
+    public boolean contains(@NotNull Coordinate c) {
+        return covers(c);
     }
 
     /**
@@ -500,13 +496,13 @@ public final class BoundingBox
     /**
      * 判断包围盒是否覆盖坐标
      *
-     * @param coord 坐标值，不允许为null
+     * @param c 坐标值，不允许为null
      * @return 若包围盒覆盖了坐标，则返回true，否则返回false
      */
-    public boolean covers(@NotNull Coordinate coord) {
-        return coord.hasZ() ?
-                covers(coord.getX(), coord.getY(), coord.getZ()) :
-                covers(coord.getX(), coord.getY());
+    public boolean covers(@NotNull Coordinate c) {
+        return c.hasZ() ?
+                covers(c.getX(), c.getY(), c.getZ()) :
+                covers(c.getX(), c.getY());
     }
 
     /**
@@ -559,7 +555,6 @@ public final class BoundingBox
             else if (minZ > bbox.maxZ) dz = minZ - bbox.maxZ;
             return Math.sqrt(dx * dx + dy * dy + dz * dz);
         } else {
-            // if either is zero, the envelopes overlap either vertically or horizontally
             if (dx == 0.0) return dy;
             if (dy == 0.0) return dx;
             return Math.sqrt(dx * dx + dy * dy);
@@ -575,10 +570,10 @@ public final class BoundingBox
      */
     @NotNull
     public BoundingBox expandToInclude(double x, double y) {
-        double newMinX = x > minX ? minX : x;
-        double newMaxX = x < maxX ? maxX : x;
-        double newMinY = y > minY ? minY : y;
-        double newMaxY = y < maxY ? maxY : y;
+        double newMinX = Math.min(x, minX);
+        double newMaxX = Math.max(x, maxX);
+        double newMinY = Math.min(y, minY);
+        double newMaxY = Math.max(y, maxY);
         return new BoundingBox(newMinX, newMaxX,
                 newMinY, newMaxY,
                 minZ, maxZ);
@@ -597,12 +592,12 @@ public final class BoundingBox
         if (!hasZ()) {
             throw new IllegalArgumentException("this bbox do not has z: " + this);
         }
-        double newMinX = x > minX ? minX : x;
-        double newMaxX = x < maxX ? maxX : x;
-        double newMinY = y > minY ? minY : y;
-        double newMaxY = y < maxY ? maxY : y;
-        double newMinZ = z > minZ ? minZ : z;
-        double newMaxZ = z < maxZ ? maxZ : z;
+        double newMinX = Math.min(x, minX);
+        double newMaxX = Math.max(x, maxX);
+        double newMinY = Math.min(y, minY);
+        double newMaxY = Math.max(y, maxY);
+        double newMinZ = Math.min(z, minZ);
+        double newMaxZ = Math.max(z, maxZ);
         return new BoundingBox(newMinX, newMaxX,
                 newMinY, newMaxY,
                 newMinZ, newMaxZ);
@@ -611,14 +606,14 @@ public final class BoundingBox
     /**
      * 扩展当前包围盒的大小，生成一个能够覆盖坐标的新的包围盒
      *
-     * @param coord 坐标值，不允许为null
+     * @param c 坐标值，不允许为null
      * @return 包围盒，不会返回null
      */
     @NotNull
-    public BoundingBox expandToInclude(@NotNull Coordinate coord) {
-        return coord.hasZ() ?
-                expandToInclude(coord.getX(), coord.getY(), coord.getZ()) :
-                expandToInclude(coord.getX(), coord.getY());
+    public BoundingBox expandToInclude(@NotNull Coordinate c) {
+        return c.hasZ() ?
+                expandToInclude(c.getX(), c.getY(), c.getZ()) :
+                expandToInclude(c.getX(), c.getY());
     }
 
     /**
@@ -634,15 +629,15 @@ public final class BoundingBox
             throw new IllegalArgumentException("this bbox " + this
                     + " can not expand to giving bbox " + bbox);
         }
-        double newMinX = bbox.minX > minX ? minX : bbox.minX;
-        double newMaxX = bbox.maxX < maxX ? maxX : bbox.maxX;
-        double newMinY = bbox.minY > minY ? minY : bbox.minY;
-        double newMaxY = bbox.maxY < maxY ? maxY : bbox.maxY;
+        double newMinX = Math.min(bbox.minX, minX);
+        double newMaxX = Math.max(bbox.maxX, maxX);
+        double newMinY = Math.min(bbox.minY, minY);
+        double newMaxY = Math.max(bbox.maxY, maxY);
         double newMinZ = minZ;
         double newMaxZ = maxZ;
         if (hasZ()) {
-            newMinZ = bbox.minZ > minZ ? minZ : bbox.minZ;
-            newMaxZ = bbox.maxZ < maxZ ? maxZ : bbox.maxZ;
+            newMinZ = Math.min(bbox.minZ, minZ);
+            newMaxZ = Math.max(bbox.maxZ, maxZ);
         }
         return new BoundingBox(newMinX, newMaxX,
                 newMinY, newMaxY,
@@ -714,7 +709,7 @@ public final class BoundingBox
     @NotNull
     public BoundingBox translate(double transX, double transY) {
         return new BoundingBox(minX + transX, maxX + transX,
-                minX + transY, maxX + transY,
+                minY + transY, maxY + transY,
                 minZ, maxZ);
     }
 
@@ -732,7 +727,7 @@ public final class BoundingBox
             return translate(transX, transY);
         }
         return new BoundingBox(minX + transX, maxX + transX,
-                minX + transY, maxX + transY,
+                minY + transY, maxY + transY,
                 minZ + transZ, maxZ + transZ);
     }
 
@@ -750,17 +745,17 @@ public final class BoundingBox
             throw new IllegalArgumentException("this bbox " + this
                     + " can not intersects to giving bbox " + bbox);
         }
-        double nexMinX = minX > bbox.minX ? minX : bbox.minX;
-        double nexMaxX = maxX < bbox.maxX ? maxX : bbox.maxX;
-        double nexMinY = minY > bbox.minY ? minY : bbox.minY;
-        double nexMaxY = maxY < bbox.maxY ? maxY : bbox.maxY;
-        double nexminZ = minZ;
+        double nexMinX = Math.min(minX, bbox.minX);
+        double nexMaxX = Math.max(maxX, bbox.maxX);
+        double nexMinY = Math.min(minY, bbox.minY);
+        double nexMaxY = Math.max(maxY, bbox.maxY);
+        double nexMinZ = minZ;
         double nexMaxZ = maxZ;
         if (hasZ()) {
-            nexminZ = minZ > bbox.minZ ? minZ : bbox.minZ;
-            nexMaxZ = maxZ < bbox.maxZ ? maxZ : bbox.maxZ;
+            nexMinZ = Math.min(minZ, bbox.minZ);
+            nexMaxZ = Math.max(maxZ, bbox.maxZ);
         }
-        return new BoundingBox(nexMinX, nexMaxX, nexMinY, nexMaxY, nexminZ, nexMaxZ);
+        return new BoundingBox(nexMinX, nexMaxX, nexMinY, nexMaxY, nexMinZ, nexMaxZ);
     }
 
     /**
@@ -770,7 +765,6 @@ public final class BoundingBox
      * @param tolerance 浮点比较的精度值，若两个浮点数之差的绝对值不大于该精度，则认为这两个浮点数相等
      * @return 若相等，则返回true，否则返回false
      */
-    @NotNull
     public boolean equals(@NotNull BoundingBox bbox, double tolerance) {
         if ((hasZ() && !bbox.hasZ()) || (!hasZ() && bbox.hasZ())) {
             return false;
@@ -903,6 +897,9 @@ public final class BoundingBox
     @Override
     @NotNull
     public BoundingBox clone() {
+        if (this == NONE) {
+            return NONE;
+        }
         return new BoundingBox(this);
     }
 }

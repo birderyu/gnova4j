@@ -97,7 +97,7 @@ public class Circle2D {
     @Override
     @NotNull
     public String toString() {
-        return "{\"type\": \"Circle2D\", \"centre\":["
+        return "{\"type\": \"Circle2D\", \"center\":["
                 + x + ", " + y + "], \"radius\": + " + r + "}";
     }
 }
