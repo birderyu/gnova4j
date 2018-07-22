@@ -1,5 +1,6 @@
 package gnova.geometry.model.impl.jts;
 
+import gnova.geometry.model.Geometry;
 import gnova.geometry.model.LinearRing;
 import gnova.geometry.model.Polygon;
 
@@ -9,13 +10,13 @@ import gnova.geometry.model.Polygon;
 final class PolygonAdaptor
         extends AbstractGeometryAdaptor implements Polygon {
 
-    public PolygonAdaptor(com.vividsolutions.jts.geom.Polygon jtsPolygon) {
+    public PolygonAdaptor(org.locationtech.jts.geom.Polygon jtsPolygon) {
         super(jtsPolygon);
     }
 
     @Override
     public LinearRing getExteriorRing() {
-        return new LinearRingAdaptor((com.vividsolutions.jts.geom.LinearRing) getJts().getExteriorRing());
+        return new LinearRingAdaptor((org.locationtech.jts.geom.LinearRing) getJts().getExteriorRing());
     }
 
     @Override
@@ -24,8 +25,13 @@ final class PolygonAdaptor
     }
 
     @Override
-    public LinearRing getInteriorRingAt(int n) {
-        return new LinearRingAdaptor((com.vividsolutions.jts.geom.LinearRing) getJts().getInteriorRingN(n));
+    public LinearRing getInteriorRingAt(int n) throws ArrayIndexOutOfBoundsException {
+        return new LinearRingAdaptor((org.locationtech.jts.geom.LinearRing) getJts().getInteriorRingN(n));
+    }
+
+    @Override
+    public boolean isRectangle() {
+        return getJts().isRectangle();
     }
 
     @Override
@@ -34,8 +40,8 @@ final class PolygonAdaptor
     }
 
     @Override
-    public com.vividsolutions.jts.geom.Polygon getJts() {
-        return (com.vividsolutions.jts.geom.Polygon) super.getJts();
+    public org.locationtech.jts.geom.Polygon getJts() {
+        return (org.locationtech.jts.geom.Polygon) super.getJts();
     }
 
     @Override

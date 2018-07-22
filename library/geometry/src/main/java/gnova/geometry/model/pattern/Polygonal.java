@@ -1,7 +1,7 @@
 package gnova.geometry.model.pattern;
 
 /**
- * 面型
+ * 面型（Areal）
  * 
  * <p>面型对象用于表示几何形态为面状的对象，如{@link gnova.geometry.model.Polygon 多边形}和{@link gnova.geometry.model.MultiPolygon 多多边形}。
  *

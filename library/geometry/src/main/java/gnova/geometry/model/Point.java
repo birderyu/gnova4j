@@ -73,6 +73,12 @@ public interface Point
 
     @Override
     @NotNull
+    default Geometry getBoundary() {
+        return NONE;
+    }
+
+    @Override
+    @NotNull
     Point reverse();
 
     @Override

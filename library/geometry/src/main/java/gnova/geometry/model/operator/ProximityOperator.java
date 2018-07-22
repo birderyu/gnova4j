@@ -20,6 +20,15 @@ public interface ProximityOperator {
     double distance(@NotNull Geometry other);
 
     /**
+     * 判断与另一个几何对象的距离是否不大于指定的长度
+     *
+     * @param other
+     * @param distance
+     * @return
+     */
+    boolean isWithinDistance(@NotNull Geometry other, double distance);
+
+    /**
      * 获取与另一个几何对象的最短点
      *
      * @param other
@@ -29,5 +38,4 @@ public interface ProximityOperator {
      */
     @NotNull
     Coordinate[] nearestPoints(@NotNull Geometry other);
-
 }

@@ -10,9 +10,9 @@ import gnova.geometry.model.CoordinateSequence;
 final class CoordinateSequenceFactoryAdaptor
         implements CoordinateSequenceFactory {
 
-    private com.vividsolutions.jts.geom.CoordinateSequenceFactory jtsCoordinateSequenceFactory;
+    private org.locationtech.jts.geom.CoordinateSequenceFactory jtsCoordinateSequenceFactory;
 
-    public CoordinateSequenceFactoryAdaptor(com.vividsolutions.jts.geom.CoordinateSequenceFactory jtsCoordinateSequenceFactory) {
+    public CoordinateSequenceFactoryAdaptor(org.locationtech.jts.geom.CoordinateSequenceFactory jtsCoordinateSequenceFactory) {
         this.jtsCoordinateSequenceFactory = jtsCoordinateSequenceFactory;
     }
 
@@ -34,50 +34,39 @@ final class CoordinateSequenceFactoryAdaptor
         return new CoordinateSequenceAdaptor(jtsCoordinateSequenceFactory.create(size, dimension));
     }
 
-    public com.vividsolutions.jts.geom.CoordinateSequenceFactory getJts() {
+    public org.locationtech.jts.geom.CoordinateSequenceFactory getJts() {
         return jtsCoordinateSequenceFactory;
     }
 
-    static public com.vividsolutions.jts.geom.Coordinate toJtsCoordinate(Coordinate coord) {
-        return new com.vividsolutions.jts.geom.Coordinate(coord.getX(), coord.getY(), coord.getZ());
+    static public org.locationtech.jts.geom.Coordinate toJtsCoordinate(Coordinate coord) {
+        return new org.locationtech.jts.geom.Coordinate(coord.getX(), coord.getY(), coord.getZ());
     }
 
-    static public com.vividsolutions.jts.geom.Coordinate[] toJtsCoordinateArray(Coordinate[] coords) {
-        com.vividsolutions.jts.geom.Coordinate[] jtsCoords
-                = new com.vividsolutions.jts.geom.Coordinate[coords.length];
+    static public org.locationtech.jts.geom.Coordinate[] toJtsCoordinateArray(Coordinate[] coords) {
+        org.locationtech.jts.geom.Coordinate[] jtsCoords
+                = new org.locationtech.jts.geom.Coordinate[coords.length];
         for (int i = 0; i < coords.length; i++) {
             jtsCoords[i] = CoordinateSequenceFactoryAdaptor.toJtsCoordinate(coords[i]);
         }
         return jtsCoords;
     }
 
-    static public com.vividsolutions.jts.geom.Coordinate[] toJtsCoordinateArray(CoordinateSequence coordSeq) {
-        com.vividsolutions.jts.geom.Coordinate[] jtsCoords
-                = new com.vividsolutions.jts.geom.Coordinate[coordSeq.size()];
+    static public org.locationtech.jts.geom.Coordinate[] toJtsCoordinateArray(CoordinateSequence coordSeq) {
+        org.locationtech.jts.geom.Coordinate[] jtsCoords
+                = new org.locationtech.jts.geom.Coordinate[coordSeq.size()];
         for (int i = 0; i < jtsCoords.length; i++) {
             jtsCoords[i] = CoordinateSequenceFactoryAdaptor.toJtsCoordinate(coordSeq.getCoordinateAt(i));
         }
         return jtsCoords;
     }
 
-    static public com.vividsolutions.jts.geom.CoordinateSequence toJtsCoordinateSequence(CoordinateSequence coordinateSequence) {
+    static public org.locationtech.jts.geom.CoordinateSequence toJtsCoordinateSequence(CoordinateSequence coordinateSequence) {
         if (coordinateSequence instanceof CoordinateSequenceAdaptor) {
             return ((CoordinateSequenceAdaptor) coordinateSequence).getJtsCoordinateSequence();
         }
-        return new com.vividsolutions.jts.geom.impl.CoordinateArraySequence(
+        return new org.locationtech.jts.geom.impl.CoordinateArraySequence(
                 CoordinateSequenceFactoryAdaptor.toJtsCoordinateArray(coordinateSequence)
         );
     }
 
-    static public Coordinate fromJtsCoordinate(com.vividsolutions.jts.geom.Coordinate coord) {
-        return new Coordinate(coord.x, coord.y, coord.z);
-    }
-
-    static public Coordinate[] fromJtsCoordinateArray(com.vividsolutions.jts.geom.Coordinate[] jtsCoords) {
-        Coordinate[] coords = new Coordinate[jtsCoords.length];
-        for (int i = 0; i < jtsCoords.length; i++) {
-            coords[i] = fromJtsCoordinate(jtsCoords[i]);
-        }
-        return coords;
-    }
 }

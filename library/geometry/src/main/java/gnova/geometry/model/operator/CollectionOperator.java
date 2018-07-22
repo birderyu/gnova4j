@@ -2,18 +2,22 @@ package gnova.geometry.model.operator;
 
 import gnova.core.annotation.NotNull;
 import gnova.geometry.model.Geometry;
+import gnova.geometry.model.GeometryCollection;
 import gnova.geometry.model.MultiLineString;
 import gnova.geometry.model.MultiPolygon;
 
 /**
  * 空间集合操作
+ *
+ * <p>空间集合操作针对{@link GeometryCollection 几何集合}对象对象，
+ * 包含了将多个{@link Geometry 几何}对象的集合做一系列操作的接口。
  */
 public interface CollectionOperator {
 
     /**
      * 将集合类型的几何对象融合成一个几何对象
      *
-     * @return
+     * @return 几何对象，不允许为null
      */
     @NotNull
     Geometry union();

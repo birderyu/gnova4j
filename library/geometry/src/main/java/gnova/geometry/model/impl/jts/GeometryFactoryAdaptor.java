@@ -1,4 +1,5 @@
 package gnova.geometry.model.impl.jts;
+import gnova.core.annotation.NotNull;
 import gnova.geometry.model.CoordinateSequenceFactory;
 import gnova.geometry.model.*;
 import gnova.geometry.model.GeometryFactory;
@@ -13,27 +14,27 @@ public final class GeometryFactoryAdaptor
 
     enum JtsGeometryType {
 
-        Point(com.vividsolutions.jts.geom.Point.class, GeometryType.Point.getType()),
-        LineString(com.vividsolutions.jts.geom.LineString.class, GeometryType.LineString.getType()),
-        LinearRing(com.vividsolutions.jts.geom.LinearRing.class, GeometryType.LinearRing.getType()),
-        Polygon(com.vividsolutions.jts.geom.Polygon.class, GeometryType.Polygon.getType()),
-        MultiPoint(com.vividsolutions.jts.geom.MultiPoint.class, GeometryType.MultiPoint.getType()),
-        MultiLineString(com.vividsolutions.jts.geom.MultiLineString.class, GeometryType.MultiLineString.getType()),
-        MultiPolygon(com.vividsolutions.jts.geom.MultiPolygon.class, GeometryType.MultiPolygon.getType()),
-        GeometryCollection(com.vividsolutions.jts.geom.GeometryCollection.class, GeometryType.GeometryCollection.getType());
+        Point(org.locationtech.jts.geom.Point.class, GeometryType.Point.getType()),
+        LineString(org.locationtech.jts.geom.LineString.class, GeometryType.LineString.getType()),
+        LinearRing(org.locationtech.jts.geom.LinearRing.class, GeometryType.LinearRing.getType()),
+        Polygon(org.locationtech.jts.geom.Polygon.class, GeometryType.Polygon.getType()),
+        MultiPoint(org.locationtech.jts.geom.MultiPoint.class, GeometryType.MultiPoint.getType()),
+        MultiLineString(org.locationtech.jts.geom.MultiLineString.class, GeometryType.MultiLineString.getType()),
+        MultiPolygon(org.locationtech.jts.geom.MultiPolygon.class, GeometryType.MultiPolygon.getType()),
+        GeometryCollection(org.locationtech.jts.geom.GeometryCollection.class, GeometryType.GeometryCollection.getType());
 
-        private final Class<? extends com.vividsolutions.jts.geom.Geometry> binding;
+        private final Class<? extends org.locationtech.jts.geom.Geometry> binding;
         private final int geometryType;
         private final String name;
 
-        JtsGeometryType(Class<? extends com.vividsolutions.jts.geom.Geometry> type,
+        JtsGeometryType(Class<? extends org.locationtech.jts.geom.Geometry> type,
                                 int geometryType) {
             this.binding = type;
             this.geometryType = geometryType;
             this.name = type.getSimpleName();
         }
 
-        public Class<? extends com.vividsolutions.jts.geom.Geometry> getBinding() {
+        public Class<? extends org.locationtech.jts.geom.Geometry> getBinding() {
             return binding;
         }
 
@@ -50,7 +51,7 @@ public final class GeometryFactoryAdaptor
             return getGeometryType().toString();
         }
 
-        static public JtsGeometryType from(com.vividsolutions.jts.geom.Geometry geom) {
+        static public JtsGeometryType from(org.locationtech.jts.geom.Geometry geom) {
             if (geom != null) {
                 return fromBinding(geom.getClass());
             }
@@ -58,7 +59,7 @@ public final class GeometryFactoryAdaptor
             return null;
         }
 
-        static public JtsGeometryType fromBinding(Class<? extends com.vividsolutions.jts.geom.Geometry> geomClass) {
+        static public JtsGeometryType fromBinding(Class<? extends org.locationtech.jts.geom.Geometry> geomClass) {
             for (JtsGeometryType gt : JtsGeometryType.values()) {
                 if (gt.binding == geomClass) {
                     return gt;
@@ -100,26 +101,30 @@ public final class GeometryFactoryAdaptor
         }
     }
 
-    private com.vividsolutions.jts.geom.GeometryFactory jtsGeometryFactory;
+    private org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory;
     private CoordinateSequenceFactory coordinateSequenceFactory;
 
     public GeometryFactoryAdaptor() {
-        jtsGeometryFactory = new com.vividsolutions.jts.geom.GeometryFactory();
+        jtsGeometryFactory = new org.locationtech.jts.geom.GeometryFactory();
         coordinateSequenceFactory = new CoordinateSequenceFactoryAdaptor(jtsGeometryFactory.getCoordinateSequenceFactory());
     }
 
     public GeometryFactoryAdaptor(int srid) {
-        jtsGeometryFactory = new com.vividsolutions.jts.geom.GeometryFactory(
-                new com.vividsolutions.jts.geom.PrecisionModel(), srid);
+        jtsGeometryFactory = new org.locationtech.jts.geom.GeometryFactory(
+                new org.locationtech.jts.geom.PrecisionModel(), srid);
         coordinateSequenceFactory = new CoordinateSequenceFactoryAdaptor(jtsGeometryFactory.getCoordinateSequenceFactory());
     }
 
-    public GeometryFactoryAdaptor(com.vividsolutions.jts.geom.GeometryFactory jtsGeometryFactory) {
+    public GeometryFactoryAdaptor(org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory) {
         this.jtsGeometryFactory = jtsGeometryFactory;
     }
 
+    public org.locationtech.jts.geom.GeometryFactory getJts() {
+        return jtsGeometryFactory;
+    }
+
     @Override
-    public int getSRID() {
+    public int getSrid() {
         return jtsGeometryFactory.getSRID();
     }
 
@@ -130,6 +135,9 @@ public final class GeometryFactoryAdaptor
 
     @Override
     public Geometry createGeometry(BoundingBox bbox) {
+        if (bbox == BoundingBox.NONE) {
+            return Geometry.NONE;
+        }
         return fromJtsGeometry(jtsGeometryFactory.toGeometry(
                 GeometryFactoryAdaptor.toJtsEnvelope(bbox)));
     }
@@ -144,15 +152,23 @@ public final class GeometryFactoryAdaptor
     public Point createPoint(Coordinate coordinate) {
         return GeometryFactoryAdaptor.fromJtsPoint(
                 jtsGeometryFactory.createPoint(
+                        coordinate == Coordinate.NONE ? null :
                         CoordinateSequenceFactoryAdaptor.toJtsCoordinate(coordinate)));
     }
 
     @Override
     public LineString createLineString(Coordinate[] coordinates) {
 
-        if (coordinates == null || coordinates.length < 2) {
+        if (coordinates.length < 2) {
             throw new IllegalArgumentException("Invalid number of points in LineString (must not less than 2): "
                     + Arrays.toString(coordinates));
+        } else {
+            for (Coordinate coordinate : coordinates) {
+                if (coordinate == null || coordinate == Coordinate.NONE) {
+                    throw new IllegalArgumentException("Invalid number of coordinates in LineString (must not be null or NONE): "
+                            + Arrays.toString(coordinates));
+                }
+            }
         }
         return GeometryFactoryAdaptor.fromJtsLineString(
                 jtsGeometryFactory.createLineString(
@@ -162,9 +178,16 @@ public final class GeometryFactoryAdaptor
     @Override
     public LineString createLineString(CoordinateSequence coordinates) {
 
-        if (coordinates == null || coordinates.size() < 2) {
+        if (coordinates.size() < 2) {
             throw new IllegalArgumentException("Invalid number of points in LineString (must not less than 2): "
                     + coordinates);
+        } else {
+            for (Coordinate coordinate : coordinates) {
+                if (coordinate == null || coordinate == Coordinate.NONE) {
+                    throw new IllegalArgumentException("Invalid number of coordinates in LineString (must not be null or NONE): "
+                            + coordinates);
+                }
+            }
         }
         return GeometryFactoryAdaptor.fromJtsLineString(
                 jtsGeometryFactory.createLineString(
@@ -174,9 +197,16 @@ public final class GeometryFactoryAdaptor
     @Override
     public LinearRing createLinearRing(Coordinate[] coordinates) {
 
-        if (coordinates == null || coordinates.length < 4) {
+        if (coordinates.length < 4) {
             throw new IllegalArgumentException("Invalid number of points in LinearRing (must not less than 4): "
                     + coordinates);
+        } else {
+            for (Coordinate coordinate : coordinates) {
+                if (coordinate == null || coordinate == Coordinate.NONE) {
+                    throw new IllegalArgumentException("Invalid number of coordinates in LinearRing (must not be null or NONE): "
+                            + Arrays.toString(coordinates));
+                }
+            }
         }
         return GeometryFactoryAdaptor.fromJtsLinearRing(
                 jtsGeometryFactory.createLinearRing(
@@ -186,9 +216,16 @@ public final class GeometryFactoryAdaptor
     @Override
     public LinearRing createLinearRing(CoordinateSequence coordinates) {
 
-        if (coordinates == null || coordinates.size() < 4) {
+        if (coordinates.size() < 4) {
             throw new IllegalArgumentException("Invalid number of points in LinearRing (must not less than 4): "
                     + coordinates);
+        } else {
+            for (Coordinate coordinate : coordinates) {
+                if (coordinate == null || coordinate == Coordinate.NONE) {
+                    throw new IllegalArgumentException("Invalid number of coordinates in LinearRing (must not be null or NONE): "
+                            + coordinates);
+                }
+            }
         }
         return GeometryFactoryAdaptor.fromJtsLinearRing(
                 jtsGeometryFactory.createLinearRing(
@@ -197,14 +234,26 @@ public final class GeometryFactoryAdaptor
 
     @Override
     public Polygon createPolygon(LinearRing shell, LinearRing[] holes) {
+        if (holes != null) {
+            for (LinearRing hole : holes) {
+                if (hole == null) {
+                    throw new IllegalArgumentException("holes has null");
+                }
+            }
+        }
         return GeometryFactoryAdaptor.fromJtsPolygon(
                 jtsGeometryFactory.createPolygon(
                         toJtsLinearRing(shell),
-                        toJtsLinearRingArray(holes)));
+                        holes == null ? null : toJtsLinearRingArray(holes)));
     }
 
     @Override
     public GeometryCollection createGeometryCollection(Geometry[] geometries) {
+        for (Geometry geometry : geometries) {
+            if (geometry == null || geometry == Geometry.NONE) {
+                throw new IllegalArgumentException("geometries has null or NONE");
+            }
+        }
         return GeometryFactoryAdaptor.fromJtsGeometryCollection(
                 jtsGeometryFactory.createGeometryCollection(
                         toJtsGeometryArray(geometries)));
@@ -212,6 +261,11 @@ public final class GeometryFactoryAdaptor
 
     @Override
     public MultiPoint createMultiPoint(Point[] points) {
+        for (Point point : points) {
+            if (point == null) {
+                throw new IllegalArgumentException("points has null");
+            }
+        }
         return GeometryFactoryAdaptor.fromJtsMultiPoint(
                 jtsGeometryFactory.createMultiPoint(
                         toJtsPointArray(points)));
@@ -219,13 +273,23 @@ public final class GeometryFactoryAdaptor
 
     @Override
     public MultiPoint createMultiPoint(Coordinate[] coordinates) {
+        for (Coordinate coordinate : coordinates) {
+            if (coordinate == null || coordinate == Coordinate.NONE) {
+                throw new IllegalArgumentException("coordinates has null or NONE");
+            }
+        }
         return GeometryFactoryAdaptor.fromJtsMultiPoint(
-                jtsGeometryFactory.createMultiPoint(
+                jtsGeometryFactory.createMultiPointFromCoords(
                         CoordinateSequenceFactoryAdaptor.toJtsCoordinateArray(coordinates)));
     }
 
     @Override
     public MultiPoint createMultiPoint(CoordinateSequence coordinates) {
+        for (Coordinate coordinate : coordinates) {
+            if (coordinate == null || coordinate == Coordinate.NONE) {
+                throw new IllegalArgumentException("coordinates has null or NONE");
+            }
+        }
         return GeometryFactoryAdaptor.fromJtsMultiPoint(
                 jtsGeometryFactory.createMultiPoint(
                         CoordinateSequenceFactoryAdaptor.toJtsCoordinateSequence(coordinates)));
@@ -233,6 +297,11 @@ public final class GeometryFactoryAdaptor
 
     @Override
     public MultiLineString createMultiLineString(LineString[] lineStrings) {
+        for (LineString lineString : lineStrings) {
+            if (lineString == null) {
+                throw new IllegalArgumentException("lineString has null");
+            }
+        }
         return GeometryFactoryAdaptor.fromJtsMultiLineString(
                 jtsGeometryFactory.createMultiLineString(
                         toJtsLineStringArray(lineStrings)));
@@ -240,152 +309,176 @@ public final class GeometryFactoryAdaptor
 
     @Override
     public MultiPolygon createMultiPolygon(Polygon[] polygons) {
+        for (Polygon polygon : polygons) {
+            if (polygon == null) {
+                throw new IllegalArgumentException("polygons has null");
+            }
+        }
         return GeometryFactoryAdaptor.fromJtsMultiPolygon(
                 jtsGeometryFactory.createMultiPolygon(
                         toJtsPolygonArray(polygons)));
     }
 
-    public com.vividsolutions.jts.geom.Geometry toJtsGeometry(Geometry geometry) {
+    /**
+     *
+     * @param geometry
+     * @return
+     * @throws IllegalArgumentException 若集合对象为{@link Geometry#NONE 空几何对象}，则抛出此异常
+     */
+    public org.locationtech.jts.geom.Geometry toJtsGeometry(@NotNull Geometry geometry)
+            throws IllegalArgumentException {
         return GeometryFactoryAdaptor.toJtsGeometry(jtsGeometryFactory, geometry);
     }
 
-    public com.vividsolutions.jts.geom.Geometry[] toJtsGeometryArray(Geometry[] geometries) {
+    public org.locationtech.jts.geom.Geometry[] toJtsGeometryArray(Geometry[] geometries) {
         return GeometryFactoryAdaptor.toJtsGeometryArray(jtsGeometryFactory, geometries);
     }
 
-    public com.vividsolutions.jts.geom.Point toJtsPoint(Point point) {
+    public org.locationtech.jts.geom.Point toJtsPoint(Point point) {
         return GeometryFactoryAdaptor.toJtsPoint(jtsGeometryFactory, point);
     }
 
-    public com.vividsolutions.jts.geom.Point[] toJtsPointArray(Point[] points) {
+    public org.locationtech.jts.geom.Point[] toJtsPointArray(Point[] points) {
         return GeometryFactoryAdaptor.toJtsPointArray(jtsGeometryFactory, points);
     }
 
-    public com.vividsolutions.jts.geom.LineString toJtsLineString(LineString lineString) {
+    public org.locationtech.jts.geom.LineString toJtsLineString(LineString lineString) {
         return GeometryFactoryAdaptor.toJtsLineString(jtsGeometryFactory, lineString);
     }
 
-    public com.vividsolutions.jts.geom.LineString[] toJtsLineStringArray(LineString[] lineStrings) {
+    public org.locationtech.jts.geom.LineString[] toJtsLineStringArray(LineString[] lineStrings) {
         return GeometryFactoryAdaptor.toJtsLineStringArray(jtsGeometryFactory, lineStrings);
     }
 
-    public com.vividsolutions.jts.geom.LinearRing toJtsLinearRing(LinearRing linearRing) {
+    public org.locationtech.jts.geom.LinearRing toJtsLinearRing(LinearRing linearRing) {
         return GeometryFactoryAdaptor.toJtsLinearRing(jtsGeometryFactory, linearRing);
     }
 
-    public com.vividsolutions.jts.geom.LinearRing[] toJtsLinearRingArray(LinearRing[] linearRings) {
+    public org.locationtech.jts.geom.LinearRing[] toJtsLinearRingArray(LinearRing[] linearRings) {
         return GeometryFactoryAdaptor.toJtsLinearRingArray(jtsGeometryFactory, linearRings);
     }
 
-    public com.vividsolutions.jts.geom.Polygon toJtsPolygon(Polygon polygon) {
+    public org.locationtech.jts.geom.Polygon toJtsPolygon(Polygon polygon) {
         return GeometryFactoryAdaptor.toJtsPolygon(jtsGeometryFactory, polygon);
     }
 
-    public com.vividsolutions.jts.geom.Polygon[] toJtsPolygonArray(Polygon[] polygons) {
+    public org.locationtech.jts.geom.Polygon[] toJtsPolygonArray(Polygon[] polygons) {
         return GeometryFactoryAdaptor.toJtsPolygonArray(jtsGeometryFactory, polygons);
     }
 
-    public com.vividsolutions.jts.geom.GeometryCollection toJtsGeometryCollection(GeometryCollection geometryCollection) {
+    public org.locationtech.jts.geom.GeometryCollection toJtsGeometryCollection(GeometryCollection geometryCollection) {
         return GeometryFactoryAdaptor.toJtsGeometryCollection(jtsGeometryFactory, geometryCollection);
     }
 
-    public com.vividsolutions.jts.geom.MultiPoint toJtsMultiPoint(MultiPoint multiPoint) {
+    public org.locationtech.jts.geom.MultiPoint toJtsMultiPoint(MultiPoint multiPoint) {
         return GeometryFactoryAdaptor.toJtsMultiPoint(jtsGeometryFactory, multiPoint);
     }
 
-    public com.vividsolutions.jts.geom.MultiLineString toJtsMultiLineString(MultiLineString multiLineString) {
+    public org.locationtech.jts.geom.MultiLineString toJtsMultiLineString(MultiLineString multiLineString) {
         return GeometryFactoryAdaptor.toJtsMultiLineString(jtsGeometryFactory, multiLineString);
     }
 
-    public com.vividsolutions.jts.geom.MultiPolygon toJtsMultiPolygon(MultiPolygon multiPolygon) {
+    public org.locationtech.jts.geom.MultiPolygon toJtsMultiPolygon(MultiPolygon multiPolygon) {
         return GeometryFactoryAdaptor.toJtsMultiPolygon(jtsGeometryFactory, multiPolygon);
     }
 
-    static public Geometry fromJtsGeometry(com.vividsolutions.jts.geom.Geometry jtsGeometry) {
+    static public Geometry fromJtsGeometry(org.locationtech.jts.geom.Geometry jtsGeometry) {
 
+        if (jtsGeometry == null) {
+            return Geometry.NONE;
+        }
         switch (JtsGeometryType.from(jtsGeometry)) {
             case Point:
-                return fromJtsPoint((com.vividsolutions.jts.geom.Point) jtsGeometry);
+                return fromJtsPoint((org.locationtech.jts.geom.Point) jtsGeometry);
             case LinearRing:
-                return fromJtsLinearRing((com.vividsolutions.jts.geom.LinearRing) jtsGeometry);
+                return fromJtsLinearRing((org.locationtech.jts.geom.LinearRing) jtsGeometry);
             case LineString:
-                return fromJtsLineString((com.vividsolutions.jts.geom.LineString) jtsGeometry);
+                return fromJtsLineString((org.locationtech.jts.geom.LineString) jtsGeometry);
             case Polygon:
-                return fromJtsPolygon((com.vividsolutions.jts.geom.Polygon) jtsGeometry);
+                return fromJtsPolygon((org.locationtech.jts.geom.Polygon) jtsGeometry);
             case MultiPoint:
-                return fromJtsMultiPoint((com.vividsolutions.jts.geom.MultiPoint) jtsGeometry);
+                return fromJtsMultiPoint((org.locationtech.jts.geom.MultiPoint) jtsGeometry);
             case MultiLineString:
-                return fromJtsMultiLineString((com.vividsolutions.jts.geom.MultiLineString) jtsGeometry);
+                return fromJtsMultiLineString((org.locationtech.jts.geom.MultiLineString) jtsGeometry);
             case MultiPolygon:
-                return fromJtsMultiPolygon((com.vividsolutions.jts.geom.MultiPolygon) jtsGeometry);
+                return fromJtsMultiPolygon((org.locationtech.jts.geom.MultiPolygon) jtsGeometry);
             case GeometryCollection:
-                return fromJtsGeometryCollection((com.vividsolutions.jts.geom.GeometryCollection) jtsGeometry);
+                return fromJtsGeometryCollection((org.locationtech.jts.geom.GeometryCollection) jtsGeometry);
         }
         return null;
     }
 
-    static public Point fromJtsPoint(com.vividsolutions.jts.geom.Point jtsPoint) {
+    static public Point fromJtsPoint(org.locationtech.jts.geom.Point jtsPoint) {
         return new PointAdaptor(jtsPoint);
     }
 
-    static public LineString fromJtsLineString(com.vividsolutions.jts.geom.LineString jtsLineString) {
+    static public LineString fromJtsLineString(org.locationtech.jts.geom.LineString jtsLineString) {
 
         switch (JtsGeometryType.from(jtsLineString)) {
             case LineString:
                 return new LineStringAdaptor(jtsLineString);
             case LinearRing:
-                return fromJtsLinearRing((com.vividsolutions.jts.geom.LinearRing) jtsLineString);
+                return fromJtsLinearRing((org.locationtech.jts.geom.LinearRing) jtsLineString);
         }
 
         return null;
     }
 
-    static public LinearRing fromJtsLinearRing(com.vividsolutions.jts.geom.LinearRing jtsLinearRing) {
+    static public LinearRing fromJtsLinearRing(org.locationtech.jts.geom.LinearRing jtsLinearRing) {
         return new LinearRingAdaptor(jtsLinearRing);
     }
 
-    static public Polygon fromJtsPolygon(com.vividsolutions.jts.geom.Polygon jtsPolygon) {
+    static public Polygon fromJtsPolygon(org.locationtech.jts.geom.Polygon jtsPolygon) {
         return new PolygonAdaptor(jtsPolygon);
     }
 
-    static public GeometryCollection fromJtsGeometryCollection(com.vividsolutions.jts.geom.GeometryCollection jtsGeometryCollection) {
+    static public GeometryCollection fromJtsGeometryCollection(org.locationtech.jts.geom.GeometryCollection jtsGeometryCollection) {
 
         switch (JtsGeometryType.from(jtsGeometryCollection)) {
             case GeometryCollection:
                 return new GeometryCollectionAdaptor(jtsGeometryCollection);
             case MultiPoint:
-                return GeometryFactoryAdaptor.fromJtsMultiPoint((com.vividsolutions.jts.geom.MultiPoint) jtsGeometryCollection);
+                return GeometryFactoryAdaptor.fromJtsMultiPoint((org.locationtech.jts.geom.MultiPoint) jtsGeometryCollection);
             case MultiLineString:
-                return GeometryFactoryAdaptor.fromJtsMultiLineString((com.vividsolutions.jts.geom.MultiLineString) jtsGeometryCollection);
+                return GeometryFactoryAdaptor.fromJtsMultiLineString((org.locationtech.jts.geom.MultiLineString) jtsGeometryCollection);
             case MultiPolygon:
-                return GeometryFactoryAdaptor.fromJtsMultiPolygon((com.vividsolutions.jts.geom.MultiPolygon) jtsGeometryCollection);
+                return GeometryFactoryAdaptor.fromJtsMultiPolygon((org.locationtech.jts.geom.MultiPolygon) jtsGeometryCollection);
         }
 
         return null;
     }
 
-    static public MultiPoint fromJtsMultiPoint(com.vividsolutions.jts.geom.MultiPoint jtsMultiPoint) {
+    static public MultiPoint fromJtsMultiPoint(org.locationtech.jts.geom.MultiPoint jtsMultiPoint) {
         return new MultiPointAdaptor(jtsMultiPoint);
     }
 
-    static public MultiLineString fromJtsMultiLineString(com.vividsolutions.jts.geom.MultiLineString jtsMultiLineString) {
+    static public MultiLineString fromJtsMultiLineString(org.locationtech.jts.geom.MultiLineString jtsMultiLineString) {
         return new MultiLineStringAdaptor(jtsMultiLineString);
     }
 
-    static public MultiPolygon fromJtsMultiPolygon(com.vividsolutions.jts.geom.MultiPolygon jtsMultiPolygon) {
+    static public MultiPolygon fromJtsMultiPolygon(org.locationtech.jts.geom.MultiPolygon jtsMultiPolygon) {
         return new MultiPolygonAdaptor(jtsMultiPolygon);
     }
 
-    static public com.vividsolutions.jts.geom.Envelope toJtsEnvelope(BoundingBox bbox) {
-        return new com.vividsolutions.jts.geom.Envelope(bbox.getMinX(), bbox.getMaxX(),
+    static public org.locationtech.jts.geom.Envelope toJtsEnvelope(BoundingBox bbox) {
+        return new org.locationtech.jts.geom.Envelope(bbox.getMinX(), bbox.getMaxX(),
                 bbox.getMinY(), bbox.getMaxY());
     }
 
-    static public com.vividsolutions.jts.geom.Geometry toJtsGeometry(
-            com.vividsolutions.jts.geom.GeometryFactory jtsGeometryFactory,
-            Geometry geometry) {
+    /**
+     *
+     * @param jtsGeometryFactory
+     * @param geometry
+     * @return
+     * @throws IllegalArgumentException 若集合对象为{@link Geometry#NONE 空几何对象}，则抛出此异常
+     */
+    static public org.locationtech.jts.geom.Geometry toJtsGeometry(
+            org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory,
+            Geometry geometry) throws IllegalArgumentException {
 
-        if (geometry instanceof AbstractGeometryAdaptor) {
+        if (geometry == Geometry.NONE) {
+            throw new IllegalArgumentException("geometry is NONE");
+        } else if (geometry instanceof AbstractGeometryAdaptor) {
             return ((AbstractGeometryAdaptor) geometry).getJts();
         }
         switch (geometry.getType()) {
@@ -409,12 +502,12 @@ public final class GeometryFactoryAdaptor
         return null;
     }
 
-    static public com.vividsolutions.jts.geom.Geometry[] toJtsGeometryArray(
-            com.vividsolutions.jts.geom.GeometryFactory jtsGeometryFactory,
+    static public org.locationtech.jts.geom.Geometry[] toJtsGeometryArray(
+            org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory,
             Geometry[] geometries) {
 
-        com.vividsolutions.jts.geom.Geometry[] jtsGeometries =
-                new com.vividsolutions.jts.geom.Geometry[geometries.length];
+        org.locationtech.jts.geom.Geometry[] jtsGeometries =
+                new org.locationtech.jts.geom.Geometry[geometries.length];
         for (int i = 0; i < geometries.length; i++) {
             jtsGeometries[i] = GeometryFactoryAdaptor.toJtsGeometry(jtsGeometryFactory, geometries[i]);
         }
@@ -422,8 +515,8 @@ public final class GeometryFactoryAdaptor
 
     }
 
-    static public com.vividsolutions.jts.geom.Point toJtsPoint(
-            com.vividsolutions.jts.geom.GeometryFactory jtsGeometryFactory,
+    static public org.locationtech.jts.geom.Point toJtsPoint(
+            org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory,
             Point point) {
 
         if (point instanceof PointAdaptor) {
@@ -434,12 +527,12 @@ public final class GeometryFactoryAdaptor
 
     }
 
-    static public com.vividsolutions.jts.geom.Point[] toJtsPointArray(
-            com.vividsolutions.jts.geom.GeometryFactory jtsGeometryFactory,
+    static public org.locationtech.jts.geom.Point[] toJtsPointArray(
+            org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory,
             Point[] points) {
 
-        com.vividsolutions.jts.geom.Point[] jtsPoints =
-                new com.vividsolutions.jts.geom.Point[points.length];
+        org.locationtech.jts.geom.Point[] jtsPoints =
+                new org.locationtech.jts.geom.Point[points.length];
         for (int i = 0; i < points.length; i++) {
             jtsPoints[i] = GeometryFactoryAdaptor.toJtsPoint(jtsGeometryFactory, points[i]);
         }
@@ -447,8 +540,8 @@ public final class GeometryFactoryAdaptor
 
     }
 
-    static public com.vividsolutions.jts.geom.LineString toJtsLineString(
-            com.vividsolutions.jts.geom.GeometryFactory jtsGeometryFactory,
+    static public org.locationtech.jts.geom.LineString toJtsLineString(
+            org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory,
             LineString lineString) {
 
         switch (lineString.getType()) {
@@ -469,12 +562,12 @@ public final class GeometryFactoryAdaptor
 
     }
 
-    static public com.vividsolutions.jts.geom.LineString[] toJtsLineStringArray(
-            com.vividsolutions.jts.geom.GeometryFactory jtsGeometryFactory,
+    static public org.locationtech.jts.geom.LineString[] toJtsLineStringArray(
+            org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory,
             LineString[] lineStrings) {
 
-        com.vividsolutions.jts.geom.LineString[] jtsLineStrings =
-                new com.vividsolutions.jts.geom.LineString[lineStrings.length];
+        org.locationtech.jts.geom.LineString[] jtsLineStrings =
+                new org.locationtech.jts.geom.LineString[lineStrings.length];
         for (int i = 0; i < lineStrings.length; i++) {
             jtsLineStrings[i] = GeometryFactoryAdaptor.toJtsLineString(jtsGeometryFactory, lineStrings[i]);
         }
@@ -482,8 +575,8 @@ public final class GeometryFactoryAdaptor
 
     }
 
-    static public com.vividsolutions.jts.geom.LinearRing toJtsLinearRing(
-            com.vividsolutions.jts.geom.GeometryFactory jtsGeometryFactory,
+    static public org.locationtech.jts.geom.LinearRing toJtsLinearRing(
+            org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory,
             LinearRing linearRing) {
     	if (linearRing == null) {
     		return null;
@@ -497,15 +590,12 @@ public final class GeometryFactoryAdaptor
 
     }
 
-    static public com.vividsolutions.jts.geom.LinearRing[] toJtsLinearRingArray(
-            com.vividsolutions.jts.geom.GeometryFactory jtsGeometryFactory,
+    static public org.locationtech.jts.geom.LinearRing[] toJtsLinearRingArray(
+            org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory,
             LinearRing[] linearRings) {
 
-    	if (linearRings == null) {
-    		return null;
-    	}
-        com.vividsolutions.jts.geom.LinearRing[] jtsLinearRings =
-                new com.vividsolutions.jts.geom.LinearRing[linearRings.length];
+        org.locationtech.jts.geom.LinearRing[] jtsLinearRings =
+                new org.locationtech.jts.geom.LinearRing[linearRings.length];
         for (int i = 0; i < linearRings.length; i++) {
             jtsLinearRings[i] = GeometryFactoryAdaptor.toJtsLinearRing(jtsGeometryFactory, linearRings[i]);
         }
@@ -513,17 +603,17 @@ public final class GeometryFactoryAdaptor
 
     }
 
-    static public com.vividsolutions.jts.geom.Polygon toJtsPolygon(
-            com.vividsolutions.jts.geom.GeometryFactory jtsGeometryFactory,
+    static public org.locationtech.jts.geom.Polygon toJtsPolygon(
+            org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory,
             Polygon polygon) {
 
         if (polygon instanceof PolygonAdaptor) {
             return ((PolygonAdaptor) polygon).getJts();
         }
 
-        com.vividsolutions.jts.geom.LinearRing[] holes = null;
+        org.locationtech.jts.geom.LinearRing[] holes = null;
         if (polygon.getInteriorRingSize() > 0) {
-            holes = new com.vividsolutions.jts.geom.LinearRing[polygon.getInteriorRingSize()];
+            holes = new org.locationtech.jts.geom.LinearRing[polygon.getInteriorRingSize()];
             for (int i = 0; i < holes.length; i++) {
                 holes[i] = GeometryFactoryAdaptor.toJtsLinearRing(
                         jtsGeometryFactory,
@@ -537,12 +627,12 @@ public final class GeometryFactoryAdaptor
                 holes);
     }
 
-    static public com.vividsolutions.jts.geom.Polygon[] toJtsPolygonArray(
-            com.vividsolutions.jts.geom.GeometryFactory jtsGeometryFactory,
+    static public org.locationtech.jts.geom.Polygon[] toJtsPolygonArray(
+            org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory,
             Polygon[] polygons) {
 
-        com.vividsolutions.jts.geom.Polygon[] jtsPolygons =
-                new com.vividsolutions.jts.geom.Polygon[polygons.length];
+        org.locationtech.jts.geom.Polygon[] jtsPolygons =
+                new org.locationtech.jts.geom.Polygon[polygons.length];
         for (int i = 0; i < polygons.length; i++) {
             jtsPolygons[i] = GeometryFactoryAdaptor.toJtsPolygon(jtsGeometryFactory, polygons[i]);
         }
@@ -550,8 +640,8 @@ public final class GeometryFactoryAdaptor
 
     }
 
-    static public com.vividsolutions.jts.geom.GeometryCollection toJtsGeometryCollection(
-            com.vividsolutions.jts.geom.GeometryFactory jtsGeometryFactory,
+    static public org.locationtech.jts.geom.GeometryCollection toJtsGeometryCollection(
+            org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory,
             GeometryCollection geometryCollection) {
 
         switch (geometryCollection.getType()) {
@@ -561,8 +651,8 @@ public final class GeometryFactoryAdaptor
                     return ((GeometryCollectionAdaptor) geometryCollection).getJts();
                 }
 
-                com.vividsolutions.jts.geom.Geometry[] jtsGeometries
-                        = new com.vividsolutions.jts.geom.Geometry[geometryCollection.size()];
+                org.locationtech.jts.geom.Geometry[] jtsGeometries
+                        = new org.locationtech.jts.geom.Geometry[geometryCollection.size()];
                 for (int i = 0; i < jtsGeometries.length; i++) {
                     jtsGeometries[i] = GeometryFactoryAdaptor.toJtsGeometry(
                             jtsGeometryFactory, geometryCollection.getGeometryAt(i));
@@ -581,16 +671,16 @@ public final class GeometryFactoryAdaptor
 
     }
 
-    static public com.vividsolutions.jts.geom.MultiPoint toJtsMultiPoint(
-            com.vividsolutions.jts.geom.GeometryFactory jtsGeometryFactory,
+    static public org.locationtech.jts.geom.MultiPoint toJtsMultiPoint(
+            org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory,
             MultiPoint multiPoint) {
 
         if (multiPoint instanceof MultiPointAdaptor) {
             return ((MultiPointAdaptor) multiPoint).getJts();
         }
 
-        com.vividsolutions.jts.geom.Point[] jtsPoints
-                = new com.vividsolutions.jts.geom.Point[multiPoint.size()];
+        org.locationtech.jts.geom.Point[] jtsPoints
+                = new org.locationtech.jts.geom.Point[multiPoint.size()];
         for (int i = 0; i < jtsPoints.length; i++) {
             jtsPoints[i] = GeometryFactoryAdaptor.toJtsPoint(
                     jtsGeometryFactory, multiPoint.getPointAt(i));
@@ -599,16 +689,16 @@ public final class GeometryFactoryAdaptor
         return jtsGeometryFactory.createMultiPoint(jtsPoints);
     }
 
-    static public com.vividsolutions.jts.geom.MultiLineString toJtsMultiLineString(
-            com.vividsolutions.jts.geom.GeometryFactory jtsGeometryFactory,
+    static public org.locationtech.jts.geom.MultiLineString toJtsMultiLineString(
+            org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory,
             MultiLineString multiLineString) {
 
         if (multiLineString instanceof MultiLineStringAdaptor) {
             return ((MultiLineStringAdaptor) multiLineString).getJts();
         }
 
-        com.vividsolutions.jts.geom.LineString[] jtsLineStrings
-                = new com.vividsolutions.jts.geom.LineString[multiLineString.size()];
+        org.locationtech.jts.geom.LineString[] jtsLineStrings
+                = new org.locationtech.jts.geom.LineString[multiLineString.size()];
         for (int i = 0; i < jtsLineStrings.length; i++) {
             jtsLineStrings[i] = GeometryFactoryAdaptor.toJtsLineString(
                     jtsGeometryFactory, multiLineString.getLineStringAt(i));
@@ -617,16 +707,16 @@ public final class GeometryFactoryAdaptor
         return jtsGeometryFactory.createMultiLineString(jtsLineStrings);
     }
 
-    static public com.vividsolutions.jts.geom.MultiPolygon toJtsMultiPolygon(
-            com.vividsolutions.jts.geom.GeometryFactory jtsGeometryFactory,
+    static public org.locationtech.jts.geom.MultiPolygon toJtsMultiPolygon(
+            org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory,
             MultiPolygon multiPolygon) {
 
         if (multiPolygon instanceof MultiPolygonAdaptor) {
             return ((MultiPolygonAdaptor) multiPolygon).getJts();
         }
 
-        com.vividsolutions.jts.geom.Polygon[] jtsPolygons
-                = new com.vividsolutions.jts.geom.Polygon[multiPolygon.size()];
+        org.locationtech.jts.geom.Polygon[] jtsPolygons
+                = new org.locationtech.jts.geom.Polygon[multiPolygon.size()];
         for (int i = 0; i < jtsPolygons.length; i++) {
             jtsPolygons[i] = GeometryFactoryAdaptor.toJtsPolygon(
                     jtsGeometryFactory, multiPolygon.getPolygonAt(i));

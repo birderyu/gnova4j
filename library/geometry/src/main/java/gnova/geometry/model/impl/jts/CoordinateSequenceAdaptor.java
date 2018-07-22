@@ -10,9 +10,9 @@ import gnova.geometry.model.CoordinateSequence;
 final class CoordinateSequenceAdaptor
         implements CoordinateSequence {
 
-    private com.vividsolutions.jts.geom.CoordinateSequence jtsCoordinateSequence;
+    private org.locationtech.jts.geom.CoordinateSequence jtsCoordinateSequence;
 
-    public CoordinateSequenceAdaptor(com.vividsolutions.jts.geom.CoordinateSequence jtsCoordinateSequence) {
+    public CoordinateSequenceAdaptor(org.locationtech.jts.geom.CoordinateSequence jtsCoordinateSequence) {
         this.jtsCoordinateSequence = jtsCoordinateSequence;
     }
 
@@ -23,7 +23,8 @@ final class CoordinateSequenceAdaptor
 
     @Override
     public Coordinate getCoordinateAt(int n) {
-        return CoordinateSequenceFactoryAdaptor.fromJtsCoordinate(jtsCoordinateSequence.getCoordinate(n));
+        org.locationtech.jts.geom.Coordinate jtsCoordinate = jtsCoordinateSequence.getCoordinate(n);
+        return new Coordinate(jtsCoordinate.x, jtsCoordinate.y, jtsCoordinate.z);
     }
 
     @Override
@@ -38,7 +39,7 @@ final class CoordinateSequenceAdaptor
 
     @Override
     public double getZAt(int n) {
-        com.vividsolutions.jts.geom.Coordinate jtsCoordinate = jtsCoordinateSequence.getCoordinate(n);
+        org.locationtech.jts.geom.Coordinate jtsCoordinate = jtsCoordinateSequence.getCoordinate(n);
         return jtsCoordinate.z;
     }
 
@@ -59,25 +60,25 @@ final class CoordinateSequenceAdaptor
 
     @Override
     public BoundingBox getBoundingBox() {
-        com.vividsolutions.jts.geom.Envelope envelope
-                = jtsCoordinateSequence.expandEnvelope(new com.vividsolutions.jts.geom.Envelope());
+        org.locationtech.jts.geom.Envelope envelope
+                = jtsCoordinateSequence.expandEnvelope(new org.locationtech.jts.geom.Envelope());
         return new BoundingBox(envelope.getMinX(), envelope.getMaxX(),
                 envelope.getMinY(), envelope.getMaxY());
     }
 
     @Override
     public Coordinate[] toArray() {
-        Coordinate[] coords = new Coordinate[jtsCoordinateSequence.size()];
+        Coordinate[] coordinates = new Coordinate[jtsCoordinateSequence.size()];
         for (int i = 0; i < jtsCoordinateSequence.size(); i++) {
-            coords[i] = CoordinateSequenceFactoryAdaptor.fromJtsCoordinate(jtsCoordinateSequence.getCoordinate(i));
+            org.locationtech.jts.geom.Coordinate jtsCoordinate = jtsCoordinateSequence.getCoordinate(i);
+            coordinates[i] = new Coordinate(jtsCoordinate.x, jtsCoordinate.y, jtsCoordinate.z);
         }
-        return coords;
+        return coordinates;
     }
 
     @Override
     public CoordinateSequence clone() {
-        return new CoordinateSequenceAdaptor((com.vividsolutions.jts.geom.CoordinateSequence)
-                jtsCoordinateSequence.clone());
+        return new CoordinateSequenceAdaptor(jtsCoordinateSequence.copy());
     }
 
     @Override
@@ -85,7 +86,7 @@ final class CoordinateSequenceAdaptor
         return jtsCoordinateSequence.toString();
     }
 
-    public com.vividsolutions.jts.geom.CoordinateSequence getJtsCoordinateSequence() {
+    public org.locationtech.jts.geom.CoordinateSequence getJtsCoordinateSequence() {
         return jtsCoordinateSequence;
     }
 

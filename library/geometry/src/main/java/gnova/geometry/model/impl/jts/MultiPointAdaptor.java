@@ -1,5 +1,7 @@
 package gnova.geometry.model.impl.jts;
 
+import gnova.core.annotation.NotNull;
+import gnova.geometry.model.Geometry;
 import gnova.geometry.model.MultiPoint;
 import gnova.geometry.model.Point;
 
@@ -9,13 +11,19 @@ import gnova.geometry.model.Point;
 final class MultiPointAdaptor
         extends GeometryCollectionAdaptor<Point> implements MultiPoint {
 
-    public MultiPointAdaptor(com.vividsolutions.jts.geom.MultiPoint jtsMultiPoint) {
+    public MultiPointAdaptor(org.locationtech.jts.geom.MultiPoint jtsMultiPoint) {
         super(jtsMultiPoint);
     }
 
     @Override
-    public com.vividsolutions.jts.geom.MultiPoint getJts() {
-        return (com.vividsolutions.jts.geom.MultiPoint) super.getJts();
+    public org.locationtech.jts.geom.MultiPoint getJts() {
+        return (org.locationtech.jts.geom.MultiPoint) super.getJts();
+    }
+
+    @Override
+    @NotNull
+    public Geometry getBoundary() {
+        return NONE;
     }
 
     @Override

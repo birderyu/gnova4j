@@ -1,5 +1,6 @@
 package gnova.geometry.model.impl.jts;
 
+import gnova.core.annotation.NotNull;
 import gnova.geometry.model.*;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.List;
 class GeometryCollectionAdaptor<G extends Geometry>
     extends AbstractGeometryAdaptor implements GeometryCollection<G> {
 
-    public GeometryCollectionAdaptor(com.vividsolutions.jts.geom.GeometryCollection jtsGeometryCollection) {
+    public GeometryCollectionAdaptor(org.locationtech.jts.geom.GeometryCollection jtsGeometryCollection) {
         super(jtsGeometryCollection);
     }
 
@@ -32,6 +33,52 @@ class GeometryCollectionAdaptor<G extends Geometry>
     }
 
     @Override
+    @NotNull
+    public Geometry getBoundary() {
+        switch (getType()) {
+            case GeometryCollection: {
+                List<Geometry> geometries = new ArrayList<>();
+                if (!getGeometryFromJtsGeometryCollection(getJts(), geometries)
+                        || geometries.isEmpty()) {
+                    return NONE;
+                }
+                if (geometries.size() == 1) {
+                    return geometries.get(0).getBoundary();
+                } else {
+                    switch (geometries.get(0).getType()) {
+                        case LineString:
+                        case LinearRing: {
+                            LineString[] lineStrings = new LineString[geometries.size()];
+                            int index = 0;
+                            for (Geometry geometry : geometries) {
+                                lineStrings[index++] = (LineString) geometry;
+                            }
+                            MultiLineString mls = getFactory().createMultiLineString(lineStrings);
+                            return mls.getBoundary();
+                        }
+                        case Polygon: {
+                            Polygon[] polygons = new Polygon[geometries.size()];
+                            int index = 0;
+                            for (Geometry geometry : geometries) {
+                                polygons[index++] = (Polygon) geometry;
+                            }
+                            MultiPolygon mp = getFactory().createMultiPolygon(polygons);
+                            return mp.getBoundary();
+                        }
+                    }
+                    return NONE;
+                }
+            }
+            case MultiPoint:
+                return NONE;
+            case MultiLineString:
+            case MultiPolygon:
+                return getFactory().fromJtsGeometry(getJts().getBoundary());
+        }
+        return NONE;
+    }
+
+    @Override
     public Geometry union() {
         return getFactory().fromJtsGeometry(getJts().union());
     }
@@ -46,13 +93,13 @@ class GeometryCollectionAdaptor<G extends Geometry>
         }
 
         // 获取集合中的所有线串
-        List<com.vividsolutions.jts.geom.LineString> jtsLineStrings
+        List<org.locationtech.jts.geom.LineString> jtsLineStrings
                 = new ArrayList<>();
-        getLineStringFromJtsGeometryCollection(getJts(), jtsLineStrings);
+        getJtsLineStringFromJtsGeometryCollection(getJts(), jtsLineStrings);
 
         // 构造线合并器
-        com.vividsolutions.jts.operation.linemerge.LineMerger lineMerger
-                = new com.vividsolutions.jts.operation.linemerge.LineMerger();
+        org.locationtech.jts.operation.linemerge.LineMerger lineMerger
+                = new org.locationtech.jts.operation.linemerge.LineMerger();
         lineMerger.add(jtsLineStrings);
         Collection jtsMergedLineStrings = lineMerger.getMergedLineStrings();
 
@@ -63,9 +110,9 @@ class GeometryCollectionAdaptor<G extends Geometry>
 
         List<LineString> lineStrings = new ArrayList<>();
         for (Object object : jtsMergedLineStrings) {
-            if (object instanceof com.vividsolutions.jts.geom.LineString) {
+            if (object instanceof org.locationtech.jts.geom.LineString) {
                 lineStrings.add(new LineStringAdaptor(
-                        (com.vividsolutions.jts.geom.LineString) object));
+                        (org.locationtech.jts.geom.LineString) object));
             }
         }
         if (lineStrings.isEmpty()) {
@@ -86,13 +133,13 @@ class GeometryCollectionAdaptor<G extends Geometry>
         }
 
         // 获取集合中的所有线串
-        List<com.vividsolutions.jts.geom.LineString> jtsLineStrings
+        List<org.locationtech.jts.geom.LineString> jtsLineStrings
                 = new ArrayList<>();
-        getLineStringFromJtsGeometryCollection(getJts(), jtsLineStrings);
+        getJtsLineStringFromJtsGeometryCollection(getJts(), jtsLineStrings);
 
         // 构造多变化器
-        com.vividsolutions.jts.operation.polygonize.Polygonizer polygonizer
-                = new com.vividsolutions.jts.operation.polygonize.Polygonizer();
+        org.locationtech.jts.operation.polygonize.Polygonizer polygonizer
+                = new org.locationtech.jts.operation.polygonize.Polygonizer();
         polygonizer.add(jtsLineStrings);
         Collection jtsPolygonizePolygons = polygonizer.getPolygons();
 
@@ -103,9 +150,9 @@ class GeometryCollectionAdaptor<G extends Geometry>
 
         List<Polygon> polygons = new ArrayList<>();
         for (Object object : jtsPolygonizePolygons) {
-            if (object instanceof com.vividsolutions.jts.geom.Polygon) {
+            if (object instanceof org.locationtech.jts.geom.Polygon) {
                 polygons.add(new PolygonAdaptor(
-                        (com.vividsolutions.jts.geom.Polygon) object));
+                        (org.locationtech.jts.geom.Polygon) object));
             }
         }
         if (polygons.isEmpty()) {
@@ -118,8 +165,8 @@ class GeometryCollectionAdaptor<G extends Geometry>
     }
 
     @Override
-    public com.vividsolutions.jts.geom.GeometryCollection getJts() {
-        return (com.vividsolutions.jts.geom.GeometryCollection) super.getJts();
+    public org.locationtech.jts.geom.GeometryCollection getJts() {
+        return (org.locationtech.jts.geom.GeometryCollection) super.getJts();
     }
 
     @Override
@@ -143,24 +190,24 @@ class GeometryCollectionAdaptor<G extends Geometry>
      * @param jtsGeometryCollection
      * @param jtsLineStrings
      */
-    private void getLineStringFromJtsGeometryCollection(
-            com.vividsolutions.jts.geom.GeometryCollection jtsGeometryCollection,
-            List<com.vividsolutions.jts.geom.LineString> jtsLineStrings) {
+    private void getJtsLineStringFromJtsGeometryCollection(
+            org.locationtech.jts.geom.GeometryCollection jtsGeometryCollection,
+            List<org.locationtech.jts.geom.LineString> jtsLineStrings) {
 
         int size = jtsGeometryCollection.getNumGeometries();
 
         for (int i = 0; i < size; i++) {
 
-            com.vividsolutions.jts.geom.Geometry jtsGeometry = jtsGeometryCollection.getGeometryN(i);
-            if (jtsGeometry instanceof com.vividsolutions.jts.geom.LineString) {
+            org.locationtech.jts.geom.Geometry jtsGeometry = jtsGeometryCollection.getGeometryN(i);
+            if (jtsGeometry instanceof org.locationtech.jts.geom.LineString) {
 
-                jtsLineStrings.add((com.vividsolutions.jts.geom.LineString) jtsGeometry);
+                jtsLineStrings.add((org.locationtech.jts.geom.LineString) jtsGeometry);
 
-            } else if (jtsGeometry instanceof com.vividsolutions.jts.geom.MultiLineString
-                    || jtsGeometry instanceof com.vividsolutions.jts.geom.GeometryCollection) {
+            } else if (jtsGeometry instanceof org.locationtech.jts.geom.MultiLineString
+                    || jtsGeometry instanceof org.locationtech.jts.geom.GeometryCollection) {
 
-                getLineStringFromJtsGeometryCollection(
-                        (com.vividsolutions.jts.geom.GeometryCollection) jtsGeometry,
+                getJtsLineStringFromJtsGeometryCollection(
+                        (org.locationtech.jts.geom.GeometryCollection) jtsGeometry,
                         jtsLineStrings
                 );
 
@@ -170,4 +217,75 @@ class GeometryCollectionAdaptor<G extends Geometry>
 
     }
 
+    /**
+     * 若集合中的所有集合对象都是一致的，则将其添加到geometries中并返回true，否则返回false
+     * @param jtsGeometryCollection 几何集合对象
+     * @param geometries
+     * @return
+     */
+    private boolean getGeometryFromJtsGeometryCollection(
+            org.locationtech.jts.geom.GeometryCollection jtsGeometryCollection,
+            List<Geometry> geometries) {
+
+        int size = jtsGeometryCollection.getNumGeometries();
+
+        for (int i = 0; i < size; i++) {
+
+            org.locationtech.jts.geom.Geometry jtsGeometry = jtsGeometryCollection.getGeometryN(i);
+            Geometry geometry = getFactory().fromJtsGeometry(jtsGeometry);
+            GeometryType gt = geometry.getType();
+            switch (gt) {
+                case None:
+                    throw new IllegalArgumentException("there is a null or NONE in GeometryCollection");
+                case Point:
+                case LineString:
+                case LinearRing:
+                case Polygon:
+                    if (!geometries.isEmpty() && geometries.get(0).getType() != gt) {
+                        return false;
+                    } else {
+                        geometries.add(geometry);
+                    }
+                    break;
+                case MultiPoint:
+                    if (!geometries.isEmpty() && geometries.get(0).getType() != GeometryType.Point) {
+                        return false;
+                    } else {
+                        MultiPoint mp = (MultiPoint) geometry;
+                        for (Point p : mp) {
+                            geometries.add(p);
+                        }
+                    }
+                    break;
+                case MultiLineString:
+                    if (!geometries.isEmpty() && geometries.get(0).getType() != GeometryType.LineString) {
+                        return false;
+                    } else {
+                        MultiLineString mls = (MultiLineString) geometry;
+                        for (LineString ls : mls) {
+                            geometries.add(ls);
+                        }
+                    }
+                    break;
+                case MultiPolygon:
+                    if (!geometries.isEmpty() && geometries.get(0).getType() != GeometryType.Polygon) {
+                        return false;
+                    } else {
+                        MultiPolygon mp = (MultiPolygon) geometry;
+                        for (Polygon p : mp) {
+                            geometries.add(p);
+                        }
+                    }
+                    break;
+                case GeometryCollection:
+                    GeometryCollection gc = (GeometryCollection) geometry;
+                    if (!getGeometryFromJtsGeometryCollection(
+                            getFactory().toJtsGeometryCollection(gc),
+                            geometries)) {
+                        return false;
+                    }
+            }
+        }
+        return true;
+    }
 }

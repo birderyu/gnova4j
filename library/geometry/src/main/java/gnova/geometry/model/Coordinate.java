@@ -217,9 +217,6 @@ public final class Coordinate
      * @return 距离值
      */
     public double distance3D(@NotNull Coordinate c) {
-        if (!hasZ() || !c.hasZ()) {
-            return distance2D(c);
-        }
         double dx = x - c.x;
         double dy = y - c.y;
         double dz = z - c.z;
@@ -235,6 +232,9 @@ public final class Coordinate
      * @return 距离值
      */
     public double distance(@NotNull Coordinate c) {
+        if (!hasZ() || !c.hasZ()) {
+            return distance2D(c);
+        }
         return distance3D(c);
     }
 
@@ -247,6 +247,11 @@ public final class Coordinate
      * @return 若在二维平面上相等，则返回true，否则返回false
      */
     public boolean equals2D(@NotNull Coordinate c) {
+        if (this == c) {
+            return true;
+        } else if (this == NONE || c == NONE) {
+            return false;
+        }
         return Double.compare(x, c.x) == 0 &&
                 Double.compare(y, c.y) == 0;
     }
@@ -261,6 +266,11 @@ public final class Coordinate
      * @return 若在二维平面上相等，则返回true，否则返回false
      */
     public boolean equals2D(@NotNull Coordinate c, double tolerance) {
+        if (this == c) {
+            return true;
+        } else if (this == NONE || c == NONE) {
+            return false;
+        }
         return Equals.doubleEquals(x, c.x, tolerance) &&
                 Equals.doubleEquals(y, c.y, tolerance);
     }
@@ -274,6 +284,11 @@ public final class Coordinate
      * @return 若在三维空间上相等，则返回true，否则返回false
      */
     public boolean equals3D(@NotNull Coordinate c) {
+        if (this == c) {
+            return true;
+        } else if (this == NONE || c == NONE) {
+            return false;
+        }
         return Double.compare(x, c.x) == 0 &&
                 Double.compare(y, c.y) == 0 &&
                 ((!hasZ() && !c.hasZ()) || Double.compare(z, c.z) == 0);
@@ -289,6 +304,11 @@ public final class Coordinate
      * @return 若在三维空间上相等，则返回true，否则返回false
      */
     public boolean equals3D(@NotNull Coordinate c, double tolerance) {
+        if (this == c) {
+            return true;
+        } else if (this == NONE || c == NONE) {
+            return false;
+        }
         return Equals.doubleEquals(x, c.x, tolerance) &&
                 Equals.doubleEquals(y, c.y, tolerance) &&
                 ((!hasZ() && !c.hasZ()) || Equals.doubleEquals(z, c.z, tolerance));
@@ -303,6 +323,11 @@ public final class Coordinate
      * @return 若相等，则返回true，否则返回false
      */
     public boolean equals(@NotNull Coordinate c) {
+        if (this == c) {
+            return true;
+        } else if (this == NONE || c == NONE) {
+            return false;
+        }
         return Double.compare(x, c.x) == 0 &&
                 Double.compare(y, c.y) == 0 &&
                 ((!hasZ() && !c.hasZ()) || Double.compare(z, c.z) == 0) &&
@@ -319,6 +344,11 @@ public final class Coordinate
      * @return 若相等，则返回true，否则返回false
      */
     public boolean equals(@NotNull Coordinate c, double tolerance) {
+        if (this == c) {
+            return true;
+        } else if (this == NONE || c == NONE) {
+            return false;
+        }
         return Equals.doubleEquals(x, c.x, tolerance) &&
                 Equals.doubleEquals(y, c.y, tolerance) &&
                 ((!hasZ() && !c.hasZ()) || Equals.doubleEquals(z, c.z, tolerance)) &&

@@ -1,5 +1,7 @@
 package gnova.geometry.model.impl.jts;
 
+import gnova.core.annotation.NotNull;
+import gnova.geometry.model.Geometry;
 import gnova.geometry.model.MultiPolygon;
 import gnova.geometry.model.Polygon;
 
@@ -9,18 +11,24 @@ import gnova.geometry.model.Polygon;
 final class MultiPolygonAdaptor
         extends GeometryCollectionAdaptor<Polygon> implements MultiPolygon {
 
-    public MultiPolygonAdaptor(com.vividsolutions.jts.geom.MultiPolygon jtsMultiPolygon) {
+    public MultiPolygonAdaptor(org.locationtech.jts.geom.MultiPolygon jtsMultiPolygon) {
         super(jtsMultiPolygon);
     }
 
     @Override
-    public com.vividsolutions.jts.geom.MultiPolygon getJts() {
-        return (com.vividsolutions.jts.geom.MultiPolygon) super.getJts();
+    public org.locationtech.jts.geom.MultiPolygon getJts() {
+        return (org.locationtech.jts.geom.MultiPolygon) super.getJts();
     }
 
     @Override
     public double getArea() {
         return getJts().getArea();
+    }
+
+    @Override
+    @NotNull
+    public Geometry getBoundary() {
+        return getFactory().fromJtsGeometry(getJts().getBoundary());
     }
 
     @Override

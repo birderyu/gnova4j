@@ -14,9 +14,9 @@ public final class GeometryIndexFactoryAdaptor
             case Unknown:
                 throw new IllegalArgumentException("不支持的索引类型：" + type);
             case QTree:
-                return new GeometryIndexAdaptor<>(new com.vividsolutions.jts.index.quadtree.Quadtree());
+                return new GeometryIndexAdaptor<>(new org.locationtech.jts.index.quadtree.Quadtree());
             case RTree:
-                return new GeometryIndexAdaptor<>(new com.vividsolutions.jts.index.strtree.STRtree());
+                return new GeometryIndexAdaptor<>(new org.locationtech.jts.index.strtree.STRtree());
         }
         throw new IllegalArgumentException("不支持的索引类型：" + type);
     }

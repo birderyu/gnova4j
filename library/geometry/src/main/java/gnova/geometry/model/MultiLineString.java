@@ -1,6 +1,7 @@
 package gnova.geometry.model;
 
 import gnova.core.annotation.NotNull;
+import gnova.geometry.model.operator.LinearOperator;
 import gnova.geometry.model.pattern.Lineal;
 import gnova.core.ReadOnlyIterator;
 
@@ -13,7 +14,7 @@ import java.util.Iterator;
  * @date 2017/6/21
  */
 public interface MultiLineString
-    extends GeometryCollection<LineString>, Lineal {
+    extends GeometryCollection<LineString>, Lineal, LinearOperator<MultiLineString> {
 
     default boolean isClosed() {
         if (isEmpty()) {
@@ -46,6 +47,11 @@ public interface MultiLineString
     @Override
     default int getDimension() {
         return Lineal.DIMENSION;
+    }
+
+    @Override
+    default double getEndLength() {
+        return getLength();
     }
 
     @Override

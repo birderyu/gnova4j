@@ -8,13 +8,13 @@ import gnova.geometry.model.LinearRing;
 final class LinearRingAdaptor
         extends LineStringAdaptor implements LinearRing {
 
-    public LinearRingAdaptor(com.vividsolutions.jts.geom.LinearRing jtsLinearRing) {
+    public LinearRingAdaptor(org.locationtech.jts.geom.LinearRing jtsLinearRing) {
         super(jtsLinearRing);
     }
 
     @Override
-    public com.vividsolutions.jts.geom.LinearRing getJts() {
-        return (com.vividsolutions.jts.geom.LinearRing) super.getJts();
+    public org.locationtech.jts.geom.LinearRing getJts() {
+        return (org.locationtech.jts.geom.LinearRing) super.getJts();
     }
 
     @Override

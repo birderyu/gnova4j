@@ -1,6 +1,8 @@
 package gnova.geometry.model.impl.jts;
 
+import gnova.core.annotation.NotNull;
 import gnova.geometry.model.Coordinate;
+import gnova.geometry.model.Geometry;
 import gnova.geometry.model.GeometryType;
 import gnova.geometry.model.Point;
 
@@ -10,7 +12,7 @@ import gnova.geometry.model.Point;
 final class PointAdaptor
         extends AbstractGeometryAdaptor implements Point {
 
-    public PointAdaptor(com.vividsolutions.jts.geom.Point jtsPoint) {
+    public PointAdaptor(org.locationtech.jts.geom.Point jtsPoint) {
         super(jtsPoint);
     }
 
@@ -31,7 +33,17 @@ final class PointAdaptor
 
     @Override
     public Coordinate getCoordinate() {
-        return CoordinateSequenceFactoryAdaptor.fromJtsCoordinate(getJts().getCoordinate());
+        org.locationtech.jts.geom.Coordinate jtsCoordinate = getJts().getCoordinate();
+        if (jtsCoordinate == null) {
+            return Coordinate.NONE;
+        }
+        return new Coordinate(jtsCoordinate.x, jtsCoordinate.y, jtsCoordinate.z);
+    }
+
+    @Override
+    @NotNull
+    public Geometry getBoundary() {
+        return NONE;
     }
 
     @Override
@@ -50,8 +62,8 @@ final class PointAdaptor
     }
 
     @Override
-    public com.vividsolutions.jts.geom.Point getJts() {
-        return (com.vividsolutions.jts.geom.Point) super.getJts();
+    public org.locationtech.jts.geom.Point getJts() {
+        return (org.locationtech.jts.geom.Point) super.getJts();
     }
 
 }

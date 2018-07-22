@@ -1,6 +1,7 @@
 package gnova.geometry.model;
 
 import gnova.core.annotation.Immutable;
+import gnova.geometry.model.operator.LinearOperator;
 import gnova.geometry.model.pattern.Lineal;
 import gnova.core.ReadOnlyCollection;
 import gnova.core.ReadOnlyIterator;
@@ -21,7 +22,7 @@ import gnova.core.ReadOnlyIterator;
  */
 @Immutable
 public interface LineString
-        extends Geometry, Lineal, ReadOnlyCollection<Point> {
+        extends Geometry, Lineal, ReadOnlyCollection<Point>, LinearOperator<LineString> {
 
     /**
      * 获取线串中点坐标的个数
@@ -70,7 +71,10 @@ public interface LineString
         return isClosed() && isSimple();
     }
 
-    Geometry extract(int start, int end);
+    @Override
+    default double getEndLength() {
+        return getLength();
+    }
 
     @Override
     default GeometryType getType() {

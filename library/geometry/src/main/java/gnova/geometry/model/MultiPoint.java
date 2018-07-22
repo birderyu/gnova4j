@@ -24,6 +24,7 @@ public interface MultiPoint
     }
 
     @Override
+    @NotNull
     default GeometryType getType() {
         return GeometryType.MultiPoint;
     }
@@ -31,6 +32,12 @@ public interface MultiPoint
     @Override
     default int getDimension() {
         return Puntal.DIMENSION;
+    }
+
+    @Override
+    @NotNull
+    default Geometry getBoundary() {
+        return NONE;
     }
 
     @Override

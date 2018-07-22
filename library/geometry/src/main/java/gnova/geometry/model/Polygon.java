@@ -38,7 +38,9 @@ public interface Polygon
 
     int getInteriorRingSize();
 
-    LinearRing getInteriorRingAt(int n);
+    LinearRing getInteriorRingAt(int n) throws ArrayIndexOutOfBoundsException;
+
+    boolean isRectangle();
 
     @Override
     default GeometryType getType() {

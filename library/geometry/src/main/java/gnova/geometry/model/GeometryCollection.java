@@ -1,6 +1,7 @@
 package gnova.geometry.model;
 
 import gnova.core.annotation.Immutable;
+import gnova.core.annotation.NotNull;
 import gnova.geometry.model.operator.CollectionOperator;
 import gnova.core.ReadOnlyCollection;
 import gnova.core.ReadOnlyIterator;
@@ -17,7 +18,7 @@ public interface GeometryCollection<G extends Geometry>
     @Override
     int size();
 
-    G getGeometryAt(int n);
+    G getGeometryAt(int n) throws ArrayIndexOutOfBoundsException;
 
     @Override
     default GeometryType getType() {

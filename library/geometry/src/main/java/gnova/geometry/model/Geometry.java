@@ -2,9 +2,7 @@ package gnova.geometry.model;
 
 import gnova.core.annotation.Immutable;
 import gnova.core.annotation.NotNull;
-import gnova.geometry.model.FactoryFinder;
-import gnova.geometry.model.GeometryFactory;
-import gnova.geometry.json.GeometryJSON;
+import gnova.geometry.model.operator.AffineOperator;
 import gnova.geometry.model.operator.ProximityOperator;
 import gnova.geometry.model.operator.RelationalOperator;
 import gnova.geometry.model.operator.TopologicalOperator;
@@ -20,7 +18,7 @@ import java.io.Serializable;
  *
  * <p>几何对象是一个{@link Immutable 不可变的}对象，这说明几何对象本身是线程安全的。
  *
- * <p>几何对象符合GeoJSON中关于几何类型的定义，包括如下几种类型：
+ * <p>几何对象符合GeoJSON（RFC 7946）中关于几何类型的定义，包括如下几种类型：
  * <br>{@link Point 点}，表示一个坐标点；
  * <br>{@link LineString 线串}，表示一串坐标点组成的一条折线；
  * <br>{@link LinearRing 线环}，特殊的{@link LineString 线串}，表示收尾相连的一条折线，它不是一种单独的类型，仅用于构建{@link Polygon 多边形}；
@@ -30,8 +28,9 @@ import java.io.Serializable;
  * <br>{@link MultiPolygon 多多边形}，表示{@link Polygon 多边形}的集合；
  * <br>{@link GeometryCollection 几何对象集合}，表示{@link Geometry 几何对象}的集合。
  *
- * <p>几何对象继承自{@link TopologicalOperator 空间拓扑操作}、{@link RelationalOperator 空间关系操作}和{@link ProximityOperator 空间距离操作}
- * 这三个接口，包括了大量与空间计算相关的方法。
+ * <p>几何对象继承自{@link TopologicalOperator 空间拓扑操作}、{@link RelationalOperator 空间关系操作}、
+ * {@link ProximityOperator 空间距离操作}和{@link AffineOperator 空间仿射操作}
+ * 这四个接口，包括了大量与空间计算相关的方法。
  *
  * @see Comparable
  * @see Cloneable
@@ -39,6 +38,7 @@ import java.io.Serializable;
  * @see TopologicalOperator
  * @see RelationalOperator
  * @see ProximityOperator
+ * @see AffineOperator
  * @see Point
  * @see LineString
  * @see LinearRing
@@ -54,7 +54,12 @@ import java.io.Serializable;
 @Immutable
 public interface Geometry
         extends Comparable<Geometry>, Cloneable, Serializable,
-        TopologicalOperator, RelationalOperator, ProximityOperator {
+        TopologicalOperator, RelationalOperator, ProximityOperator, AffineOperator {
+
+    /**
+     * 一个空的几何对象
+     */
+    Geometry NONE = NullGeometry.NONE;
 
     /**
      * 获取几何对象的类型
@@ -142,21 +147,15 @@ public interface Geometry
      * @return 坐标值
      */
     @NotNull
-    default Coordinate getCoordinate() {
-        Coordinate[] coordinates = getCoordinates();
-        if (coordinates.length == 0) {
-            return Coordinate.NONE;
-        }
-        return coordinates[0];
-    }
+    Coordinate getCoordinate();
 
     /**
-     * 获取坐标的数组
+     * 获取坐标的集合
      *
-     * @return 坐标的数组
+     * @return 坐标的集合
      */
     @NotNull
-    Coordinate[] getCoordinates();
+    Iterable<Coordinate> getCoordinates();
 
     /**
      * 获取几何对象的SRID
@@ -164,15 +163,8 @@ public interface Geometry
      * @return 几何对象的SRID
      */
     default int getSrid() {
-        return getFactory().getSRID();
+        return getFactory().getSrid();
     }
-
-    /**
-     * 设置几何对象的SRID
-     *
-     * @param srid SRID
-     */
-    void setSrid(int srid);
 
     /**
      * 翻转当前的几何对象成为一个新的几何对象
@@ -212,14 +204,30 @@ public interface Geometry
                                @NotNull JsonArrayBuilder<JA> jab);
 
     /**
-     * 判断几何对象是否相等
+     * 判断几何对象是否精确相等
      *
-     * @param geometry 几何对象
-     * @return 若几何对象相等，则返回true，否则返回false
+     * @param other
+     * @return
      */
-    @Override
-    boolean equals(@NotNull Geometry geometry);
+    boolean exactlyEquals(@NotNull Geometry other);
 
+    /**
+     * 判断几何对象是否精确相等
+     *
+     * @param other
+     * @param tolerance 坐标距离容差，若两个坐标点的距离小于该值，则认为坐标一致
+     * @return
+     */
+    boolean exactlyEquals(@NotNull Geometry other, double tolerance);
+
+    /**
+     * 判断对象是否相等
+     *
+     * 这里的相等，指的是几何对象间的精确相等
+     *
+     * @param obj
+     * @return
+     */
     @Override
     boolean equals(Object obj);
 
@@ -238,235 +246,12 @@ public interface Geometry
     @NotNull
     Geometry clone();
 
-    /**
-     * 一个空的几何对象
-     */
-    Geometry NONE = new Geometry() {
+    static boolean exactlyEquals(@NotNull Geometry left, @NotNull Geometry right) {
+        return left.exactlyEquals(right);
+    }
 
-        @Override
-        public GeometryType getType() {
-            return GeometryType.None;
-        }
-
-        @Override
-        public BoundingBox getBoundingBox() {
-            return BoundingBox.NONE;
-        }
-
-        @Override
-        public GeometryFactory getFactory() {
-            return FactoryFinder.getDefaultGeometryFactory();
-        }
-
-        @Override
-        public int getDimension() {
-            return 0;
-        }
-
-        @Override
-        public int getBoundaryDimension() {
-            return 0;
-        }
-
-        @Override
-        public int getCoordinateDimension() {
-            return 0;
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return true;
-        }
-
-        @Override
-        public boolean isSimple() {
-            return true;
-        }
-
-        @Override
-        public boolean isValid() {
-            return true;
-        }
-
-        @Override
-        public Coordinate[] getCoordinates() {
-            return new Coordinate[0];
-        }
-
-        @Override
-        public void setSrid(int srid) {
-
-        }
-
-        @Override
-        public Geometry reverse() {
-            return this;
-        }
-
-        @Override
-        public Geometry normalize() {
-            return this;
-        }
-
-        @Override
-        public String toGeometryJSON() {
-            return GeometryJSON.NONE.toString();
-        }
-
-        @Override
-        public <JO, JA> JO toGeometryJSON(JsonObjectBuilder<JO> job, JsonArrayBuilder<JA> jab) {
-            return GeometryJSON.NONE.toJsonObject(job, jab);
-        }
-
-        @Override
-        public boolean equals(Geometry geometry) {
-            return geometry == this;
-        }
-
-        @Override
-        public Geometry clone() {
-            return this;
-        }
-
-        @Override
-        public double distance(Geometry other) {
-            return 0;
-        }
-
-        @Override
-        public Coordinate[] nearestPoints(Geometry other) {
-            return new Coordinate[0];
-        }
-
-        @Override
-        public boolean contains(Geometry other) {
-            return false;
-        }
-
-        @Override
-        public boolean crosses(Geometry other) {
-            return false;
-        }
-
-        @Override
-        public boolean touches(Geometry other) {
-            return false;
-        }
-
-        @Override
-        public boolean disjoint(Geometry other) {
-            return false;
-        }
-
-        @Override
-        public boolean intersects(Geometry other) {
-            return false;
-        }
-
-        @Override
-        public boolean within(Geometry other) {
-            return false;
-        }
-
-        @Override
-        public boolean overlaps(Geometry other) {
-            return false;
-        }
-
-        @Override
-        public boolean covers(Geometry other) {
-            return false;
-        }
-
-        @Override
-        public boolean coveredBy(Geometry other) {
-            return false;
-        }
-
-        @Override
-        public Geometry getBoundary() {
-            return this;
-        }
-
-        @Override
-        public Geometry convexHull() {
-            return null;
-        }
-
-        @Override
-        public Geometry clip(BoundingBox bbox) {
-            return null;
-        }
-
-        @Override
-        public Geometry split(Geometry bladeIn) {
-            return null;
-        }
-
-        @Override
-        public Geometry cut(Geometry bladeIn) {
-            return null;
-        }
-
-        @Override
-        public Polygon buffer(double distance) {
-            return null;
-        }
-
-        @Override
-        public Polygon buffer(double distance, int quadrantSegments) {
-            return null;
-        }
-
-        @Override
-        public Polygon buffer(double distance, int quadrantSegments, int endCapStyle) {
-            return null;
-        }
-
-        @Override
-        public Geometry intersection(Geometry other) {
-            return null;
-        }
-
-        @Override
-        public Geometry union(Geometry other) {
-            return null;
-        }
-
-        @Override
-        public Geometry difference(Geometry other) {
-            return null;
-        }
-
-        @Override
-        public Geometry symmetricDifference(Geometry other) {
-            return null;
-        }
-
-        @Override
-        public Point getCentroid() {
-            return null;
-        }
-
-        @Override
-        public Point getInterior() {
-            return null;
-        }
-
-        @Override
-        public Geometry simplify(double distanceTolerance) {
-            return null;
-        }
-
-        @Override
-        public Geometry triangulation(double distanceTolerance, GeometryType resultType) {
-            return null;
-        }
-
-        @Override
-        public int compareTo(Geometry o) {
-            return 0;
-        }
-    };
+    static boolean exactlyEquals(@NotNull Geometry left, @NotNull Geometry right, double tolerance) {
+        return left.exactlyEquals(right, tolerance);
+    }
 
 }

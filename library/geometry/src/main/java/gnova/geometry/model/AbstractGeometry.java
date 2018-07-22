@@ -29,14 +29,6 @@ public abstract class AbstractGeometry
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Geometry)) {
-            return false;
-        }
-        return equals((Geometry) obj);
-    }
-
-    @Override
     public String toString() {
         return toGeometryJSON();
     }

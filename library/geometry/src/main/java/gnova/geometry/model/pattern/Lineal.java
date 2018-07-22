@@ -1,7 +1,7 @@
 package gnova.geometry.model.pattern;
 
 /**
- * 线型
+ * 线型（Linear）
  *
  * <p>线型对象用于表示几何形态为线状的对象，如{@link gnova.geometry.model.LineString 线串}和{@link gnova.geometry.model.MultiLineString 多线串}。
  * 

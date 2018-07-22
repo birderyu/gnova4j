@@ -1,25 +1,47 @@
 package gnova.geometry.model.operator;
 
+import gnova.core.annotation.NotNull;
 import gnova.geometry.model.Geometry;
 
 /**
- * 仿射变换操作
+ * 空间仿射变换操作
  */
 public interface AffineOperator {
 
+    @NotNull
+    Geometry translate(double offsetX, double offsetY);
+
+    @NotNull
+    Geometry scale(double baseX, double baseY, double scaleX, double scaleY);
+
+    @NotNull
+    Geometry scale(double scaleX, double scaleY);
+
     /**
-     * 平移
      *
-     * @param control
+     * @param baseX
+     * @param baseY
+     * @param angle 角度值
+     * @return
      */
-    Geometry translate(Geometry control);
+    @NotNull
+    Geometry rotate(double baseX, double baseY, double angle);
 
-    void scale();
+    /**
+     *
+     * @param angle 角度值
+     * @return
+     */
+    @NotNull
+    Geometry rotate(double angle);
 
-    void rotate();
+    @NotNull
+    Geometry shear(double shearX, double shearY);
 
-    void symmetry();
+    @NotNull
+    Geometry reflection(double baseX, double baseY, double x, double y);
 
-    void shear();
+    @NotNull
+    Geometry reflection(double x, double y);
 
 }

@@ -3,6 +3,15 @@ package gnova.core;
 public class App {
 
     public static void main(String[] args) {
+
+        double[] arr = new double[2];
+        try {
+            arr[2] = 1;
+        } catch (Exception e) {
+            int stop = 1;
+        }
+
+
         float f1 = Float.NaN;
         float f2 = Float.NaN;
         float f3 = f1 - f2;

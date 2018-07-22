@@ -13,14 +13,14 @@ import java.util.function.Predicate;
 public class GeometryIndexAdaptor<E>
         implements GeometryIndex<E> {
 
-    private com.vividsolutions.jts.index.SpatialIndex jtsSpatialIndex;
+    private org.locationtech.jts.index.SpatialIndex jtsSpatialIndex;
     private GeometryIndexType type;
 
-    public GeometryIndexAdaptor(com.vividsolutions.jts.index.SpatialIndex jtsSpatialIndex) {
+    public GeometryIndexAdaptor(org.locationtech.jts.index.SpatialIndex jtsSpatialIndex) {
         this.jtsSpatialIndex = jtsSpatialIndex;
-        if (jtsSpatialIndex instanceof com.vividsolutions.jts.index.quadtree.Quadtree) {
+        if (jtsSpatialIndex instanceof org.locationtech.jts.index.quadtree.Quadtree) {
             type = GeometryIndexType.QTree;
-        } else if (jtsSpatialIndex instanceof com.vividsolutions.jts.index.strtree.STRtree) {
+        } else if (jtsSpatialIndex instanceof org.locationtech.jts.index.strtree.STRtree) {
             type = GeometryIndexType.RTree;
         } else {
             type = GeometryIndexType.Unknown;
@@ -35,9 +35,9 @@ public class GeometryIndexAdaptor<E>
     @Override
     public int size() {
         if (type == GeometryIndexType.QTree) {
-            return ((com.vividsolutions.jts.index.quadtree.Quadtree) jtsSpatialIndex).size();
+            return ((org.locationtech.jts.index.quadtree.Quadtree) jtsSpatialIndex).size();
         } else if (type == GeometryIndexType.RTree) {
-            return ((com.vividsolutions.jts.index.strtree.STRtree) jtsSpatialIndex).size();
+            return ((org.locationtech.jts.index.strtree.STRtree) jtsSpatialIndex).size();
         } else {
             return 0;
         }
@@ -77,7 +77,7 @@ public class GeometryIndexAdaptor<E>
         }
     }
 
-    private com.vividsolutions.jts.geom.Envelope getJtsEnvelope(BoundingBox bbox) {
+    private org.locationtech.jts.geom.Envelope getJtsEnvelope(BoundingBox bbox) {
         return GeometryFactoryAdaptor.toJtsEnvelope(bbox);
     }
 }
