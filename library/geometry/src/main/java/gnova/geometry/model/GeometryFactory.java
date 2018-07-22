@@ -18,6 +18,9 @@ public interface GeometryFactory extends Serializable {
      */
     int getSrid();
 
+    @NotNull
+    Precision getPrecision();
+
     /**
      * 获取坐标序列工厂
      *

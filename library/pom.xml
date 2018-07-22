@@ -43,7 +43,9 @@
     <!-- =========================================================== -->
     <modules>
         <module>core</module>
+        <module>json-simple</module>
         <module>geometry</module>
+        <module>geometry-io-json</module>
         <module>query</module>
         <module>data</module>
         <module>config</module>

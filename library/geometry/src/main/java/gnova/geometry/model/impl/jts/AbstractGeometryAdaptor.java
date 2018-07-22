@@ -5,6 +5,7 @@ import gnova.core.ConvertIterator;
 import gnova.core.annotation.NotNull;
 import gnova.geometry.model.*;
 import gnova.geometry.model.AbstractGeometry;
+import gnova.geometry.model.operator.SimplifierFunction;
 
 /**
  * Created by Birderyu on 2017/6/22.
@@ -75,6 +76,12 @@ abstract class AbstractGeometryAdaptor
     @Override
     public int getSrid() {
         return jtsGeometry.getSRID();
+    }
+
+    @Override
+    @NotNull
+    public Precision getPrecision() {
+        return getFactory().fromJtsPrecisionModel(getFactory().getJts().getPrecisionModel());
     }
 
     @Override
@@ -284,13 +291,6 @@ abstract class AbstractGeometryAdaptor
     }
 
     @Override
-    public Geometry simplify(double distanceTolerance) {
-        return getFactory().fromJtsGeometry(
-                org.locationtech.jts.simplify.TopologyPreservingSimplifier.simplify(
-                        getFactory().toJtsGeometry(this), distanceTolerance));
-    }
-
-    @Override
     public Geometry triangulation(double distanceTolerance, GeometryType resultType) {
         throw new UnsupportedOperationException("triangulation");
     }
@@ -319,6 +319,28 @@ abstract class AbstractGeometryAdaptor
         return new Coordinate[] {
                 new Coordinate(coordinates[0].x, coordinates[0].y, coordinates[0].z),
                 new Coordinate(coordinates[1].x, coordinates[1].y, coordinates[1].z)};
+    }
+
+    ////////////////////////////////////
+    // SimplifierOperator
+    ////////////////////////////////////
+    @Override
+    public Geometry simplify(@NotNull SimplifierFunction function, double distanceTolerance) {
+        switch (function) {
+            case DouglasPeucker:
+                return getFactory().fromJtsGeometry(
+                        org.locationtech.jts.simplify.DouglasPeuckerSimplifier.simplify(
+                                getFactory().toJtsGeometry(this), distanceTolerance));
+            case TopologyPreserving:
+                return getFactory().fromJtsGeometry(
+                        org.locationtech.jts.simplify.TopologyPreservingSimplifier.simplify(
+                                getFactory().toJtsGeometry(this), distanceTolerance));
+            case VW:
+                return getFactory().fromJtsGeometry(
+                        org.locationtech.jts.simplify.VWSimplifier.simplify(
+                                getFactory().toJtsGeometry(this), distanceTolerance));
+        }
+        throw new IllegalArgumentException("no such simplifier function: " + function);
     }
 
     ////////////////////////////////////

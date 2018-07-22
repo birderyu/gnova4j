@@ -3,6 +3,7 @@ import gnova.core.annotation.NotNull;
 import gnova.geometry.model.CoordinateSequenceFactory;
 import gnova.geometry.model.*;
 import gnova.geometry.model.GeometryFactory;
+import org.locationtech.jts.geom.PrecisionModel;
 
 import java.util.Arrays;
 
@@ -101,22 +102,28 @@ public final class GeometryFactoryAdaptor
         }
     }
 
-    private org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory;
-    private CoordinateSequenceFactory coordinateSequenceFactory;
+    private final org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory;
+    private final CoordinateSequenceFactory coordinateSequenceFactory;
 
     public GeometryFactoryAdaptor() {
-        jtsGeometryFactory = new org.locationtech.jts.geom.GeometryFactory();
-        coordinateSequenceFactory = new CoordinateSequenceFactoryAdaptor(jtsGeometryFactory.getCoordinateSequenceFactory());
+        this(new org.locationtech.jts.geom.GeometryFactory());
     }
 
     public GeometryFactoryAdaptor(int srid) {
-        jtsGeometryFactory = new org.locationtech.jts.geom.GeometryFactory(
-                new org.locationtech.jts.geom.PrecisionModel(), srid);
-        coordinateSequenceFactory = new CoordinateSequenceFactoryAdaptor(jtsGeometryFactory.getCoordinateSequenceFactory());
+        this(new org.locationtech.jts.geom.GeometryFactory(new org.locationtech.jts.geom.PrecisionModel(), srid));
+    }
+
+    public GeometryFactoryAdaptor(Precision precision) {
+        this(new org.locationtech.jts.geom.GeometryFactory(new org.locationtech.jts.geom.PrecisionModel()));
+    }
+
+    public GeometryFactoryAdaptor(Precision precision, int srid) {
+        this(new org.locationtech.jts.geom.GeometryFactory(toJtsPrecisionModel(precision), srid));
     }
 
     public GeometryFactoryAdaptor(org.locationtech.jts.geom.GeometryFactory jtsGeometryFactory) {
         this.jtsGeometryFactory = jtsGeometryFactory;
+        coordinateSequenceFactory = new CoordinateSequenceFactoryAdaptor(jtsGeometryFactory.getCoordinateSequenceFactory());
     }
 
     public org.locationtech.jts.geom.GeometryFactory getJts() {
@@ -126,6 +133,11 @@ public final class GeometryFactoryAdaptor
     @Override
     public int getSrid() {
         return jtsGeometryFactory.getSRID();
+    }
+
+    @Override
+    public Precision getPrecision() {
+        return fromJtsPrecisionModel(jtsGeometryFactory.getPrecisionModel());
     }
 
     @Override
@@ -460,6 +472,17 @@ public final class GeometryFactoryAdaptor
         return new MultiPolygonAdaptor(jtsMultiPolygon);
     }
 
+    static public Precision fromJtsPrecisionModel(org.locationtech.jts.geom.PrecisionModel precisionModel) {
+        if (precisionModel.getType() == PrecisionModel.FLOATING) {
+            return new Precision(PrecisionMode.DoubleFloat);
+        } else if (precisionModel.getType() == PrecisionModel.FLOATING_SINGLE) {
+            return new Precision(PrecisionMode.SingleFloat);
+        } else if (precisionModel.getType() == PrecisionModel.FIXED) {
+            return new Precision(precisionModel.getScale());
+        }
+        return new Precision();
+    }
+
     static public org.locationtech.jts.geom.Envelope toJtsEnvelope(BoundingBox bbox) {
         return new org.locationtech.jts.geom.Envelope(bbox.getMinX(), bbox.getMaxX(),
                 bbox.getMinY(), bbox.getMaxY());
@@ -723,6 +746,18 @@ public final class GeometryFactoryAdaptor
         }
 
         return jtsGeometryFactory.createMultiPolygon(jtsPolygons);
+    }
+
+    static public org.locationtech.jts.geom.PrecisionModel toJtsPrecisionModel(Precision precision) {
+        switch (precision.getMode()) {
+            case SingleFloat:
+                return new org.locationtech.jts.geom.PrecisionModel(org.locationtech.jts.geom.PrecisionModel.FLOATING_SINGLE);
+            case DoubleFloat:
+                return new org.locationtech.jts.geom.PrecisionModel(org.locationtech.jts.geom.PrecisionModel.FLOATING);
+            case CustomScale:
+                return new org.locationtech.jts.geom.PrecisionModel(precision.getScale());
+        }
+        return new org.locationtech.jts.geom.PrecisionModel();
     }
 
 }

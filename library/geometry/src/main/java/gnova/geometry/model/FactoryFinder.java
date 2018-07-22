@@ -32,6 +32,22 @@ public class FactoryFinder {
         return geometryFactory;
     }
 
+    static public GeometryFactory createGeometryFactory() {
+        return new GeometryFactoryAdaptor();
+    }
+
+    static public GeometryFactory createGeometryFactory(int srid) {
+        return new GeometryFactoryAdaptor(srid);
+    }
+
+    static public GeometryFactory createGeometryFactory(Precision precision) {
+        return new GeometryFactoryAdaptor(precision);
+    }
+
+    static public GeometryFactory createGeometryFactory(Precision precision, int srid) {
+        return new GeometryFactoryAdaptor(precision, srid);
+    }
+
     /**
      * 获取一个默认的坐标序列工厂
      *

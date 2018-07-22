@@ -2,10 +2,8 @@ package gnova.geometry.model;
 
 import gnova.core.annotation.Immutable;
 import gnova.core.annotation.NotNull;
-import gnova.geometry.model.operator.AffineOperator;
-import gnova.geometry.model.operator.ProximityOperator;
-import gnova.geometry.model.operator.RelationalOperator;
-import gnova.geometry.model.operator.TopologicalOperator;
+import gnova.core.json.JsonObject;
+import gnova.geometry.model.operator.*;
 import gnova.core.json.JsonArrayBuilder;
 import gnova.core.json.JsonObjectBuilder;
 
@@ -29,8 +27,8 @@ import java.io.Serializable;
  * <br>{@link GeometryCollection 几何对象集合}，表示{@link Geometry 几何对象}的集合。
  *
  * <p>几何对象继承自{@link TopologicalOperator 空间拓扑操作}、{@link RelationalOperator 空间关系操作}、
- * {@link ProximityOperator 空间距离操作}和{@link AffineOperator 空间仿射操作}
- * 这四个接口，包括了大量与空间计算相关的方法。
+ * {@link ProximityOperator 空间距离操作}、{@link SimplifierOperator 空间简化操作}和{@link AffineOperator 空间仿射操作}
+ * 这五个接口，包括了大量与空间计算相关的方法。
  *
  * @see Comparable
  * @see Cloneable
@@ -38,6 +36,7 @@ import java.io.Serializable;
  * @see TopologicalOperator
  * @see RelationalOperator
  * @see ProximityOperator
+ * @see SimplifierOperator
  * @see AffineOperator
  * @see Point
  * @see LineString
@@ -54,7 +53,7 @@ import java.io.Serializable;
 @Immutable
 public interface Geometry
         extends Comparable<Geometry>, Cloneable, Serializable,
-        TopologicalOperator, RelationalOperator, ProximityOperator, AffineOperator {
+        TopologicalOperator, RelationalOperator, ProximityOperator, SimplifierOperator, AffineOperator {
 
     /**
      * 一个空的几何对象
@@ -167,6 +166,16 @@ public interface Geometry
     }
 
     /**
+     * 获取几何对象的浮点精度
+     *
+     * @return 对象的浮点精度
+     */
+    @NotNull
+    default Precision getPrecision() {
+        return getFactory().getPrecision();
+    }
+
+    /**
      * 翻转当前的几何对象成为一个新的几何对象
      *
      * @return 几何对象
@@ -195,13 +204,10 @@ public interface Geometry
      *
      * @param job JSON对象构造器
      * @param jab JSON数组构造器
-     * @param <JO> JSON对象的类型
-     * @param <JA> JSON数组的类型
      * @return JSON对象
      */
     @NotNull
-    <JO, JA> JO toGeometryJSON(@NotNull JsonObjectBuilder<JO> job,
-                               @NotNull JsonArrayBuilder<JA> jab);
+    JsonObject toGeometryJSON(@NotNull JsonObjectBuilder job, @NotNull JsonArrayBuilder jab);
 
     /**
      * 判断几何对象是否精确相等

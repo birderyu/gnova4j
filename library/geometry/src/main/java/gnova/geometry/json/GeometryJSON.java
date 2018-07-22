@@ -3,6 +3,7 @@ package gnova.geometry.json;
 import gnova.core.annotation.Checked;
 import gnova.core.annotation.Immutable;
 import gnova.core.annotation.NotNull;
+import gnova.core.json.JsonObject;
 import gnova.geometry.model.GeometryFactory;
 import gnova.geometry.model.*;
 import gnova.core.json.JsonArrayBuilder;
@@ -32,7 +33,7 @@ public abstract class GeometryJSON
 
         @Override
         public Geometry toGeometry(GeometryFactory factory) {
-            throw new UnsupportedOperationException("toGeometry");
+            return Geometry.NONE;
         }
 
         @Override
@@ -47,7 +48,7 @@ public abstract class GeometryJSON
 
         @Override
         public String toString() {
-            return "{\"type\": null,\"coordinates\": null}";
+            return "{\"" + FIELD_NAME_TYPE + "\": " + VALUE_NULL + ",\"" + FIELD_NAME_COORDINATES + "\": " + VALUE_NULL + "}";
         }
 
         @Override
@@ -56,12 +57,10 @@ public abstract class GeometryJSON
         }
 
         @Override
-        public <JO, JA> JO toJsonObject(JsonObjectBuilder<JO> job,
-                                        JsonArrayBuilder<JA> jab) {
+        public JsonObject toJsonObject(JsonObjectBuilder job, JsonArrayBuilder jab) {
             return job.build()
-                    .append("type", null)
-                    .append("coordinates", null)
-                    .getSubject();
+                    .append(FIELD_NAME_TYPE, null)
+                    .append(FIELD_NAME_COORDINATES, null);
         }
     };
 
@@ -116,6 +115,11 @@ public abstract class GeometryJSON
     public static final String TYPE_GEOMETRYCOLLECTION = "GeometryCollection";
 
     /**
+     * null的字面值
+     */
+    public static final String VALUE_NULL = "null";
+
+    /**
      * 将一个字符串表示的GeometryJSON类型转换为几何对象类型
      *
      * @param type GeometryJSON类型
@@ -149,10 +153,9 @@ public abstract class GeometryJSON
      */
     public static GeometryJSON fromGeometry(@NotNull Geometry geometry) {
 
-        if (geometry == Geometry.NONE) {
-            return GeometryJSON.NONE;
-        }
         switch (geometry.getType()) {
+            case None:
+                return GeometryJSON.NONE;
             case Point:
                 return GeometryJSON.fromPoint((Point) geometry);
             case LineString:
@@ -313,13 +316,10 @@ public abstract class GeometryJSON
      *
      * @param job JSON对象构造器
      * @param jab JSON数组构造器
-     * @param <JO> JSON对象的类型
-     * @param <JA> JSON数组的类型
      * @return JSON对象
      */
     @NotNull
-    public abstract <JO, JA> JO toJsonObject(@NotNull JsonObjectBuilder<JO> job,
-                                             @NotNull JsonArrayBuilder<JA> jab);
+    public abstract JsonObject toJsonObject(@NotNull JsonObjectBuilder job, @NotNull JsonArrayBuilder jab);
 
     /**
      * 位置（坐标）
@@ -377,12 +377,12 @@ public abstract class GeometryJSON
             return new Position(values);
         }
 
-        public <JA> JA toJsonArray(@NotNull JsonArrayBuilder<JA> jab) {
-            JsonArray<JA> array = jab.build();
+        public JsonArray toJsonArray(@NotNull JsonArrayBuilder jab) {
+            JsonArray array = jab.build();
             for (int i = 0; i < values.length; i++) {
                 array.add(values[i]);
             }
-            return array.getSubject();
+            return array;
         }
     }
 
@@ -452,12 +452,12 @@ public abstract class GeometryJSON
             return new PositionArray(getValues());
         }
 
-        public <JA> JA toJsonArray(@NotNull JsonArrayBuilder<JA> jab) {
-            JsonArray<JA> array = jab.build();
+        public JsonArray toJsonArray(@NotNull JsonArrayBuilder jab) {
+            JsonArray array = jab.build();
             for (int i = 0; i < positions.length; i++) {
                 array.add(positions[i].toJsonArray(jab));
             }
-            return array.getSubject();
+            return array;
         }
     }
 
@@ -527,12 +527,12 @@ public abstract class GeometryJSON
             return new PositionArrayArray(getValues());
         }
 
-        public <JA> JA toJsonArray(@NotNull JsonArrayBuilder<JA> jab) {
-            JsonArray<JA> array = jab.build();
+        public JsonArray toJsonArray(@NotNull JsonArrayBuilder jab) {
+            JsonArray array = jab.build();
             for (int i = 0; i < positions.length; i++) {
                 array.add(positions[i].toJsonArray(jab));
             }
-            return array.getSubject();
+            return array;
         }
 
     }
@@ -603,12 +603,12 @@ public abstract class GeometryJSON
             return new PositionArrayArrayArray(getValues());
         }
 
-        public <JA> JA toJsonArray(@NotNull JsonArrayBuilder<JA> jab) {
-            JsonArray<JA> array = jab.build();
+        public JsonArray toJsonArray(@NotNull JsonArrayBuilder jab) {
+            JsonArray array = jab.build();
             for (int i = 0; i < positions.length; i++) {
                 array.add(positions[i].toJsonArray(jab));
             }
-            return array.getSubject();
+            return array;
         }
     }
 

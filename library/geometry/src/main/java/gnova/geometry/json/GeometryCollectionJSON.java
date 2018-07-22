@@ -63,9 +63,13 @@ public final class GeometryCollectionJSON
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("{\"type\": \""
+        StringBuilder sb = new StringBuilder("{\""
+                + FIELD_NAME_TYPE
+                + "\": \""
                 + getType()
-                + "\", \"geometries\": [");
+                + "\", \""
+                + FIELD_NAME_GEOMETRIES
+                + "\": [");
         for (int i = 0; i < geometries.length; i++) {
             sb.append(geometries[i].toString());
             if (i != geometries.length - 1) {
@@ -81,14 +85,14 @@ public final class GeometryCollectionJSON
     }
 
     @Override
-    public <JO, JA> JO toJsonObject(JsonObjectBuilder<JO> job, JsonArrayBuilder<JA> jab) {
-        JsonObject<JO> jsonObject = job.build();
-        jsonObject.append("type", getType());
-        JsonArray<JA> array = jab.build();
+    public JsonObject toJsonObject(JsonObjectBuilder job, JsonArrayBuilder jab) {
+        JsonObject jsonObject = job.build();
+        jsonObject.append(FIELD_NAME_TYPE, getType());
+        JsonArray array = jab.build();
         for (int i = 0; i < geometries.length; i++) {
             array.add(geometries[i].toJsonObject(job, jab));
         }
-        jsonObject.append("geometries", array.getSubject());
-        return jsonObject.getSubject();
+        jsonObject.append(FIELD_NAME_GEOMETRIES, array.getSubject());
+        return jsonObject;
     }
 }

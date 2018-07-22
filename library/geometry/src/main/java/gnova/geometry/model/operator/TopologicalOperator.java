@@ -112,9 +112,6 @@ public interface TopologicalOperator {
     Geometry symmetricDifference(@NotNull Geometry other);
 
     @NotNull
-    Geometry simplify(double distanceTolerance);
-
-    @NotNull
     Geometry triangulation(double distanceTolerance, @NotNull GeometryType resultType);
 
 }

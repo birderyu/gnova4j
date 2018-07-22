@@ -1,5 +1,6 @@
 package gnova.core.json;
 
+import gnova.core.annotation.NotNull;
 import gnova.core.function.ObjectBuilder;
 
 /**
@@ -14,5 +15,9 @@ import gnova.core.function.ObjectBuilder;
 @FunctionalInterface
 public interface JsonObjectBuilder<JO>
         extends ObjectBuilder<JsonObject<JO>> {
+
+    @Override
+    @NotNull
+    JsonObject<JO> build();
 
 }

@@ -69,11 +69,10 @@ public final class MultiPolygonJSON
 
     @Override
     public String toString() {
-        return "{\"type\": \""
+        return "{\"" + FIELD_NAME_TYPE + "\": \""
                 + getType()
-                + "\", \"coordinates\": "
-                + positions
-                + "}";
+                + "\", \"" + FIELD_NAME_COORDINATES + "\": "
+                + positions + "}";
     }
 
     @Override
@@ -82,10 +81,10 @@ public final class MultiPolygonJSON
     }
 
     @Override
-    public <JO, JA> JO toJsonObject(JsonObjectBuilder<JO> job, JsonArrayBuilder<JA> jab) {
-        JsonObject<JO> jsonObject = job.build();
-        jsonObject.append("type", getType());
-        jsonObject.append("coordinates", positions.toJsonArray(jab));
-        return jsonObject.getSubject();
+    public JsonObject toJsonObject(JsonObjectBuilder job, JsonArrayBuilder jab) {
+        JsonObject jsonObject = job.build();
+        jsonObject.append(FIELD_NAME_TYPE, getType());
+        jsonObject.append(FIELD_NAME_COORDINATES, positions.toJsonArray(jab));
+        return jsonObject;
     }
 }

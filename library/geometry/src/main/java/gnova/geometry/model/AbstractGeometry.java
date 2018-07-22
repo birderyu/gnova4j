@@ -1,5 +1,6 @@
 package gnova.geometry.model;
 
+import gnova.core.json.JsonObject;
 import gnova.geometry.json.GeometryJSON;
 import gnova.core.json.JsonArrayBuilder;
 import gnova.core.json.JsonObjectBuilder;
@@ -24,7 +25,7 @@ public abstract class AbstractGeometry
     }
 
     @Override
-    public <JO, JA> JO toGeometryJSON(JsonObjectBuilder<JO> job, JsonArrayBuilder<JA> jab) {
+    public JsonObject toGeometryJSON(JsonObjectBuilder job, JsonArrayBuilder jab) {
         return GeometryJSON.fromGeometry(this).toJsonObject(job, jab);
     }
 

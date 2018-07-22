@@ -1,9 +1,12 @@
 package gnova.geometry.model;
 
 import gnova.core.EmptyIterator;
+import gnova.core.annotation.NotNull;
 import gnova.core.json.JsonArrayBuilder;
+import gnova.core.json.JsonObject;
 import gnova.core.json.JsonObjectBuilder;
 import gnova.geometry.json.GeometryJSON;
+import gnova.geometry.model.operator.SimplifierFunction;
 
 public final class NullGeometry extends AbstractGeometry implements Geometry {
 
@@ -79,7 +82,7 @@ public final class NullGeometry extends AbstractGeometry implements Geometry {
     }
 
     @Override
-    public <JO, JA> JO toGeometryJSON(JsonObjectBuilder<JO> job, JsonArrayBuilder<JA> jab) {
+    public JsonObject toGeometryJSON(JsonObjectBuilder job, JsonArrayBuilder jab) {
         return GeometryJSON.NONE.toJsonObject(job, jab);
     }
 
@@ -239,7 +242,7 @@ public final class NullGeometry extends AbstractGeometry implements Geometry {
     }
 
     @Override
-    public Geometry simplify(double distanceTolerance) {
+    public Geometry simplify(@NotNull SimplifierFunction function, double distanceTolerance) {
         return NONE;
     }
 

@@ -18,9 +18,10 @@ public interface GeometryWriter<T> extends GeometryIOSettings {
      * 将几何对象转换成其他对象
      *
      * @param geometry 几何对象，不允许为null
-     * @return 其他对象
+     * @return 其他对象，不会返回null
      * @throws GeometryIOException 若转换失败，则抛出此异常
      */
+    @NotNull
     default T write(@NotNull Geometry geometry) throws GeometryIOException {
         switch (geometry.getType()) {
             case Point:
@@ -47,72 +48,80 @@ public interface GeometryWriter<T> extends GeometryIOSettings {
      * 将点对象转换成其他对象
      *
      * @param point 点对象，不允许为null
-     * @return 其他对象
+     * @return 其他对象，不会返回null
      * @throws GeometryIOException 若转换失败，则抛出此异常
      */
+    @NotNull
     T writePoint(@NotNull Point point) throws GeometryIOException;
 
     /**
      * 将线串对象转换成其他对象
      *
      * @param lineString 线串对象，不允许为null
-     * @return 其他对象
+     * @return 其他对象，不会返回null
      * @throws GeometryIOException 若转换失败，则抛出此异常
      */
+    @NotNull
     T writeLineString(@NotNull LineString lineString) throws GeometryIOException;
 
     /**
      * 将线环对象转换成其他对象
      *
      * @param linearRing 线环对象，不允许为null
-     * @return 其他对象
+     * @return 其他对象，不会返回null
      * @throws GeometryIOException 若转换失败，则抛出此异常
      */
+    @NotNull
     T writeLinearRing(@NotNull LinearRing linearRing) throws GeometryIOException;
 
     /**
      * 将多边形对象转换成其他对象
      *
      * @param polygon 多边形对象，不允许为null
-     * @return 其他对象
+     * @return 其他对象，不会返回null
      * @throws GeometryIOException 若转换失败，则抛出此异常
      */
+    @NotNull
     T writePolygon(@NotNull Polygon polygon) throws GeometryIOException;
 
     /**
      * 将线串对象转换成其他对象
      *
      * @param geometries 几何集合对象，不允许为null
-     * @return 其他对象
+     * @return 其他对象，不会返回null
      * @throws GeometryIOException 若转换失败，则抛出此异常
      */
+    @NotNull
     T writeGeometryCollection(@NotNull GeometryCollection geometries) throws GeometryIOException;
 
     /**
      * 将多多边形对象转换成其他对象
      *
      * @param multiPoint 多多边形对象，不允许为null
-     * @return 其他对象
+     * @return 其他对象，不会返回null
      * @throws GeometryIOException 若转换失败，则抛出此异常
      */
+    @NotNull
     T writeMultiPoint(@NotNull MultiPoint multiPoint) throws GeometryIOException;
 
     /**
      * 将多线串对象转换成其他对象
      *
      * @param multiLineString 多线串对象，不允许为null
-     * @return 其他对象
+     * @return 其他对象，不会返回null
      * @throws GeometryIOException 若转换失败，则抛出此异常
      */
+    @NotNull
     T writeMultiLineString(@NotNull MultiLineString multiLineString) throws GeometryIOException;
 
     /**
      * 将多多边形对象转换成其他对象
      *
      * @param multiPolygon 多多边形对象，不允许为null
-     * @return 其他对象
+     * @return 其他对象，不会返回null
      * @throws GeometryIOException 若转换失败，则抛出此异常
      */
+    @NotNull
     T writeMultiPolygon(@NotNull MultiPolygon multiPolygon) throws GeometryIOException;
 
     /**
@@ -169,7 +178,7 @@ public interface GeometryWriter<T> extends GeometryIOSettings {
             throws GeometryIOException, UnsupportedOperationException;
 
     /**
-     * 将一个几何对象写入到字节输出流
+     * 将一个线串对象写入到字节输出流
      *
      * @param lineString 线串对象，不允许为null
      * @param outputStream 字节输出流，不允许为null
@@ -299,7 +308,7 @@ public interface GeometryWriter<T> extends GeometryIOSettings {
             throws GeometryIOException, UnsupportedOperationException;
 
     /**
-     * 将一个几何对象写入到字符输出流
+     * 将一个线串对象写入到字符输出流
      *
      * @param lineString 线串对象，不允许为null
      * @param writer 字符输出流，不允许为null
