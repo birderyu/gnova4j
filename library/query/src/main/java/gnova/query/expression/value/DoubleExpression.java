@@ -138,4 +138,20 @@ public final class DoubleExpression
     public String toString() {
         return String.valueOf(value);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        } else if (!(obj instanceof DoubleExpression)) {
+            return false;
+        }
+        DoubleExpression de = (DoubleExpression) obj;
+        return Double.compare(value, de.value) != 0;
+    }
+
+    @Override
+    protected int hashing() {
+        return Double.hashCode(value);
+    }
 }

@@ -78,4 +78,20 @@ public final class BooleanExpression
     public String toString() {
         return value ? "true" : "false";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        } else if (!(obj instanceof BooleanExpression)) {
+            return false;
+        }
+        BooleanExpression be = (BooleanExpression) obj;
+        return value == be.value;
+    }
+
+    @Override
+    protected int hashing() {
+        return Boolean.hashCode(value);
+    }
 }

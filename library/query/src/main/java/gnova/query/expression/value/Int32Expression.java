@@ -184,4 +184,20 @@ public final class Int32Expression
     public String toString() {
         return String.valueOf(value);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        } else if (!(obj instanceof Int32Expression)) {
+            return false;
+        }
+        Int32Expression i32e = (Int32Expression) obj;
+        return value == i32e.value;
+    }
+
+    @Override
+    protected int hashing() {
+        return Integer.hashCode(value);
+    }
 }

@@ -285,7 +285,7 @@ public class Parser {
             return BooleanExpression.TRUE;
         } else if (stream.matches("false", null, null) &&
                 stream.size() == 5) {
-            return BooleanExpression.TRUE;
+            return BooleanExpression.FALSE;
         } else {
             String v = stream.toString();
             if (charIsNumber(v.charAt(0))) {
@@ -305,11 +305,18 @@ public class Parser {
                         // do nothing
                     }
                 }
-                throw new ParseException("键值不允许以数字打头",
+                throw new ParseException("键值只能够以字母和下划线作为开头",
                         stream.getValue(), stream.getCursor());
             } else {
                 // 键值
-                return new KeyExpression(v);
+                char c = v.charAt(0);
+                if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_') {
+                    return new KeyExpression(v);
+                } else {
+                    throw new ParseException("键值只能够以字母和下划线作为开头",
+                            stream.getValue(), stream.getCursor());
+                }
+
             }
         }
 
@@ -482,7 +489,7 @@ public class Parser {
                             quotationScopes = new LinkedList<>();
                         }
                         QuotationScope quotationScope = new QuotationScope(
-                                leftSingleQuotationCursor,
+                                leftDoubleQuotationCursor,
                                 s.getCursor() + 1);
                         quotationScopes.add(quotationScope);
                         inQuotation = false;

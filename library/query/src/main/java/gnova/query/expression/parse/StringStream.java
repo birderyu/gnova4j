@@ -240,7 +240,7 @@ public class StringStream {
         int newEndIndex = endIndex;
         while (newEndIndex > newBeginIndex) {
             if (value.charAt(newEndIndex - 1) == ' ') {
-                newBeginIndex--;
+                newEndIndex--;
             } else {
                 break;
             }
@@ -254,7 +254,7 @@ public class StringStream {
 
     @Override
     public String toString() {
-        if (beginIndex == 0 && endIndex == value.length() - 1) {
+        if (beginIndex == 0 && endIndex == value.length()) {
             return value;
         }
         return value.substring(beginIndex, endIndex);

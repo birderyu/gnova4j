@@ -41,4 +41,20 @@ public final class KeyExpression
     public String toString() {
         return name;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        } else if (!(obj instanceof KeyExpression)) {
+            return false;
+        }
+        KeyExpression key = (KeyExpression) obj;
+        return name.equals(key.name);
+    }
+
+    @Override
+    protected int hashing() {
+        return name.hashCode();
+    }
 }

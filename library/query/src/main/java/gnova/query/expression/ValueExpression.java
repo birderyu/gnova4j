@@ -12,6 +12,8 @@ import java.util.List;
 public abstract class ValueExpression
         implements Expression {
 
+    private int hashCode = 0;
+
     public static ValueExpression tryBuildValue(Object val) {
         if (val == null) {
             return Builder.buildNull();
@@ -238,6 +240,32 @@ public abstract class ValueExpression
 
     protected boolean withinBy(@NotNull Object left) {
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        if (hashCode == 0) {
+            hashCode = hashing();
+        }
+        return hashCode;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        } else if (!(obj instanceof ValueExpression)) {
+            return false;
+        }
+        ValueExpression ve = (ValueExpression) obj;
+        if (getValueType() != ve.getValueType()) {
+            return false;
+        }
+        return getValue().equals(ve.getValue());
+    }
+
+    protected int hashing() {
+        return getValue().hashCode();
     }
 
 }

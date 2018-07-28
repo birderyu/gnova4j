@@ -45,4 +45,10 @@ public interface Expression {
     @NotNull
     String toString();
 
+    @Override
+    int hashCode();
+
+    @Override
+    boolean equals(Object obj);
+
 }

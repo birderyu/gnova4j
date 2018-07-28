@@ -167,4 +167,20 @@ public final class Int64Expression
     public String toString() {
         return String.valueOf(value);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        } else if (!(obj instanceof Int64Expression)) {
+            return false;
+        }
+        Int64Expression i64e = (Int64Expression) obj;
+        return value == i64e.value;
+    }
+
+    @Override
+    protected int hashing() {
+        return Long.hashCode(value);
+    }
 }
