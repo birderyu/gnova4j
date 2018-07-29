@@ -1,5 +1,6 @@
 package gnova.query.expression;
 
+import gnova.geometry.model.*;
 import gnova.query.expression.parse.ParseException;
 import gnova.query.expression.parse.Parser;
 import gnova.query.expression.value.*;
@@ -184,7 +185,7 @@ public class ValueExpressionTest {
                 "true", "false",
                 "0", "123456", "1234567890987654", "123.321", "0.0", String.valueOf(Math.PI),
                 "This is Tom!", "How is going?",
-                "one\ntwo\nthree\n"};
+                "one\ntwo\nthree\n" };
         for (String value : values) {
             // 字符串表达式需要使用引号括起来
             legalStringExpression("\"" + value + "\"");
@@ -193,42 +194,75 @@ public class ValueExpressionTest {
         }
 
         // 同样类型的引号不能够嵌套
-        values = new String[] { "Hello, I'm Jim", "Don't do that!", "Hi, What's up man?" };
+        values = new String[]{"Hello, I'm Jim", "Don't do that!", "Hi, What's up man?"};
         for (String value : values) {
             legalStringExpression("\"" + value + "\"");
         }
-        values = new String[] { "You say you are \"The One\"?" };
+        values = new String[]{"You say you are \"The One\"?"};
         for (String value : values) {
             legalStringExpression("\'" + value + "\'");
             legalStringExpression("'" + value + "'");
         }
 
         // 同样类型的引号如果需要嵌套，必须使用转义字符
-        values = new String[] { "Hello, I\\'m Jim", "Don\\'t do that!", "Hi, What\\'s up man?" };
+        values = new String[]{ "Hello, I\\'m Jim", "Don\\'t do that!", "Hi, What\\'s up man?" };
         for (String value : values) {
-            // 字符串表达式需要使用引号括起来
             legalStringExpression("\'" + value + "\'");
             legalStringExpression("'" + value + "'");
         }
-
     }
 
+    /**
+     * 测试字符串值表达式
+     */
     @Test
-    public void testExpression() throws ParseException {
+    public void testGeometryExpression() {
 
-        KeyExpression key = (KeyExpression) Parser.parse("key");
-        NullExpression n = (NullExpression) Parser.parse("null");
-        BooleanExpression bool = (BooleanExpression) Parser.parse("true");
-        NumberExpression i32 = (NumberExpression) Parser.parse("123");
-        NumberExpression i64 = (NumberExpression) Parser.parse("1234567890987654321");
-        NumberExpression d = (NumberExpression) Parser.parse("123.456");
-        StringExpression string = (StringExpression) Parser.parse("'key'");
-        ListExpression list = (ListExpression) Parser.parse(" (1, \"abc\"  ) ");
+        // 空的几何对象
+        legalValueExpression("[]", Builder.buildEmptyGeometry());
 
+        GeometryFactory gf = FactoryFinder.getDefaultGeometryFactory();
+        String sRing = "(-4 4, -7 0, -4 -4, 0 -4, 3 0, 0 4, -4 4)";
+        LinearRing ring = gf.createLinearRing(new Coordinate[] {
+                new Coordinate(-4, 4),
+                new Coordinate(-7, 0),
+                new Coordinate(-4, -4),
+                new Coordinate(0, -4),
+                new Coordinate(3, 0),
+                new Coordinate(0, 4),
+                new Coordinate(-4, 4) });
+        String sHole1 = "(0 0, 0 -2, -2 -2, -2 0, 0 0)";
+        LinearRing hole1 = gf.createLinearRing(new Coordinate[] {
+                new Coordinate(0, 0),
+                new Coordinate(0, -2),
+                new Coordinate(-2, -2),
+                new Coordinate(-2, 0),
+                new Coordinate(0, 0) });
+        String sHole2 = "(-5 1, -1 1, -2 3, -3 3, -5 1)";
+        LinearRing hole2 = gf.createLinearRing(new Coordinate[] {
+                new Coordinate(-5, 1),
+                new Coordinate(-1, 1),
+                new Coordinate(-2, 3),
+                new Coordinate(-3, 3),
+                new Coordinate(-5, 1) });
 
-        int stop = 1;
-        stop++;
+        // 具有一个环的多边形对象
+        Polygon g1 = gf.createPolygon(ring);
+        legalValueExpression("[" + sRing + "]", Builder.buildGeometry(g1));
 
+        // 具有一个环和一个洞的多边形对象
+        Polygon g2 = gf.createPolygon(ring, new LinearRing[] { hole1 });
+        legalValueExpression("[" + sRing + ", " + sHole1 + "]", Builder.buildGeometry(g2));
+
+        // 具有一个环和两个洞的多边形对象
+        Polygon g3 = gf.createPolygon(ring, new LinearRing[] { hole1, hole2 });
+        legalValueExpression("[" + sRing + ", " + sHole1 + ", " + sHole2 + "]", Builder.buildGeometry(g3));
+
+        // 多多边形
+        MultiPolygon g4 = gf.createMultiPolygon(new Polygon[] {
+                gf.createPolygon(hole1),
+                gf.createPolygon(hole2)});
+        legalValueExpression("[[" + sHole1 + "], [" + sHole2 + "]]", Builder.buildGeometry(g4));
     }
 
     /**

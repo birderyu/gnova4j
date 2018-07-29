@@ -397,7 +397,13 @@ public class Parser {
                 }
                 LinearRing[] _holes = (holes == null || holes.isEmpty()) ?
                         null : holes.toArray(new LinearRing[holes.size()]);
-                Polygon polygon = GEOMETRY_FACTORY.createPolygon(shell, _holes);
+                Polygon polygon;
+                try {
+                    polygon = GEOMETRY_FACTORY.createPolygon(shell, _holes);
+                } catch (Exception e) {
+                    throw new ParseException("坐标解析失败，坐标无法构成多边形",
+                            stream.getValue(), stream.getCursor());
+                }
                 return new GeometryExpression(polygon);
 
             } else if (type == 2) {
@@ -407,7 +413,13 @@ public class Parser {
                 for (Geometry geometry : geometries) {
                     polygons[index++] = (Polygon) geometry;
                 }
-                MultiPolygon multiPolygon = GEOMETRY_FACTORY.createMultiPolygon(polygons);
+                MultiPolygon multiPolygon;
+                try {
+                    multiPolygon = GEOMETRY_FACTORY.createMultiPolygon(polygons);
+                } catch (Exception e) {
+                    throw new ParseException("坐标解析失败，坐标无法构成多多边形",
+                            stream.getValue(), stream.getCursor());
+                }
                 return new GeometryExpression(multiPolygon);
 
             }
@@ -762,8 +774,12 @@ public class Parser {
                     stream.getValue(), stream.getCursor());
         }
 
-        return GEOMETRY_FACTORY.createLinearRing(coordinates);
-
+        try {
+            return GEOMETRY_FACTORY.createLinearRing(coordinates);
+        } catch (Exception e) {
+            throw new ParseException("坐标解析失败，坐标无法构成线环",
+                    stream.getValue(), stream.getCursor());
+        }
     }
 
     private static Polygon parsePolygon(StringStream stream)
@@ -804,7 +820,14 @@ public class Parser {
         }
         LinearRing[] _holes = (holes == null || holes.isEmpty()) ?
                 null : holes.toArray(new LinearRing[holes.size()]);
-        return GEOMETRY_FACTORY.createPolygon(shell, _holes);
+
+
+        try {
+            return GEOMETRY_FACTORY.createPolygon(shell, _holes);
+        } catch (Exception e) {
+            throw new ParseException("坐标解析失败，坐标无法构成多边形",
+                    stream.getValue(), stream.getCursor());
+        }
     }
 
     private static final char[] number_char = new char[] {

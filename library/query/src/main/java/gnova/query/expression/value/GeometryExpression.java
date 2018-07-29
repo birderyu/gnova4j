@@ -10,14 +10,13 @@ import gnova.query.expression.ValueType;
 public final class GeometryExpression
         extends ValueExpression {
 
-    public static final GeometryExpression EMPTY = new GeometryExpression(null);
+    public static final GeometryExpression EMPTY = new GeometryExpression(Geometry.NONE);
 
-    private Geometry value = null;
+    private final Geometry value;
 
     /**
      *
-     * @param value 可以为null，
-     *              若不为null，则必须为Polygon或MultiPolygon
+     * @param value 不可以为null，必须为{@link Geometry#NONE 空几何对象}、{@link Polygon 多边形类型}或{@link MultiPolygon 多多边形类型}
      */
     public GeometryExpression(@Checked Geometry value) {
         this.value = value;
@@ -50,11 +49,9 @@ public final class GeometryExpression
 
     @Override
     public String toString() {
-        if (value == null) {
+        if (value.getType() == GeometryType.None) {
             return "[]";
-        }
-        if (value.getType() ==
-                GeometryType.Polygon) {
+        } else if (value.getType() == GeometryType.Polygon) {
             return "[" + toString((Polygon) value) + "]";
         } else {
             return "[" + toString((MultiPolygon) value) + "]";
@@ -149,7 +146,7 @@ public final class GeometryExpression
         sb.append("(");
         sb.append(toString(polygon.getExteriorRing()));
         sb.append(")");
-        int n = polygon.size();
+        int n = polygon.getInteriorRingSize();
         if (n > 0) {
             sb.append(", ");
             for (int i = 0; i < n; i++) {

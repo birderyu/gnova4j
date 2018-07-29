@@ -2,6 +2,7 @@ package gnova.query.expression;
 
 import gnova.core.annotation.NotNull;
 import gnova.geometry.model.Geometry;
+import gnova.geometry.model.GeometryType;
 import gnova.query.expression.value.*;
 
 import java.math.BigDecimal;
@@ -63,11 +64,25 @@ public class Builder {
         return new StringExpression(val);
     }
 
+    public static GeometryExpression buildEmptyGeometry() {
+        return GeometryExpression.EMPTY;
+    }
+
     public static GeometryExpression buildGeometry(Geometry val) {
+        if (val == null || val.getType() == GeometryType.None) {
+            return buildEmptyGeometry();
+        }
         return new GeometryExpression(val);
     }
 
+    public static ListExpression buildEmptyList() {
+        return ListExpression.EMPTY;
+    }
+
     public static ListExpression buildList(ValueExpression[] values) {
+        if (values == null || values.length <= 0) {
+            return buildEmptyList();
+        }
         return new ListExpression(values);
     }
 
