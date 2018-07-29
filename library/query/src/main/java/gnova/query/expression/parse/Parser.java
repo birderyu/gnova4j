@@ -288,11 +288,12 @@ public class Parser {
             return BooleanExpression.FALSE;
         } else {
             String v = stream.toString();
-            if (charIsNumber(v.charAt(0))) {
+            char c = v.charAt(0);
+            if (charIsNumber(c) || c == '-') {
                 // 可能是数字，试着转换为数字
                 try {
                     long lv = Long.valueOf(v);
-                    if (lv <= MAX_INT_32) {
+                    if (lv <= MAX_INT_32 && lv >= MIN_INT_32) {
                         return new Int32Expression((int) lv);
                     } else {
                         return new Int64Expression(lv);
@@ -309,7 +310,6 @@ public class Parser {
                         stream.getValue(), stream.getCursor());
             } else {
                 // 键值
-                char c = v.charAt(0);
                 if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_') {
                     return new KeyExpression(v);
                 } else {
@@ -824,6 +824,7 @@ public class Parser {
     };
 
     private static final long MAX_INT_32 = Integer.MAX_VALUE;
+    private static final long MIN_INT_32 = Integer.MIN_VALUE;
 
     private static final GeometryFactory GEOMETRY_FACTORY
             = FactoryFinder.getDefaultGeometryFactory();

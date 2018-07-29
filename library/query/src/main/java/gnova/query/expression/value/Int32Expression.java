@@ -3,6 +3,8 @@ package gnova.query.expression.value;
 import gnova.core.annotation.NotNull;
 import gnova.query.expression.ValueType;
 
+import java.math.BigDecimal;
+
 public final class Int32Expression
         extends NumberExpression {
 
@@ -10,6 +12,10 @@ public final class Int32Expression
 
     public Int32Expression(int value) {
         this.value = value;
+    }
+
+    public int intValue() {
+        return value;
     }
 
     @Override
@@ -45,13 +51,15 @@ public final class Int32Expression
     @Override
     protected boolean equalsBy(@NotNull Object left) {
         if (left instanceof NumberExpression) {
-            NumberExpression nl = (NumberExpression) left;
-            if (nl.isInt32()) {
-                return nl.asInt32(value) == value;
-            } else if (nl.isInt64()) {
-                return nl.asInt64(value) == value;
-            } else if (nl.isDouble()) {
-                return nl.asDouble(value) == value;
+            NumberExpression ne = (NumberExpression) left;
+            if (ne.isInt32()) {
+                return ((Int32Expression) ne).intValue() == value;
+            } else if (ne.isInt64()) {
+                return ((Int64Expression) ne).longValue() == value;
+            } else if (ne.isDouble()) {
+                return Double.compare(((DoubleExpression) ne).doubleValue(), value) == 0;
+            } else {
+                return false;
             }
         } else if (left instanceof Number) {
             return ((Number) left).intValue() == value;
@@ -68,13 +76,15 @@ public final class Int32Expression
     @Override
     protected boolean unequalsBy(@NotNull Object left) {
         if (left instanceof NumberExpression) {
-            NumberExpression nl = (NumberExpression) left;
-            if (nl.isInt32()) {
-                return nl.asInt32(value) != value;
-            } else if (nl.isInt64()) {
-                return nl.asInt64(value) != value;
-            } else if (nl.isDouble()) {
-                return nl.asDouble(value) != value;
+            NumberExpression ne = (NumberExpression) left;
+            if (ne.isInt32()) {
+                return ((Int32Expression) ne).intValue() != value;
+            } else if (ne.isInt64()) {
+                return ((Int64Expression) ne).longValue() != value;
+            } else if (ne.isDouble()) {
+                return Double.compare(((DoubleExpression) ne).doubleValue(), value) != 0;
+            } else {
+                return false;
             }
         } else if (left instanceof Number) {
             return ((Number) left).intValue() != value;
@@ -91,13 +101,15 @@ public final class Int32Expression
     @Override
     protected boolean lessBy(@NotNull Object left) {
         if (left instanceof NumberExpression) {
-            NumberExpression nl = (NumberExpression) left;
-            if (nl.isInt32()) {
-                return nl.asInt32(value) < value;
-            } else if (nl.isInt64()) {
-                return nl.asInt64(value) < value;
-            } else if (nl.isDouble()) {
-                return nl.asDouble(value) < value;
+            NumberExpression ne = (NumberExpression) left;
+            if (ne.isInt32()) {
+                return ((Int32Expression) ne).intValue() < value;
+            } else if (ne.isInt64()) {
+                return ((Int64Expression) ne).longValue() < value;
+            } else if (ne.isDouble()) {
+                return ((DoubleExpression) ne).doubleValue() < value;
+            } else {
+                return false;
             }
         } else if (left instanceof Number) {
             return ((Number) left).intValue() < value;
@@ -114,13 +126,15 @@ public final class Int32Expression
     @Override
     protected boolean lessEqualsBy(@NotNull Object left) {
         if (left instanceof NumberExpression) {
-            NumberExpression nl = (NumberExpression) left;
-            if (nl.isInt32()) {
-                return nl.asInt32(value) <= value;
-            } else if (nl.isInt64()) {
-                return nl.asInt64(value) <= value;
-            } else if (nl.isDouble()) {
-                return nl.asDouble(value) <= value;
+            NumberExpression ne = (NumberExpression) left;
+            if (ne.isInt32()) {
+                return ((Int32Expression) ne).intValue() <= value;
+            } else if (ne.isInt64()) {
+                return ((Int64Expression) ne).longValue() <= value;
+            } else if (ne.isDouble()) {
+                return ((DoubleExpression) ne).doubleValue() <= value;
+            } else {
+                return false;
             }
         } else if (left instanceof Number) {
             return ((Number) left).intValue() <= value;
@@ -137,13 +151,15 @@ public final class Int32Expression
     @Override
     protected boolean greaterBy(@NotNull Object left) {
         if (left instanceof NumberExpression) {
-            NumberExpression nl = (NumberExpression) left;
-            if (nl.isInt32()) {
-                return nl.asInt32(value) > value;
-            } else if (nl.isInt64()) {
-                return nl.asInt64(value) > value;
-            } else if (nl.isDouble()) {
-                return nl.asDouble(value) > value;
+            NumberExpression ne = (NumberExpression) left;
+            if (ne.isInt32()) {
+                return ((Int32Expression) ne).intValue() > value;
+            } else if (ne.isInt64()) {
+                return ((Int64Expression) ne).longValue() > value;
+            } else if (ne.isDouble()) {
+                return ((DoubleExpression) ne).doubleValue() > value;
+            } else {
+                return false;
             }
         } else if (left instanceof Number) {
             return ((Number) left).intValue() > value;
@@ -160,13 +176,15 @@ public final class Int32Expression
     @Override
     protected boolean greaterEqualsBy(@NotNull Object left) {
         if (left instanceof NumberExpression) {
-            NumberExpression nl = (NumberExpression) left;
-            if (nl.isInt32()) {
-                return nl.asInt32(value) >= value;
-            } else if (nl.isInt64()) {
-                return nl.asInt64(value) >= value;
-            } else if (nl.isDouble()) {
-                return nl.asDouble(value) >= value;
+            NumberExpression ne = (NumberExpression) left;
+            if (ne.isInt32()) {
+                return ((Int32Expression) ne).intValue() >= value;
+            } else if (ne.isInt64()) {
+                return ((Int64Expression) ne).longValue() >= value;
+            } else if (ne.isDouble()) {
+                return ((DoubleExpression) ne).doubleValue() >= value;
+            } else {
+                return false;
             }
         } else if (left instanceof Number) {
             return ((Number) left).intValue() >= value;
@@ -189,11 +207,19 @@ public final class Int32Expression
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
-        } else if (!(obj instanceof Int32Expression)) {
+        } else if (!(obj instanceof NumberExpression)) {
             return false;
         }
-        Int32Expression i32e = (Int32Expression) obj;
-        return value == i32e.value;
+        NumberExpression ne = (NumberExpression) obj;
+        if (ne.isInt32()) {
+            return value == ((Int32Expression) ne).intValue();
+        } else if (ne.isInt64()) {
+            return value == ((Int64Expression) ne).longValue();
+        } else if (ne.isDouble()) {
+            return Double.compare(value, ((DoubleExpression) ne).doubleValue()) == 0;
+        } else {
+            return false;
+        }
     }
 
     @Override
