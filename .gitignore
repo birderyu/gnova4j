@@ -1,3 +1,4 @@
+# for maven
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -14,3 +15,8 @@ buildNumber.properties
 # for IntelliJ IDEA
 .idea/
 *.iml
+
+# for Eclipse
+.settings/
+*.project
+*.classpath

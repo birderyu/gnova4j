@@ -31,7 +31,8 @@ public class MultiIterator<E>
      *
      * @param iterators 迭代器的数组
      */
-    public MultiIterator(Iterator<E>... iterators) {
+    @SafeVarargs
+	public MultiIterator(Iterator<E>... iterators) {
         this.iterators = iterators;
         this.cursor = 0;
     }

@@ -68,7 +68,7 @@ public interface Polygon
 
     @Override
     default ReadOnlyIterator<LinearRing> iterator() {
-        return new ReadOnlyIteratorProxy<>(
+        return new ReadOnlyIteratorProxy<LinearRing>(
                 new MultiIterator<>(
                         new SingleIterator<>(getExteriorRing()),
                         new InteriorRingIterator(this, 0)));
