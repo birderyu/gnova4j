@@ -5,12 +5,18 @@ import gnova.query.expression.parse.ParseException;
 import gnova.query.expression.parse.Parser;
 import gnova.query.expression.value.*;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class ValueExpressionTest {
+
+    private final NullExpression nullExp = Builder.buildNull();
+    private final BooleanExpression trueExp = Builder.buildTrue();
+    private final BooleanExpression falseExp = Builder.buildFalse();
+    private final GeometryExpression emptyGeoExp = Builder.buildEmptyGeometry();
 
     /**
      * 测试键值表达式
@@ -47,7 +53,7 @@ public class ValueExpressionTest {
     public void testNullExpression() {
 
         // 合法的空值表达式
-        legalValueExpression("null", Builder.buildNull());
+        legalValueExpression("null", nullExp);
 
         // 非法的空值表达式
         illegalNullExpression("Null");
@@ -74,8 +80,8 @@ public class ValueExpressionTest {
     public void testBooleanExpression() {
 
         // 合法的布尔值表达式
-        legalValueExpression("true", Builder.buildBoolean(true));
-        legalValueExpression("false", Builder.buildBoolean(false));
+        legalValueExpression("true", trueExp);
+        legalValueExpression("false", falseExp);
 
         // 非法的布尔值表达式
         illegalBooleanExpression("True");
@@ -219,7 +225,7 @@ public class ValueExpressionTest {
     public void testGeometryExpression() {
 
         // 空的几何对象
-        legalValueExpression("[]", Builder.buildEmptyGeometry());
+        legalValueExpression("[]", emptyGeoExp);
 
         GeometryFactory gf = FactoryFinder.getDefaultGeometryFactory();
         String sRing = "(-4 4, -7 0, -4 -4, 0 -4, 3 0, 0 4, -4 4)";
