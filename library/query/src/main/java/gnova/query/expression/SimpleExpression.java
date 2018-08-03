@@ -91,7 +91,7 @@ public final class SimpleExpression
 
     @Override
     public boolean isAlwaysTrue() {
-        if (!leftValue.isKey() && rightValue.placeholderSize() != 0) {
+        if (!leftValue.isKey() && rightValue.placeholderSize() == 0) {
             // 仅当左值不为key且右值不含占位符时，可以直接进行比较
             return rightValue.comparedBy(leftValue, compareOperator);
         }

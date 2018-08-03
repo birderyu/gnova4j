@@ -3,13 +3,15 @@ package gnova.query.expression;
 import gnova.geometry.model.*;
 import gnova.query.expression.parse.ParseException;
 import gnova.query.expression.parse.Parser;
-import gnova.query.expression.value.*;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * 值表达式测试类
+ */
 public class ValueExpressionTest {
 
     /**
