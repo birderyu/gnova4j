@@ -7,21 +7,58 @@ import gnova.query.expression.value.*;
 
 import java.math.BigDecimal;
 
+/**
+ * 表达式构造器
+ */
 public class Builder {
 
     /**
      * 构建一个空值表达式
      *
-     * @return
+     * @return 空值表达式，不会返回null
      */
+    @NotNull
     public static NullExpression buildNull() {
         return NullExpression.NULL;
     }
 
-    public static BooleanExpression buildBoolean(boolean val) {
-        return val ? BooleanExpression.TRUE : BooleanExpression.FALSE;
+    /**
+     * 构建一个值为true的布尔值表达式
+     *
+     * @return 布尔值表达式，不会返回null
+     */
+    @NotNull
+    public static BooleanExpression buildTrue() {
+        return BooleanExpression.TRUE;
     }
 
+    /**
+     * 构建一个值为false的布尔值表达式
+     *
+     * @return 布尔值表达式，不会返回null
+     */
+    @NotNull
+    public static BooleanExpression buildFalse() {
+        return BooleanExpression.FALSE;
+    }
+
+    /**
+     * 构建一个布尔值表达式
+     *
+     * @return 布尔值表达式，不会返回null
+     */
+    @NotNull
+    public static BooleanExpression buildBoolean(boolean val) {
+        return val ? buildTrue() : buildFalse();
+    }
+
+    /**
+     * 构建一个数字值表达式
+     *
+     * @param val 数字值，不允许为null
+     * @return 数字值表达式，不会返回null
+     */
+    @NotNull
     public static NumberExpression buildNumber(@NotNull Number val) {
         if (val instanceof Integer) {
             return buildInt32((Integer) val);
@@ -48,27 +85,68 @@ public class Builder {
         }
     }
 
+    /**
+     * 构建一个32位整型数字值表达式
+     *
+     * @param val 整型数字
+     * @return 32位整型数字值表达式，不会返回null
+     */
+    @NotNull
     public static Int32Expression buildInt32(int val) {
         return new Int32Expression(val);
     }
 
+    /**
+     * 构建一个64位整型数字值表达式
+     *
+     * @param val 长整型数字
+     * @return 64位整型数字值表达式，不会返回null
+     */
+    @NotNull
     public static Int64Expression buildInt64(long val) {
         return new Int64Expression(val);
     }
 
+    /**
+     * 构建一个双精度浮点型数字值表达式
+     *
+     * @param val 双精度浮点型数字
+     * @return 双精度浮点型数字值表达式，不会返回null
+     */
+    @NotNull
     public static DoubleExpression buildDouble(double val) {
         return new DoubleExpression(val);
     }
 
-    public static StringExpression buildString(String val) {
+    /**
+     * 构建一个字符串值表达式
+     *
+     * @param val 字符串，不允许为null
+     * @return 字符串值表达式，不会返回null
+     */
+    @NotNull
+    public static StringExpression buildString(@NotNull String val) {
         return new StringExpression(val);
     }
 
+    /**
+     * 构建一个空的几何区域值表达式
+     *
+     * @return 空的几何区域值表达式，不会返回null
+     */
+    @NotNull
     public static GeometryExpression buildEmptyGeometry() {
         return GeometryExpression.EMPTY;
     }
 
-    public static GeometryExpression buildGeometry(Geometry val) {
+    /**
+     * 构建一个几何区域值表达式
+     *
+     * @param val 几何对象，不允许为null
+     * @return 几何区域值表达式，不会返回null
+     */
+    @NotNull
+    public static GeometryExpression buildGeometry(@NotNull Geometry val) {
         if (val == null || val.getType() == GeometryType.None) {
             return buildEmptyGeometry();
         }
