@@ -14,12 +14,11 @@
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
     <url>https://github.com/birderyu/gnova4j</url>
+
     <description>
         gnova libraries core
     </description>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
