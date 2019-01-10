@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 /**
  * 对象构造器
  *
- * 对象构造器用于构造一个空的对象
+ * <p>对象构造器用于构造一个空的对象
  *
  * @param <T> 对象的类型
  * @see Supplier

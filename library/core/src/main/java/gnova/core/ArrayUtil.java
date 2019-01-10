@@ -3,6 +3,7 @@ package gnova.core;
 import gnova.core.annotation.NotNull;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 
 /**
  * 数组的帮助类
@@ -378,6 +379,330 @@ public class ArrayUtil {
             a[i] = da[i];
         }
         return a;
+    }
+
+    /**
+     * 将一个基本类型包装类的数组解封成为基本类型的数组
+     * 如Integer[]将被转换成int[]
+     *
+     * @param a 基本类型包装类的数组
+     * @param <T> 基本类型包装类
+     * @return 基本类型的数组对象
+     * @throws IllegalArgumentException 若参数并非一个数组，则抛出此异常
+     */
+    public static <T> Object unboxing(@NotNull T[] a) throws IllegalArgumentException {
+        Class<?> c = a.getClass();
+        if (!c.isArray()) {
+            throw new IllegalArgumentException("参数必须是数组");
+        }
+        Class<?> cc = c.getComponentType();
+        if (cc == Boolean.class) {
+            return unboxing((Boolean[]) a);
+        } else if (cc == Byte.class) {
+            return unboxing((Byte[]) a);
+        } else if (cc == Character.class) {
+            return unboxing((Character[]) a);
+        } else if (cc == Short.class) {
+            return unboxing((Short[]) a);
+        } else if (cc == Integer.class) {
+            return unboxing((Integer[]) a);
+        } else if (cc == Long.class) {
+            return unboxing((Long[]) a);
+        } else if (cc == Float.class) {
+            return unboxing((Float[]) a);
+        } else if (cc == Double.class) {
+            return unboxing((Double[]) a);
+        } else {
+            return a;
+        }
+    }
+
+    /**
+     * 将一个布尔类型包装类的数组解封成布尔类型的数组
+     *
+     * @param ba 数组
+     * @return 数组
+     */
+    public static boolean[] unboxing(@NotNull Boolean[] ba) {
+        boolean[] a = new boolean[ba.length];
+        for (int i = 0; i < ba.length; i++) {
+            a[i] = ba[i];
+        }
+        return a;
+    }
+
+    /**
+     * 将一个字节类型包装类的数组解封成字节类型的数组
+     *
+     * @param ba 数组
+     * @return 数组
+     */
+    public static byte[] unboxing(@NotNull Byte[] ba) {
+        byte[] a = new byte[ba.length];
+        for (int i = 0; i < ba.length; i++) {
+            a[i] = ba[i];
+        }
+        return a;
+    }
+
+    /**
+     * 将一个字符类型包装类的数组解封成字符类型的数组
+     *
+     * @param ca 数组
+     * @return 数组
+     */
+    public static char[] unboxing(@NotNull Character[] ca) {
+        char[] a = new char[ca.length];
+        for (int i = 0; i < ca.length; i++) {
+            a[i] = ca[i];
+        }
+        return a;
+    }
+
+    /**
+     * 将一个短整型包装类的数组解封成短整型的数组
+     *
+     * @param sa 数组
+     * @return 数组
+     */
+    public static short[] unboxing(@NotNull Short[] sa) {
+        short[] a = new short[sa.length];
+        for (int i = 0; i < sa.length; i++) {
+            a[i] = sa[i];
+        }
+        return a;
+    }
+
+    /**
+     * 将一个整型包装类的数组解封成整型的数组
+     *
+     * @param ia 数组
+     * @return 数组
+     */
+    public static int[] unboxing(@NotNull Integer[] ia) {
+        int[] a = new int[ia.length];
+        for (int i = 0; i < ia.length; i++) {
+            a[i] = ia[i];
+        }
+        return a;
+    }
+
+    /**
+     * 将一个长整型包装类的数组解封成长整型的数组
+     *
+     * @param la 数组
+     * @return 数组
+     */
+    public static long[] unboxing(@NotNull Long[] la) {
+        long[] a = new long[la.length];
+        for (int i = 0; i < la.length; i++) {
+            a[i] = la[i];
+        }
+        return a;
+    }
+
+    /**
+     * 将一个浮点型包装类的数组解封成浮点型的数组
+     *
+     * @param fa 数组
+     * @return 数组
+     */
+    public static float[] unboxing(@NotNull Float[] fa) {
+        float[] a = new float[fa.length];
+        for (int i = 0; i < fa.length; i++) {
+            a[i] = fa[i];
+        }
+        return a;
+    }
+
+    /**
+     * 将一个双精度浮点型包装类的数组解封成双精度浮点型的数组
+     *
+     * @param da 数组
+     * @return 数组
+     */
+    public static double[] unboxing(@NotNull Double[] da) {
+        double[] a = new double[da.length];
+        for (int i = 0; i < da.length; i++) {
+            a[i] = da[i];
+        }
+        return a;
+    }
+
+    /**
+     * 比较两个数组是否相等
+     *
+     * @param a1 第一个数组
+     * @param a2 第二个数组
+     * @return 若两个数组相等，则返回true，否则返回false
+     */
+    public static boolean equals(@NotNull boolean[] a1, @NotNull Boolean[] a2) {
+        return Arrays.equals(a1, unboxing(a2));
+    }
+
+    /**
+     * 比较两个数组是否相等
+     *
+     * @param a1 第一个数组
+     * @param a2 第二个数组
+     * @return 若两个数组相等，则返回true，否则返回false
+     */
+    public static boolean equals(@NotNull Boolean[] a1, @NotNull boolean[] a2) {
+        return Arrays.equals(unboxing(a1), a2);
+    }
+
+    /**
+     * 比较两个数组是否相等
+     *
+     * @param a1 第一个数组
+     * @param a2 第二个数组
+     * @return 若两个数组相等，则返回true，否则返回false
+     */
+    public static boolean equals(@NotNull byte[] a1, @NotNull Byte[] a2) {
+        return Arrays.equals(a1, unboxing(a2));
+    }
+
+    /**
+     * 比较两个数组是否相等
+     *
+     * @param a1 第一个数组
+     * @param a2 第二个数组
+     * @return 若两个数组相等，则返回true，否则返回false
+     */
+    public static boolean equals(@NotNull Byte[] a1, @NotNull byte[] a2) {
+        return Arrays.equals(unboxing(a1), a2);
+    }
+
+    /**
+     * 比较两个数组是否相等
+     *
+     * @param a1 第一个数组
+     * @param a2 第二个数组
+     * @return 若两个数组相等，则返回true，否则返回false
+     */
+    public static boolean equals(@NotNull char[] a1, @NotNull Character[] a2) {
+        return Arrays.equals(a1, unboxing(a2));
+    }
+
+    /**
+     * 比较两个数组是否相等
+     *
+     * @param a1 第一个数组
+     * @param a2 第二个数组
+     * @return 若两个数组相等，则返回true，否则返回false
+     */
+    public static boolean equals(@NotNull Character[] a1, @NotNull char[] a2) {
+        return Arrays.equals(unboxing(a1), a2);
+    }
+
+    /**
+     * 比较两个数组是否相等
+     *
+     * @param a1 第一个数组
+     * @param a2 第二个数组
+     * @return 若两个数组相等，则返回true，否则返回false
+     */
+    public static boolean equals(@NotNull short[] a1, @NotNull Short[] a2) {
+        return Arrays.equals(a1, unboxing(a2));
+    }
+
+    /**
+     * 比较两个数组是否相等
+     *
+     * @param a1 第一个数组
+     * @param a2 第二个数组
+     * @return 若两个数组相等，则返回true，否则返回false
+     */
+    public static boolean equals(@NotNull Short[] a1, @NotNull short[] a2) {
+        return Arrays.equals(unboxing(a1), a2);
+    }
+
+    /**
+     * 比较两个数组是否相等
+     *
+     * @param a1 第一个数组
+     * @param a2 第二个数组
+     * @return 若两个数组相等，则返回true，否则返回false
+     */
+    public static boolean equals(@NotNull int[] a1, @NotNull Integer[] a2) {
+        return Arrays.equals(a1, unboxing(a2));
+    }
+
+    /**
+     * 比较两个数组是否相等
+     *
+     * @param a1 第一个数组
+     * @param a2 第二个数组
+     * @return 若两个数组相等，则返回true，否则返回false
+     */
+    public static boolean equals(@NotNull Integer[] a1, @NotNull int[] a2) {
+        return Arrays.equals(unboxing(a1), a2);
+    }
+
+    /**
+     * 比较两个数组是否相等
+     *
+     * @param a1 第一个数组
+     * @param a2 第二个数组
+     * @return 若两个数组相等，则返回true，否则返回false
+     */
+    public static boolean equals(@NotNull long[] a1, @NotNull Long[] a2) {
+        return Arrays.equals(a1, unboxing(a2));
+    }
+
+    /**
+     * 比较两个数组是否相等
+     *
+     * @param a1 第一个数组
+     * @param a2 第二个数组
+     * @return 若两个数组相等，则返回true，否则返回false
+     */
+    public static boolean equals(@NotNull Long[] a1, @NotNull long[] a2) {
+        return Arrays.equals(unboxing(a1), a2);
+    }
+
+    /**
+     * 比较两个数组是否相等
+     *
+     * @param a1 第一个数组
+     * @param a2 第二个数组
+     * @return 若两个数组相等，则返回true，否则返回false
+     */
+    public static boolean equals(@NotNull float[] a1, @NotNull Float[] a2) {
+        return Arrays.equals(a1, unboxing(a2));
+    }
+
+    /**
+     * 比较两个数组是否相等
+     *
+     * @param a1 第一个数组
+     * @param a2 第二个数组
+     * @return 若两个数组相等，则返回true，否则返回false
+     */
+    public static boolean equals(@NotNull Float[] a1, @NotNull float[] a2) {
+        return Arrays.equals(unboxing(a1), a2);
+    }
+
+    /**
+     * 比较两个数组是否相等
+     *
+     * @param a1 第一个数组
+     * @param a2 第二个数组
+     * @return 若两个数组相等，则返回true，否则返回false
+     */
+    public static boolean equals(@NotNull double[] a1, @NotNull Double[] a2) {
+        return Arrays.equals(a1, unboxing(a2));
+    }
+
+    /**
+     * 比较两个数组是否相等
+     *
+     * @param a1 第一个数组
+     * @param a2 第二个数组
+     * @return 若两个数组相等，则返回true，否则返回false
+     */
+    public static boolean equals(@NotNull Double[] a1, @NotNull double[] a2) {
+        return Arrays.equals(unboxing(a1), a2);
     }
 
 }

@@ -128,7 +128,7 @@ public abstract class AbstractGraphTracker<T extends Graphable>
                 // 停止追踪
                 return false;
             default:
-                throw new IllegalStateException("Unrecognized return value from GraphWalker");
+                throw new IllegalStateException("Unrecognized return build from GraphWalker");
         }
     }
 

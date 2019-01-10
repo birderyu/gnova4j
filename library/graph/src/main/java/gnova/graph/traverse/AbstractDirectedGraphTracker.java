@@ -104,7 +104,7 @@ public abstract class AbstractDirectedGraphTracker<T extends DirectedGraphable>
                 // 停止追踪
                 return false;
             default:
-                throw new IllegalStateException("Unrecognized return value from GraphWalker");
+                throw new IllegalStateException("Unrecognized return build from GraphWalker");
         }
     }
 
@@ -153,7 +153,7 @@ public abstract class AbstractDirectedGraphTracker<T extends DirectedGraphable>
                 // 停止追踪
                 return false;
             default:
-                throw new IllegalStateException("Unrecognized return value from GraphWalker");
+                throw new IllegalStateException("Unrecognized return build from GraphWalker");
         }
     }
 

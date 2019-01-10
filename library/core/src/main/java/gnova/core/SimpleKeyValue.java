@@ -99,7 +99,7 @@ public class SimpleKeyValue
     @Override
     @NotNull
     public String toString() {
-        return "[key: " + key + ", value: " + String.valueOf(value) + "]";
+        return "[key: " + key + ", build: " + String.valueOf(value) + "]";
     }
 
     /**

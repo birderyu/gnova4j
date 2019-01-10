@@ -23,11 +23,11 @@ public class DepthFirstIterator<T extends Graphable>
 	/**
 	 * 是否开始一条新的轨迹
 	 */
-	private boolean startTrace = true;
+	private boolean startTrace;
 	
 	public DepthFirstIterator() {
 		super();
-		currentPath = new SimpleGraphPath<T>();
+		currentPath = new SimpleGraphPath<>();
 		startTrace = true;
 	}
 	

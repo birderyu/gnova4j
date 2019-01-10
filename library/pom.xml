@@ -10,19 +10,23 @@
         <version>1.0.0</version>
     </parent>
 
-    <!-- =========================================================== -->
-    <!--     Module Description                                      -->
-    <!-- =========================================================== -->
     <artifactId>gnova-library</artifactId>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     <url>https://github.com/birderyu/gnova4j</url>
+
     <description>
         gnova libraries
     </description>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <jts.version>1.16.0</jts.version>
+        <bson.version>3.9.0</bson.version>
+        <mongo.version>3.9.0</mongo.version>
     </properties>
+
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
@@ -30,6 +34,7 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
     <developers>
         <developer>
             <name>birderyu</name>
@@ -38,20 +43,13 @@
         </developer>
     </developers>
 
-    <!-- =========================================================== -->
-    <!--     Modules included in the build                           -->
-    <!-- =========================================================== -->
     <modules>
         <module>core</module>
-        <module>json-simple</module>
         <module>geometry</module>
         <module>geometry-io-json</module>
-        <module>query</module>
-        <module>data</module>
+        <module>geometry-io-bson</module>
         <module>config</module>
         <module>graph</module>
-        <module>drawing</module>
-        <module>symbology</module>
     </modules>
     
     <dependencies>
@@ -63,5 +61,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>

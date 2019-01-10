@@ -110,6 +110,10 @@ public class App {
     public static void main(String[] args)
             throws ConfigException, IOException {
 
+        short aaa = 129;
+        byte bbb = (byte) aaa;
+        int ccc = (short) bbb + 256;
+
         Properties p = new Properties();
         p.load(Object.class.getResourceAsStream("/sample.properties"));
         Map<String, Object> obj = new HashMap<>();

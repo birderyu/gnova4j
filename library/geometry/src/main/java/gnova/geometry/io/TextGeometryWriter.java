@@ -12,36 +12,6 @@ public interface TextGeometryWriter
         extends GeometryWriter<String> {
 
     /**
-     * 将几何对象转换成文本对象
-     *
-     * @param geometry 几何对象，不允许为null
-     * @return 文本对象，不会返回null
-     * @throws GeometryIOException 若转换失败，则抛出此异常
-     */
-    @NotNull
-    default String write(@NotNull Geometry geometry) throws GeometryIOException {
-        switch (geometry.getType()) {
-            case Point:
-                return writePoint((Point) geometry);
-            case LineString:
-                return writeLineString((LineString) geometry);
-            case LinearRing:
-                return writeLinearRing((LinearRing) geometry);
-            case Polygon:
-                return writePolygon((Polygon) geometry);
-            case MultiPoint:
-                return writeMultiPoint((MultiPoint) geometry);
-            case MultiLineString:
-                return writeMultiLineString((MultiLineString) geometry);
-            case MultiPolygon:
-                return writeMultiPolygon((MultiPolygon) geometry);
-            case GeometryCollection:
-                return writeGeometryCollection((GeometryCollection) geometry);
-        }
-        throw new GeometryIOException("不支持的几何类型：" + geometry.getType());
-    }
-
-    /**
      * 将点对象转换成文本对象
      *
      * @param point 点对象，不允许为null

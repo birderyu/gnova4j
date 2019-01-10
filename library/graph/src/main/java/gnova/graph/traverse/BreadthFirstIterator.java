@@ -28,8 +28,8 @@ public class BreadthFirstIterator<T extends Graphable>
 	
 	public BreadthFirstIterator() {
 		super();
-		paths = new HashMap<T, GraphPath<T>>();
-		pathLengths = new HashMap<T, Integer>();
+		paths = new HashMap<>();
+		pathLengths = new HashMap<>();
 	}
 	
 	@Override

@@ -1,16 +1,22 @@
 package gnova.core;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 public class App {
 
     public static void main(String[] args) {
 
-        double[] arr = new double[2];
-        try {
-            arr[2] = 1;
-        } catch (Exception e) {
-            int stop = 1;
-        }
 
+        LocalDate today = LocalDate.now();
+        
+        LocalDate yr = LocalDate.of(2013, 11, 25);
+        long interval = ChronoUnit.YEARS.between(yr, today);
+
+        java.util.function.UnaryOperator uo;
+        java.util.stream.Stream<String> s;
+
+        java.util.Map m;
 
         float f1 = Float.NaN;
         float f2 = Float.NaN;
@@ -33,6 +39,10 @@ public class App {
         boolean b16 = f1 >= f2;
         boolean b17 = f1 == f2;
         boolean b18 = f1 != f2;
+
+        int aaa = 129;
+        byte bbb = (byte) aaa;
+        int ccc = bbb;
 
         int stop = 1;
         stop++;

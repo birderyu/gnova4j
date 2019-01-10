@@ -10,6 +10,6 @@ public class SimpleGraphTracker<T extends Graphable>
 
     @Override
     protected Map<T, Boolean> buildMap() {
-	    return new HashMap<T, Boolean>();
+	    return new HashMap<>();
     }
 }
