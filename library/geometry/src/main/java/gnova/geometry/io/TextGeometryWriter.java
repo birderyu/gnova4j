@@ -3,10 +3,7 @@ package gnova.geometry.io;
 import gnova.core.annotation.NotNull;
 import gnova.geometry.model.*;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
 
 public interface TextGeometryWriter
         extends GeometryWriter<String> {

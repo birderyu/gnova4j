@@ -1,12 +1,10 @@
 package gnova.geometry.io;
 
 import gnova.core.annotation.NotNull;
-import gnova.core.annotation.Unsupported;
 import gnova.geometry.model.*;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.Writer;
 
 public interface BinaryGeometryWriter
         extends GeometryWriter<byte[]>, BinaryGeometryIOSettings {
@@ -242,150 +240,6 @@ public interface BinaryGeometryWriter
         } catch (IOException e) {
             throw new GeometryIOException(e);
         }
-    }
-
-    /**
-     * 将一个几何对象写入到字符输出流
-     *
-     * <p>二进制几何对象输出接口不支持向字符输出流中写入一个几何对象，调用此方法会抛出异常
-     *
-     * @param geometry 几何对象，不允许为null
-     * @param writer 字符输出流，不允许为null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default void write(@NotNull Geometry geometry, @NotNull Writer writer)
-            throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not write binary data to java.io.Writer");
-    }
-
-    /**
-     * 将一个点对象写入到字符输出流
-     *
-     * <p>二进制几何对象输出接口不支持向字符输出流中写入一个点对象，调用此方法会抛出异常
-     *
-     * @param point 点对象，不允许为null
-     * @param writer 字符输出流，不允许为null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default void writePoint(@NotNull Point point, @NotNull Writer writer)
-            throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not write binary data to java.io.Writer");
-    }
-
-    /**
-     * 将一个线串对象写入到字符输出流
-     *
-     * <p>二进制几何对象输出接口不支持向字符输出流中写入一个线串对象，调用此方法会抛出异常
-     *
-     * @param lineString 线串对象，不允许为null
-     * @param writer 字符输出流，不允许为null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default void writeLineString(@NotNull LineString lineString, @NotNull Writer writer)
-            throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not write binary data to java.io.Writer");
-    }
-
-    /**
-     * 将一个线环对象写入到字符输出流
-     *
-     * <p>二进制几何对象输出接口不支持向字符输出流中写入一个线环对象，调用此方法会抛出异常
-     *
-     * @param linearRing 线环对象，不允许为null
-     * @param writer 字符输出流，不允许为null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default void writeLinearRing(@NotNull LinearRing linearRing, @NotNull Writer writer)
-            throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not write binary data to java.io.Writer");
-    }
-
-    /**
-     * 将一个多边形对象写入到字符输出流
-     *
-     * <p>二进制几何对象输出接口不支持向字符输出流中写入一个多边形对象，调用此方法会抛出异常
-     *
-     * @param polygon 多边形对象，不允许为null
-     * @param writer 字符输出流，不允许为null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default void writePolygon(@NotNull Polygon polygon, @NotNull Writer writer)
-            throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not write binary data to java.io.Writer");
-    }
-
-    /**
-     * 将一个几何集合对象写入到字符输出流
-     *
-     * <p>二进制几何对象输出接口不支持向字符输出流中写入一个几何集合对象，调用此方法会抛出异常
-     *
-     * @param geometries 几何集合对象，不允许为null
-     * @param writer 字符输出流，不允许为null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default void writeGeometryCollection(@NotNull GeometryCollection geometries, @NotNull Writer writer)
-            throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not write binary data to java.io.Writer");
-    }
-
-    /**
-     * 将一个多点对象写入到字符输出流
-     *
-     * <p>二进制几何对象输出接口不支持向字符输出流中写入一个多点对象，调用此方法会抛出异常
-     *
-     * @param multiPoint 多点对象，不允许为null
-     * @param writer 字符输出流，不允许为null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default void writeMultiPoint(@NotNull MultiPoint multiPoint, @NotNull Writer writer)
-            throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not write binary data to java.io.Writer");
-    }
-
-    /**
-     * 将一个多线串对象写入到字符输出流
-     *
-     * <p>二进制几何对象输出接口不支持向字符输出流中写入一个多线串对象，调用此方法会抛出异常
-     *
-     * @param multiLineString 多线串对象，不允许为null
-     * @param writer 字符输出流，不允许为null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default void writeMultiLineString(@NotNull MultiLineString multiLineString, @NotNull Writer writer)
-            throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not write binary data to java.io.Writer");
-    }
-
-    /**
-     * 将一个多多边形对象写入到字符输出流
-     *
-     * <p>二进制几何对象输出接口不支持向字符输出流中写入一个多多边形对象，调用此方法会抛出异常
-     *
-     * @param multiPolygon 多多边形对象，不允许为null
-     * @param writer 字符输出流，不允许为null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default void writeMultiPolygon(@NotNull MultiPolygon multiPolygon, @NotNull Writer writer)
-            throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not write binary data to java.io.Writer");
     }
 
 }

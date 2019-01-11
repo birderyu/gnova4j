@@ -45,11 +45,16 @@
 
     <modules>
         <module>core</module>
+        <module>json-simple</module>
         <module>geometry</module>
         <module>geometry-io-json</module>
         <module>geometry-io-bson</module>
+        <module>query</module>
+        <module>data</module>
         <module>config</module>
         <module>graph</module>
+        <module>drawing</module>
+        <module>symbology</module>
     </modules>
     
     <dependencies>

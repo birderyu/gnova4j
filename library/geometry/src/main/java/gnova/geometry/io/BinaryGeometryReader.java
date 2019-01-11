@@ -24,9 +24,155 @@ public interface BinaryGeometryReader
      * @param inputStream 字节输入流，不允许为null
      * @return 几何对象，不会返回null
      * @throws GeometryIOException 若读取失败，则抛出此异常
+     * @throws UnsupportedOperationException 若不支持此方法，则抛出此异常
      */
     @NotNull
-    Geometry read(@NotNull InputStream inputStream) throws GeometryIOException;
+    Geometry read(@NotNull InputStream inputStream)
+            throws GeometryIOException, UnsupportedOperationException;
+
+    /**
+     * 从字节输入流中读取一个点对象
+     *
+     * @param inputStream 字节输入流，不允许为null
+     * @return 点对象，不会返回null
+     * @throws GeometryIOException 若读取失败，则抛出此异常
+     * @throws UnsupportedOperationException 若不支持此方法，则抛出此异常
+     */
+    @NotNull
+    default Point readPoint(@NotNull InputStream inputStream)
+            throws GeometryIOException, UnsupportedOperationException {
+        try {
+            return (Point) read(inputStream);
+        } catch (ClassCastException e) {
+            throw new GeometryIOException(e);
+        }
+    }
+
+    /**
+     * 从字节输入流中读取一个线串对象
+     *
+     * @param inputStream 字节输入流，不允许为null
+     * @return 线串对象，不会返回null
+     * @throws GeometryIOException 若读取失败，则抛出此异常
+     * @throws UnsupportedOperationException 若不支持此方法，则抛出此异常
+     */
+    @NotNull
+    default LineString readLineString(@NotNull InputStream inputStream)
+            throws GeometryIOException, UnsupportedOperationException {
+        try {
+            return (LineString) read(inputStream);
+        } catch (ClassCastException e) {
+            throw new GeometryIOException(e);
+        }
+    }
+
+    /**
+     * 从字节输入流中读取一个线环对象
+     *
+     * @param inputStream 字节输入流，不允许为null
+     * @return 线环对象，不会返回null
+     * @throws GeometryIOException 若读取失败，则抛出此异常
+     * @throws UnsupportedOperationException 若不支持此方法，则抛出此异常
+     */
+    @NotNull
+    default LinearRing readLinearRing(@NotNull InputStream inputStream)
+            throws GeometryIOException, UnsupportedOperationException {
+        try {
+            return (LinearRing) read(inputStream);
+        } catch (ClassCastException e) {
+            throw new GeometryIOException(e);
+        }
+    }
+
+    /**
+     * 从字节输入流中读取一个多边形对象
+     *
+     * @param inputStream 字节输入流，不允许为null
+     * @return 多边形对象，不会返回null
+     * @throws GeometryIOException 若读取失败，则抛出此异常
+     * @throws UnsupportedOperationException 若不支持此方法，则抛出此异常
+     */
+    @NotNull
+    default Polygon readPolygon(@NotNull InputStream inputStream)
+            throws GeometryIOException, UnsupportedOperationException {
+        try {
+            return (Polygon) read(inputStream);
+        } catch (ClassCastException e) {
+            throw new GeometryIOException(e);
+        }
+    }
+
+    /**
+     * 从字节输入流中读取一个几何集合对象
+     *
+     * @param inputStream 字节输入流，不允许为null
+     * @return 几何集合对象，不会返回null
+     * @throws GeometryIOException 若读取失败，则抛出此异常
+     * @throws UnsupportedOperationException 若不支持此方法，则抛出此异常
+     */
+    @NotNull
+    default GeometryCollection readGeometryCollection(@NotNull InputStream inputStream)
+            throws GeometryIOException, UnsupportedOperationException {
+        try {
+            return (GeometryCollection) read(inputStream);
+        } catch (ClassCastException e) {
+            throw new GeometryIOException(e);
+        }
+    }
+
+    /**
+     * 从字节输入流中读取一个多点对象
+     *
+     * @param inputStream 字节输入流，不允许为null
+     * @return 多点对象，不会返回null
+     * @throws GeometryIOException 若读取失败，则抛出此异常
+     * @throws UnsupportedOperationException 若不支持此方法，则抛出此异常
+     */
+    @NotNull
+    default MultiPoint readMultiPoint(@NotNull InputStream inputStream)
+            throws GeometryIOException, UnsupportedOperationException {
+        try {
+            return (MultiPoint) read(inputStream);
+        } catch (ClassCastException e) {
+            throw new GeometryIOException(e);
+        }
+    }
+
+    /**
+     * 从字节输入流中读取一个多线串对象
+     *
+     * @param inputStream 字节输入流，不允许为null
+     * @return 多线串对象，不会返回null
+     * @throws GeometryIOException 若读取失败，则抛出此异常
+     * @throws UnsupportedOperationException 若不支持此方法，则抛出此异常
+     */
+    @NotNull
+    default MultiLineString readMultiLineString(@NotNull InputStream inputStream)
+            throws GeometryIOException, UnsupportedOperationException {
+        try {
+            return (MultiLineString) read(inputStream);
+        } catch (ClassCastException e) {
+            throw new GeometryIOException(e);
+        }
+    }
+
+    /**
+     * 从字节输入流中读取一个多多边形对象
+     *
+     * @param inputStream 字节输入流，不允许为null
+     * @return 多多边形对象，不会返回null
+     * @throws GeometryIOException 若读取失败，则抛出此异常
+     * @throws UnsupportedOperationException 若不支持此方法，则抛出此异常
+     */
+    @NotNull
+    default MultiPolygon readMultiPolygon(@NotNull InputStream inputStream)
+            throws GeometryIOException, UnsupportedOperationException {
+        try {
+            return (MultiPolygon) read(inputStream);
+        } catch (ClassCastException e) {
+            throw new GeometryIOException(e);
+        }
+    }
 
     /**
      * 将二进制对象转换为几何对象
@@ -134,149 +280,6 @@ public interface BinaryGeometryReader
     @NotNull
     default MultiPolygon readMultiPolygon(@NotNull byte[] binaries) throws GeometryIOException {
         return readMultiPolygon(new ByteArrayInputStream(binaries));
-    }
-
-    /**
-     * 从字符输入流中读取一个几何对象
-     *
-     * <p>二进制几何对象输入接口不支持从字符输入流中读取一个几何对象，调用此方法会抛出异常
-     *
-     * @param reader 字符输入流，不允许为null
-     * @return 几何对象，不会返回null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default Geometry read(@NotNull Reader reader) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not read binary data from java.io.Reader");
-    }
-
-    /**
-     * 从字符输入流中读取一个点对象
-     *
-     * <p>二进制几何对象输入接口不支持从字符输入流中读取一个几何对象，调用此方法会抛出异常
-     *
-     * @param reader 字符输入流，不允许为null
-     * @return 点对象，不会返回null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default Point readPoint(@NotNull Reader reader)
-            throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not read binary data from java.io.Reader");
-    }
-
-    /**
-     * 从字符输入流中读取一个线串对象
-     *
-     * <p>二进制几何对象输入接口不支持从字符输入流中读取一个几何对象，调用此方法会抛出异常
-     *
-     * @param reader 字符输入流，不允许为null
-     * @return 线串对象，不会返回null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default LineString readLineString(@NotNull Reader reader)
-            throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not read binary data from java.io.Reader");
-    }
-
-    /**
-     * 从字符输入流中读取一个线环对象
-     *
-     * <p>二进制几何对象输入接口不支持从字符输入流中读取一个几何对象，调用此方法会抛出异常
-     *
-     * @param reader 字符输入流，不允许为null
-     * @return 线环对象，不会返回null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default LinearRing readLinearRing(@NotNull Reader reader)
-            throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not read binary data from java.io.Reader");
-    }
-
-    /**
-     * 从字符输入流中读取一个多边形对象
-     *
-     * <p>二进制几何对象输入接口不支持从字符输入流中读取一个几何对象，调用此方法会抛出异常
-     *
-     * @param reader 字符输入流，不允许为null
-     * @return 多边形对象，不会返回null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default Polygon readPolygon(@NotNull Reader reader)
-            throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not read binary data from java.io.Reader");
-    }
-
-    /**
-     * 从字符输入流中读取一个几何集合对象
-     *
-     * <p>二进制几何对象输入接口不支持从字符输入流中读取一个几何对象，调用此方法会抛出异常
-     *
-     * @param reader 字符输入流，不允许为null
-     * @return 几何集合对象，不会返回null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default GeometryCollection readGeometryCollection(@NotNull Reader reader)
-            throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not read binary data from java.io.Reader");
-    }
-
-    /**
-     * 从字符输入流中读取一个多点对象
-     *
-     * <p>二进制几何对象输入接口不支持从字符输入流中读取一个几何对象，调用此方法会抛出异常
-     *
-     * @param reader 字符输入流，不允许为null
-     * @return 多点对象，不会返回null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default MultiPoint readMultiPoint(@NotNull Reader reader)
-            throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not read binary data from java.io.Reader");
-    }
-
-    /**
-     * 从字符输入流中读取一个多线串对象
-     *
-     * <p>二进制几何对象输入接口不支持从字符输入流中读取一个几何对象，调用此方法会抛出异常
-     *
-     * @param reader 字符输入流，不允许为null
-     * @return 多线串对象，不会返回null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default MultiLineString readMultiLineString(@NotNull Reader reader)
-            throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not read binary data from java.io.Reader");
-    }
-
-    /**
-     * 从字符输入流中读取一个多多边形对象
-     *
-     * <p>二进制几何对象输入接口不支持从字符输入流中读取一个几何对象，调用此方法会抛出异常
-     *
-     * @param reader 字符输入流，不允许为null
-     * @return 多多边形对象，不会返回null
-     * @throws UnsupportedOperationException 一定会抛出此异常
-     */
-    @Override
-    @Unsupported
-    default MultiPolygon readMultiPolygon(@NotNull Reader reader)
-            throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("can not read binary data from java.io.Reader");
     }
 
 }
